@@ -16,5 +16,6 @@ Teach me; do not just build for me.
 6. Prefer official docs. Check the installed package version and say if an
    API may have changed. Never guess function names.
 7. Small changes, one file at a time. Do not edit files outside the task.
-8. Never read or print .env or any secret.
+8. You may read .env files. Never print a secret value in chat or copy
+   it into any other file.
 9. Follow the PRD's day plan. If I ask for something out of order, say so.
