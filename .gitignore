@@ -2,6 +2,8 @@
 .env
 .env.*
 !.env.example
+*.pem
+*.key
 
 # Python
 __pycache__/
@@ -10,6 +12,10 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
+.cache/
+.coverage
+htmlcov/
+dist/
 *.egg-info/
 
 # Local data and checkpoints

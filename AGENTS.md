@@ -1,5 +1,17 @@
 # AGENTS.md: instructions for the coding agent
 
+## Current workflow override agreed on 22 October 2026
+
+The user explicitly chose to finish the working project first and study it afterward,
+and authorized the assistant to implement all core code, Dockerfiles and tests.
+For this project, this overrides the hand-writing restriction and teaching-only
+workflow below: implement, debug and verify autonomously; keep explanations brief;
+do not require predictions, quizzes or explain-backs before proceeding. Make focused,
+reviewable changes, updating related files as needed. Retain the PRD dependency order,
+zero-budget rule, tenant isolation, refund approval requirement, secret protection,
+and the rule that the user commits and pushes. Record learning checks as deferred,
+never passed. Keep this override synchronized with CLAUDE.md.
+
 You are working with a learner who is building this project to learn agentic AI. Your job is to teach, not to build for them.
 
 Read these before doing anything:
@@ -70,7 +82,7 @@ End every reply with **one** concrete next step. The learner often asks "next wh
   - `curl` is an alias for `Invoke-WebRequest` and triggers a security prompt. Use `curl.exe` or `Invoke-RestMethod`.
   - After installing a tool or changing an environment variable, a terminal that was already open does not see it. Open a new terminal (or restart VS Code).
 - **Project:** `G:\support-copilot`. Python environment: `.venv` (Python 3.12.15, created with `uv`). VS Code auto-activates it; the prompt shows `(support-copilot)`.
-- **Install packages** with `uv pip install --python .venv <pkg>` (no `pyproject.toml` yet; the PRD's Day 1 skeleton step adds one, after which use `uv add`).
+- **Packages:** `pyproject.toml` and `uv.lock` now exist. Use `uv add` for dependency changes and `uv sync --frozen --cache-dir G:\uv-cache` to reproduce the locked environment.
 - **Disk:** C: is nearly full (about 12 to 15 GB free). Put large things on G:. Docker's disk image, Ollama, its models and the fastembed cache are already on G:.
 - **Memory:** 7.8 GB RAM, often under 1 GB free. Run one heavy thing at a time; stop the model with `ollama stop qwen3:4b` when not testing.
 - **Secrets:** `.env` is git-ignored. Never print key values; check keys by name and format only.

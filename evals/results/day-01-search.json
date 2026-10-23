@@ -1,0 +1,110 @@
+{
+  "check_kind": "day-1-sanity-check-not-a-retrieval-benchmark",
+  "checked_at": "2026-10-22T14:38:48.139030+00:00",
+  "model": "BAAI/bge-small-en-v1.5",
+  "dimension": 384,
+  "corpus_documents": 3,
+  "top1_accuracy": 1.0,
+  "questions": [
+    {
+      "question": "How do I return an item?",
+      "expected_doc": "returns-policy",
+      "top_doc": "returns-policy",
+      "expected_rank": 1,
+      "results": [
+        {
+          "document_id": "returns-policy",
+          "score": 0.7324
+        },
+        {
+          "document_id": "order-cancellation",
+          "score": 0.6537
+        },
+        {
+          "document_id": "shipping-policy",
+          "score": 0.55
+        }
+      ]
+    },
+    {
+      "question": "How long does standard delivery take?",
+      "expected_doc": "shipping-policy",
+      "top_doc": "shipping-policy",
+      "expected_rank": 1,
+      "results": [
+        {
+          "document_id": "shipping-policy",
+          "score": 0.798
+        },
+        {
+          "document_id": "returns-policy",
+          "score": 0.6599
+        },
+        {
+          "document_id": "order-cancellation",
+          "score": 0.637
+        }
+      ]
+    },
+    {
+      "question": "Can I cancel an order before it ships?",
+      "expected_doc": "order-cancellation",
+      "top_doc": "order-cancellation",
+      "expected_rank": 1,
+      "results": [
+        {
+          "document_id": "order-cancellation",
+          "score": 0.8282
+        },
+        {
+          "document_id": "returns-policy",
+          "score": 0.6415
+        },
+        {
+          "document_id": "shipping-policy",
+          "score": 0.5878
+        }
+      ]
+    },
+    {
+      "question": "Where is the tracking number for my package?",
+      "expected_doc": "shipping-policy",
+      "top_doc": "shipping-policy",
+      "expected_rank": 1,
+      "results": [
+        {
+          "document_id": "shipping-policy",
+          "score": 0.5659
+        },
+        {
+          "document_id": "returns-policy",
+          "score": 0.5507
+        },
+        {
+          "document_id": "order-cancellation",
+          "score": 0.5323
+        }
+      ]
+    },
+    {
+      "question": "When do I receive my money back after a return?",
+      "expected_doc": "returns-policy",
+      "top_doc": "returns-policy",
+      "expected_rank": 1,
+      "results": [
+        {
+          "document_id": "returns-policy",
+          "score": 0.7526
+        },
+        {
+          "document_id": "order-cancellation",
+          "score": 0.6998
+        },
+        {
+          "document_id": "shipping-policy",
+          "score": 0.6003
+        }
+      ]
+    }
+  ]
+}

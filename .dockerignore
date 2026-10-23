@@ -1,0 +1,16 @@
+.git
+.venv
+.env
+.env.*
+.cache
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+docs
+evals
+tests
+hello
+*.docx
+dist
+node_modules

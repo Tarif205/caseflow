@@ -1,5 +1,102 @@
 # Handoff: project state as of 19 October 2026
 
+## Latest update on 23 October 2026
+
+**This update supersedes the historical status and next-step statements below.**
+
+- Workflow: the user explicitly authorized the assistant to implement core code,
+  Dockerfiles and tests and chose to study afterward. The matching override is in
+  both AGENTS.md and CLAUDE.md. Do not require quizzes, predictions, manual coding
+  or an explain-back before implementation. Do not claim learning checks passed.
+- Day 0 technical checks are complete: Docker `/health` was verified; the user
+  confirmed the Langfuse trace input/output; the user reported Neon vector 0.8.6.
+  AWS is still deferred to deployment, and commits/pushes remain with the user.
+  The original full Gate G0 is not claimed because learning checks/AWS were deferred.
+- Day 1 database foundation is implemented in `src/support_copilot`: settings,
+  lazy FastEmbed adapter, schema, safe document replacement and tenant-filtered
+  raw SQL nearest-neighbor retrieval. `compose.yaml` runs local Postgres with pgvector.
+- `pyproject.toml` and `uv.lock` exist. Use `uv add` for dependency changes and
+  `uv sync --frozen --cache-dir G:\uv-cache` for installation. Locked runtime versions
+  include psycopg 3.3.6, pgvector 0.5.1 and fastembed 0.9.0.
+- Verification: 26 tests passed against the real local `copilot_test` database and
+  fake-based unit tests. Five real-embedding questions ranked the expected article
+  first in a three-document corpus. Saved results: `evals/results/day-01-search.json`.
+  This is not a full retrieval benchmark. Local pgvector is 0.8.7.
+- README now documents local commands, limitations and tests. Day 0/1 journals
+  record technical evidence without claiming the user independently learned it.
+- The local DB is loopback-only with public demo credentials, separate from Neon.
+  No existing .env values were copied or printed, and no cloud DB data was changed.
+- Day 2 is implemented: 15 Northwind articles, 3 Contoso isolation fixtures,
+  deterministic character chunking and trusted-admin Markdown ingestion. The
+  default 800/120 size/overlap yields 30 Northwind and 6 Contoso chunks. See data/README.md.
+- Verification now totals **64 passing tests**, including real Postgres ingestion,
+  batch rollback, re-ingest idempotency and tenant-isolation cases. Two real imports
+  produced identical source text hashes, ids and counts; evidence is saved in
+  `evals/results/day-02-ingestion.json`.
+- The Day 1 search demo now uses `northwind-day1-demo`, keeping it separate from
+  the full corpus so rerunning it does not replace help articles.
+- Day 3 is complete: `evals/retrieval/questions.jsonl` has 40 answerable and 10
+  unanswerable synthetic questions. Five configurations were evaluated with the
+  actual model/database. Recall@5 was 1.000 for all; MRR@5 improved from baseline
+  0.950 to 1.000 for 1200-character chunks. These are in-sample assistant-authored
+  development fixtures, not independently reviewed or held-out evaluations.
+- Evidence: `evals/results/day-03-retrieval.json` and the readable Markdown summary.
+  Metrics and rounded ranks/scores matched on a full independent rerun. Experiments
+  rolled back their temporary tenants and preserved the original 30/6 chunk counts.
+- The larger-chunk calibrated score gate rejected 9/10 unanswerable questions but
+  also rejected 5/40 answerable questions. q047 (actual refund approval date) still
+  passed despite absent evidence. The zero-overlap setting had a better gate balance
+  (95% answerable acceptance, 90% unanswerable rejection). Score gates are not proof
+  of answer correctness or LLM refusal. See evals/retrieval/README.md.
+- Verification now totals **91 passing tests**; lint and formatting are clean.
+- Importer defaults remain 800/120. Choose API operating settings based on both
+  retrieval and answer/refusal measurements, rather than silently changing the corpus.
+- Day 4 Knowledge API now works locally in Docker: `/health`, `/ready`, scoped
+  `/v1/search`, `/v1/ask` and `/v1/ingest`. Tokens bind a caller to one tenant;
+  only hashes are stored in Postgres. Provisioned NORTHWIND_API_TOKEN (read/write)
+  and CONTOSO_API_TOKEN (read) into the ignored .env without printing their values.
+- Answers are validated source quotations with citations, not arbitrary generated
+  prose. Unknown/invalid evidence is refused. Concrete order references return
+  `record_lookup_required` because orders are not in the KB. Provenance validation
+  does not prove relevance or completeness; no held-out answer benchmark is claimed.
+- Verification now totals **143 passing tests**. Docker image built and service is
+  healthy at http://localhost:8001; interactive docs: http://localhost:8001/docs.
+  A real Groq `openai/gpt-oss-20b` request returned the verified one-year warranty
+  quote. Smoke checks also verified both tenants, missing-token rejection and
+  order-specific refusal. Evidence: `evals/results/day-04-api-smoke.json`.
+- Current container uses temporary PowerShell hosted-model overrides because only
+  about 0.5 GB RAM was free. Existing .env still defaults to Ollama. Reapply the
+  hosted startup commands in `services/knowledge-api/README.md` before recreating
+  it in a new terminal. Do not load the local model while memory is constrained.
+- Docker startup seeds only empty corpora and preserves operator edits. The image
+  excludes .env and runs unprivileged. CI is configured but has not run on GitHub;
+  it will run after the user pushes. No assistant commit/push was made.
+- Day 5 deployment preparation exists: `docs/deploy-aws.md`, `render.yaml`
+  (optional explicitly Free fallback, auto-deploys off), `docs/deploy-render.md`
+  and `docs/journal/day-05.md`. No AWS CLI/profile/credentials or Render API key
+  were found. AWS account status was requested from the user. Official hosting
+  docs were checked; account-specific free eligibility remains to be established.
+- On 23 October the user confirmed the AWS Free plan by screenshot: $100 credit,
+  $0 current spend, expiry 14 April 2027 (or earlier if credits run out). The user
+  launched one Ubuntu Server 24.04 LTS x86 EC2 t3.small with 20 GiB gp3 in Sydney
+  (ap-southeast-2), with SSH restricted to My IP; HTTP/HTTPS inbound are closed.
+  Screenshot showed 3/3 checks passed. Public IP at launch: 13.210.138.248.
+- User connected over SSH as ubuntu. A Windows key ACL error was fixed by granting
+  the user's read access, removing inherited access and CodexSandboxUsers access.
+  The private .pem remains outside the repo; *.pem and *.key are now git-ignored.
+- User-provided server output confirms Docker hello-world success and Compose
+  2.40.3 after installing Ubuntu docker.io, docker-compose-v2 and git. This is
+  server preparation, not a running cloud Knowledge API. AWS compute/storage
+  consume credits; account expiry is not a promise credits last until then.
+- **Exact next step:** user reviews, commits and pushes the local implementation
+  (currently uncommitted), waits for CI, then gets that revision onto EC2. Prepare
+  Neon, hosted-model secrets and HTTPS before public authenticated smoke tests.
+  No remote DB was changed by the assistant. Agent/MCP, Day 5 completion and
+  Gate G1 remain pending. Day 4 details: `docs/journal/day-04.md`.
+- No commit or push was made by the assistant.
+
+The remainder preserves the 19 October handoff for historical context.
+
 Written for the next coding agent (Codex) taking over from Claude Code. Read [AGENTS.md](../AGENTS.md) first for the rules and teaching style. This file is the state: what exists, what was decided, what was learned, and what to do next.
 
 ## 1. Where the project is

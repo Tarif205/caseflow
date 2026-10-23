@@ -1,0 +1,50 @@
+{"id":"q001","tenant":"northwind","question":"How do I start returning an unused jacket?","expected_doc":"returns-policy","answerable":true}
+{"id":"q002","tenant":"northwind","question":"How many days after delivery can I return unworn clothing?","expected_doc":"returns-policy","answerable":true}
+{"id":"q003","tenant":"northwind","question":"How long does standard delivery take after dispatch?","expected_doc":"shipping-policy","answerable":true}
+{"id":"q004","tenant":"northwind","question":"How much must I spend to get free standard shipping?","expected_doc":"shipping-policy","answerable":true}
+{"id":"q005","tenant":"northwind","question":"Can I cancel my order once the carrier has accepted it?","expected_doc":"order-cancellation","answerable":true}
+{"id":"q006","tenant":"northwind","question":"My order was placed 20 minutes ago and has not shipped. Can I cancel?","expected_doc":"order-cancellation","answerable":true}
+{"id":"q007","tenant":"northwind","question":"My jacket arrived damaged. What photos should I send?","expected_doc":"damaged-items","answerable":true}
+{"id":"q008","tenant":"northwind","question":"How soon must I report an incorrect item after delivery?","expected_doc":"damaged-items","answerable":true}
+{"id":"q009","tenant":"northwind","question":"Tracking says delivered but I cannot find my parcel. How long should I wait?","expected_doc":"missing-package","answerable":true}
+{"id":"q010","tenant":"northwind","question":"Can I exchange my shirt directly for a different size?","expected_doc":"exchanges","answerable":true}
+{"id":"q011","tenant":"northwind","question":"My cancelled order still has a pending card hold. When does it disappear?","expected_doc":"payments","answerable":true}
+{"id":"q012","tenant":"northwind","question":"Can I combine two discount codes at checkout?","expected_doc":"promotions","answerable":true}
+{"id":"q013","tenant":"northwind","question":"Does a digital gift card expire?","expected_doc":"gifts","answerable":true}
+{"id":"q014","tenant":"northwind","question":"If I return a gift with a gift receipt, do I get store credit?","expected_doc":"gifts","answerable":true}
+{"id":"q015","tenant":"northwind","question":"Will updating my profile address change an order I already placed?","expected_doc":"address-changes","answerable":true}
+{"id":"q016","tenant":"northwind","question":"My measurements are between two sizes. Which size gives a relaxed fit?","expected_doc":"sizing","answerable":true}
+{"id":"q017","tenant":"northwind","question":"How long is the manufacturing defect warranty?","expected_doc":"warranty","answerable":true}
+{"id":"q018","tenant":"northwind","question":"Should I use fabric softener when washing a waterproof jacket?","expected_doc":"product-care","answerable":true}
+{"id":"q019","tenant":"northwind","question":"How long is a password reset email link valid?","expected_doc":"accounts-privacy","answerable":true}
+{"id":"q020","tenant":"northwind","question":"What are the support team's opening hours and time zone?","expected_doc":"contact-support","answerable":true}
+{"id":"q021","tenant":"northwind","question":"How much return postage is deducted for a change-of-mind return?","expected_doc":"returns-policy","answerable":true}
+{"id":"q022","tenant":"northwind","question":"How many business days does returned-item inspection take?","expected_doc":"returns-policy","answerable":true}
+{"id":"q023","tenant":"northwind","question":"Do you ship orders internationally or to PO boxes?","expected_doc":"shipping-policy","answerable":true}
+{"id":"q024","tenant":"northwind","question":"How many business days does warehouse processing take before dispatch?","expected_doc":"shipping-policy","answerable":true}
+{"id":"q025","tenant":"northwind","question":"A final-sale product arrived broken. Can support still review the damage?","expected_doc":"damaged-items","answerable":true}
+{"id":"q026","tenant":"northwind","question":"Should I keep the packaging while support reviews an item damaged on arrival?","expected_doc":"damaged-items","answerable":true}
+{"id":"q027","tenant":"northwind","question":"Tracking has not changed for five business days. Should I contact support?","expected_doc":"missing-package","answerable":true}
+{"id":"q028","tenant":"northwind","question":"Can you reserve a different size until my return arrives?","expected_doc":"exchanges","answerable":true}
+{"id":"q029","tenant":"northwind","question":"Will the original sale price transfer automatically when I reorder another size?","expected_doc":"exchanges","answerable":true}
+{"id":"q030","tenant":"northwind","question":"Can I pay using cash on delivery or cryptocurrency?","expected_doc":"payments","answerable":true}
+{"id":"q031","tenant":"northwind","question":"Can I add a promo code after I have paid for an order?","expected_doc":"promotions","answerable":true}
+{"id":"q032","tenant":"northwind","question":"Can a discount lower my basket below the free-shipping threshold?","expected_doc":"promotions","answerable":true}
+{"id":"q033","tenant":"northwind","question":"Can I exchange a gift card for cash?","expected_doc":"gifts","answerable":true}
+{"id":"q034","tenant":"northwind","question":"Can Northwind redirect my parcel after the carrier accepts it?","expected_doc":"address-changes","answerable":true}
+{"id":"q035","tenant":"northwind","question":"Where can I find product size measurements in inches and centimeters?","expected_doc":"sizing","answerable":true}
+{"id":"q036","tenant":"northwind","question":"Does the warranty cover normal wear or accidental tears?","expected_doc":"warranty","answerable":true}
+{"id":"q037","tenant":"northwind","question":"Can leather footwear go in a washing machine?","expected_doc":"product-care","answerable":true}
+{"id":"q038","tenant":"northwind","question":"Should I send a password or one-time login code in a support ticket?","expected_doc":"accounts-privacy","answerable":true}
+{"id":"q039","tenant":"northwind","question":"How can I request deletion of my account data?","expected_doc":"accounts-privacy","answerable":true}
+{"id":"q040","tenant":"northwind","question":"How quickly should I expect an initial response from support?","expected_doc":"contact-support","answerable":true}
+{"id":"q041","tenant":"northwind","question":"Exactly how many blue Alpine jackets in size medium are in stock right now?","expected_doc":null,"answerable":false}
+{"id":"q042","tenant":"northwind","question":"What is the actual tracking number for order NW-1042?","expected_doc":null,"answerable":false}
+{"id":"q043","tenant":"northwind","question":"What is the CEO's personal telephone number?","expected_doc":null,"answerable":false}
+{"id":"q044","tenant":"northwind","question":"Which factory manufactured my specific jacket and what is its street address?","expected_doc":null,"answerable":false}
+{"id":"q045","tenant":"northwind","question":"How many loyalty points have I earned this month?","expected_doc":null,"answerable":false}
+{"id":"q046","tenant":"northwind","question":"What is the weather forecast in Boston next Tuesday?","expected_doc":null,"answerable":false}
+{"id":"q047","tenant":"northwind","question":"On which exact date was my refund for NW-1042 approved?","expected_doc":null,"answerable":false}
+{"id":"q048","tenant":"northwind","question":"What is the exact remaining dollar balance of my gift card?","expected_doc":null,"answerable":false}
+{"id":"q049","tenant":"northwind","question":"What percentage of recycled polyester is in the Alpine jacket?","expected_doc":null,"answerable":false}
+{"id":"q050","tenant":"northwind","question":"What will the dollar to euro exchange rate be tomorrow?","expected_doc":null,"answerable":false}

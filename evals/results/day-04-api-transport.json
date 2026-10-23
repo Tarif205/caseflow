@@ -1,0 +1,35 @@
+{
+  "checked_at": "2026-10-22T15:18:18.727434+00:00",
+  "base_url": "http://localhost:8001",
+  "live_model_tested": false,
+  "checks": [
+    {
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "route": "/ready",
+      "status": 200
+    },
+    {
+      "check": "missing_token",
+      "status": 401
+    },
+    {
+      "check": "tenant_search",
+      "tenant": "northwind",
+      "hits": 5,
+      "isolated": true
+    },
+    {
+      "check": "tenant_search",
+      "tenant": "contoso",
+      "hits": 5,
+      "isolated": true
+    },
+    {
+      "check": "order_specific_refusal",
+      "found": false
+    }
+  ]
+}

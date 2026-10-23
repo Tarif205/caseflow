@@ -1,0 +1,34 @@
+# Optional PRD fallback. Creating a service is a separate dashboard action.
+# No database, disk, paid instance or secret value is declared here.
+services:
+  - type: web
+    name: support-copilot-knowledge
+    runtime: docker
+    plan: free
+    region: ohio
+    dockerfilePath: ./services/knowledge-api/Dockerfile
+    dockerContext: .
+    dockerCommand: uvicorn support_copilot.knowledge_api:app --host 0.0.0.0 --port 10000 --workers 1 --no-access-log
+    healthCheckPath: /health
+    autoDeployTrigger: "off"
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: DATABASE_URL
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_PROVIDER
+        value: openai_compatible
+      - key: LLM_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: LLM_MODEL
+        value: openai/gpt-oss-20b
+      - key: EMBED_PROVIDER
+        value: fastembed
+      - key: EMBED_MODEL
+        value: BAAI/bge-small-en-v1.5
+      - key: FASTEMBED_CACHE_PATH
+        value: /cache/fastembed
+      - key: MIN_SIMILARITY
+        value: "0.691243"

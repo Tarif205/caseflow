@@ -1,0 +1,72 @@
+name: support-copilot
+
+services:
+  knowledge-api:
+    build:
+      context: .
+      dockerfile: services/knowledge-api/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://copilot:copilot-local-only@db:5432/copilot
+      EMBED_PROVIDER: fastembed
+      EMBED_MODEL: BAAI/bge-small-en-v1.5
+      FASTEMBED_CACHE_PATH: /cache/fastembed
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      LLM_BASE_URL: ${DOCKER_LLM_BASE_URL:-http://host.docker.internal:11434}
+      LLM_MODEL: ${LLM_MODEL:-qwen3:4b}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-120}
+      MIN_SIMILARITY: ${MIN_SIMILARITY:-0.691243}
+    command:
+      - sh
+      - -c
+      - copilot seed-corpus && exec uvicorn support_copilot.knowledge_api:app --host 0.0.0.0 --port 8000 --no-access-log
+    ports:
+      - "127.0.0.1:8001:8000"
+    volumes:
+      - fastembed-cache:/cache/fastembed
+    depends_on:
+      db:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"]
+      start_period: 120s
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    mem_limit: 768m
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: copilot
+      POSTGRES_PASSWORD: copilot-local-only
+      POSTGRES_DB: copilot
+    # These public demo credentials are for this loopback-only local database.
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U copilot -d copilot"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    mem_limit: 384m
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+volumes:
+  dbdata:
+  fastembed-cache:

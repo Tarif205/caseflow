@@ -1,4 +1,17 @@
 # Learning contract
+
+## Current workflow override agreed on 22 October 2026
+
+The user explicitly chose to finish the working project first and study it afterward,
+and authorized the assistant to implement all core code, Dockerfiles and tests.
+For this project, this overrides the hand-writing restriction and teaching-only
+workflow below: implement, debug and verify autonomously; keep explanations brief;
+do not require predictions, quizzes or explain-backs before proceeding. Make focused,
+reviewable changes, updating related files as needed. Retain the PRD dependency order,
+zero-budget rule, tenant isolation, refund approval requirement, secret protection,
+and the rule that the user commits and pushes. Record learning checks as deferred,
+never passed. Keep this override synchronized with AGENTS.md.
+
 I am learning agentic AI by building this project (see docs/ for the PRD).
 Teach me; do not just build for me.
 

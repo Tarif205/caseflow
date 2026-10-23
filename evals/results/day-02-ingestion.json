@@ -1,0 +1,87 @@
+{
+  "checked_at": "2026-10-22T14:45:43.906367+00:00",
+  "check_kind": "real-embedding-ingestion-idempotency-and-isolation",
+  "model": "BAAI/bge-small-en-v1.5",
+  "passes": [
+    {
+      "northwind": {
+        "tenant_id": "northwind",
+        "documents": 15,
+        "chunks": 30,
+        "embed_model": "BAAI/bge-small-en-v1.5",
+        "chunk_size": 800,
+        "overlap": 120,
+        "size_unit": "characters",
+        "embedding_context": "article-title-prefix",
+        "stored": {
+          "documents": 15,
+          "chunks": 30,
+          "chunk_content_sha256": "cbf7bfa9c4c07036d8e57ab8e3b50f5d12a0b60082e8e9979c949b33c5d245c6"
+        }
+      },
+      "contoso": {
+        "tenant_id": "contoso",
+        "documents": 3,
+        "chunks": 6,
+        "embed_model": "BAAI/bge-small-en-v1.5",
+        "chunk_size": 800,
+        "overlap": 120,
+        "size_unit": "characters",
+        "embedding_context": "article-title-prefix",
+        "stored": {
+          "documents": 3,
+          "chunks": 6,
+          "chunk_content_sha256": "1a8d9dd4b16690a6a9c51f9f368bbe57bdba2048e005389e987349c47c1685f0"
+        }
+      }
+    },
+    {
+      "northwind": {
+        "tenant_id": "northwind",
+        "documents": 15,
+        "chunks": 30,
+        "embed_model": "BAAI/bge-small-en-v1.5",
+        "chunk_size": 800,
+        "overlap": 120,
+        "size_unit": "characters",
+        "embedding_context": "article-title-prefix",
+        "stored": {
+          "documents": 15,
+          "chunks": 30,
+          "chunk_content_sha256": "cbf7bfa9c4c07036d8e57ab8e3b50f5d12a0b60082e8e9979c949b33c5d245c6"
+        }
+      },
+      "contoso": {
+        "tenant_id": "contoso",
+        "documents": 3,
+        "chunks": 6,
+        "embed_model": "BAAI/bge-small-en-v1.5",
+        "chunk_size": 800,
+        "overlap": 120,
+        "size_unit": "characters",
+        "embedding_context": "article-title-prefix",
+        "stored": {
+          "documents": 3,
+          "chunks": 6,
+          "chunk_content_sha256": "1a8d9dd4b16690a6a9c51f9f368bbe57bdba2048e005389e987349c47c1685f0"
+        }
+      }
+    }
+  ],
+  "repeat_import_identical": true,
+  "tenant_checks": [
+    {
+      "tenant_id": "northwind",
+      "query": "Contoso returns unused items within 60 days. What is the return policy?",
+      "hits_checked": 20,
+      "all_hits_belong_to_requested_tenant": true
+    },
+    {
+      "tenant_id": "contoso",
+      "query": "Contoso returns unused items within 60 days. What is the return policy?",
+      "hits_checked": 6,
+      "all_hits_belong_to_requested_tenant": true
+    }
+  ],
+  "limitations": "Not a retrieval accuracy benchmark; fixtures and labels are synthetic."
+}
