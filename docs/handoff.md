@@ -88,11 +88,37 @@
   2.40.3 after installing Ubuntu docker.io, docker-compose-v2 and git. This is
   server preparation, not a running cloud Knowledge API. AWS compute/storage
   consume credits; account expiry is not a promise credits last until then.
-- **Exact next step:** user reviews, commits and pushes the local implementation
-  (currently uncommitted), waits for CI, then gets that revision onto EC2. Prepare
-  Neon, hosted-model secrets and HTTPS before public authenticated smoke tests.
-  No remote DB was changed by the assistant. Agent/MCP, Day 5 completion and
-  Gate G1 remain pending. Day 4 details: `docs/journal/day-04.md`.
+- User committed/pushed `3d0bd84`. The user's GitHub screenshot confirms the
+  `checks` workflow passed for that commit. User then cloned it onto EC2 and
+  verified HEAD. The service Docker image built successfully there as
+  `support-copilot-knowledge:3d0bd84`, image id `04d288243eea`; build output supplied
+  by user. Legacy-builder warning did not prevent success. The application has
+  not been started on EC2 and no public HTTPS answer has been verified.
+- On the user's request, added `docs/PROJECT_EXPLAINED.md` (complete explanatory
+  walkthrough) and `docs/LEARNING_ROADMAP.md` (phases, prerequisites, exercises,
+  official resources and video links/search terms). User expressed confusion and
+  wanted understanding; this is a documentation/study detour, not revocation of
+  the implementation-first override. Learning checks remain deferred.
+- Neon inspection confirmed neondb, vector 0.8.6 and initially no public tables.
+  The user's init-db attempt created the schema but failed on the second connection:
+  Neon pooling rejects statement_timeout in connection startup options. Fixed
+  database.connect() to SET LOCAL statement_timeout = '10s' in its transaction.
+  Added a real-Postgres regression covering pooler compatibility, timeout and recovery.
+  All **144 tests passed**; lint/format passed. See docs/debug-log.md entry 3.
+- Assistant reran the already-authorized Neon initialization successfully using
+  the tested fix. Actual output: ready, vector 0.8.6, dimension 384; read-back shows
+  2 tenant records, 0 documents and query timeout 10s. No secrets were printed or
+  copied into another file. .env values were not changed.
+- User then supplied successful Neon seed results: Northwind 15 documents/30 chunks,
+  Contoso 3 documents/6 chunks, BGE small model, 800/120 character settings.
+  User also supplied successful token provisioning: NORTHWIND_API_TOKEN has
+  kb:read/kb:write; CONTOSO_API_TOKEN has kb:read. Hashes registered in Neon;
+  credential values were not displayed. Public API testing remains pending.
+- **Exact next operational step:** user commits/pushes the connection fix and
+  documentation, obtains passing CI, then updates/rebuilds the EC2 image: 3d0bd84
+  contains the old incompatible startup option. Then configure runtime secrets
+  and HTTPS before public authenticated smoke tests. Agent/MCP, Day 5 completion
+  and Gate G1 remain pending.
 - No commit or push was made by the assistant.
 
 The remainder preserves the 19 October handoff for historical context.

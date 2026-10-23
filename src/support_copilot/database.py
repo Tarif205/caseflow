@@ -30,8 +30,11 @@ def connect(settings: Settings):
         settings.database_url,
         row_factory=dict_row,
         connect_timeout=5,
-        options="-c statement_timeout=10000",
     ) as conn:
+        # Neon/PgBouncer rejects this setting in the connection startup packet.
+        # Set it within our transaction instead, so it cannot leak to another
+        # client when the pool returns this server connection to circulation.
+        conn.execute("SET LOCAL statement_timeout = '10s'")
         register_vector(conn)
         yield conn
 

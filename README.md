@@ -2,7 +2,11 @@
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Day 4 Knowledge API works locally in Docker: scoped token authentication, tenant-filtered search, ingestion and answers with verified source quotes. A real hosted-model answer passed the end-to-end smoke check; 143 automated tests passed. CI is configured but has not run on GitHub. The support agent, MCP server and public deployment remain pending. Learning checks remain deferred; no completed sprint gate or independent mastery is claimed.
+**Status:** Day 4 Knowledge API works locally in Docker: scoped token authentication, tenant-filtered search, ingestion and answers with verified source quotes. A real hosted-model answer passed the end-to-end smoke check; 143 automated tests passed. GitHub CI passed for user-pushed commit `3d0bd84`. The user prepared EC2 and built that revision's image there; the cloud API has not yet started. The support agent, MCP server and public deployment remain pending. Learning checks remain deferred; no completed sprint gate or independent mastery is claimed.
+
+For an explanation from the beginning, read [Project explained](docs/PROJECT_EXPLAINED.md).
+For official topic names, exercises and video resources, use the
+[Learning roadmap](docs/LEARNING_ROADMAP.md).
 
 ## Services
 
@@ -141,7 +145,7 @@ unchanged until API-level evaluation. See [evaluation methodology](evals/retriev
 | Day 1 sanity check top-1 accuracy (5 questions, 3 articles) | 5/5 | 2026-10-22 |
 | Full corpus import | 18 documents / 36 chunks | 2026-10-22 |
 | Repeat import | Identical ids, text and counts | 2026-10-22 |
-| Automated tests including local Postgres integration | 143 passed | 2026-10-22 |
+| Automated tests including local Postgres integration | 144 passed | 2026-10-23 |
 | Docker API smoke check with real hosted model | Cited warranty answer, auth, isolation and order refusal passed | 2026-10-22 |
 | Retrieval Recall@5 (40 synthetic development questions) | 1.000 | 2026-10-22 |
 | MRR@5 baseline / larger chunks | 0.950 / 1.000 | 2026-10-22 |
@@ -166,7 +170,8 @@ are stored as hashes and bind the caller to one tenant and explicit scopes. See 
 
 Day 5: prepare a zero-budget public deployment and verify the deployed service.
 Check current free-tier terms before provisioning anything. Git commits and pushes
-remain the user's responsibility; GitHub CI will run after a push.
+remain the user's responsibility; GitHub CI passed for commit `3d0bd84`.
 Preparation: [AWS account and rollout](docs/deploy-aws.md), or the PRD's
 [Free Render fallback](docs/deploy-render.md) using `render.yaml`. Neither route
-has been deployed; account access and the public smoke check are pending.
+has a verified public API deployment. AWS account access, server setup and image
+build are complete; hosted database preparation and public smoke checks are pending.

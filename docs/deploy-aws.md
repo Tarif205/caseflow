@@ -6,11 +6,18 @@ launched Ubuntu 24.04 LTS x86 on t3.small with 20 GiB gp3 in Sydney, and connect
 over SSH restricted to My IP. All 3 instance checks passed. User-provided output
 confirms Docker hello-world success and Compose 2.40.3. HTTP/HTTPS inbound remain
 closed. No AWS CLI, local profile or credentials are configured on the laptop.
-The public API endpoint, CI run and Gate G1 are pending.
+GitHub CI passed for user-pushed commit `3d0bd84`; that revision was cloned and its
+API image built on EC2 (`support-copilot-knowledge:3d0bd84`, id `04d288243eea`).
+The API container has not started there. Neon inspection and schema/tenant setup
+are now verified, but corpus/token hashes, secure runtime setup, the public API
+endpoint and Gate G1 remain pending. A subsequently fixed Neon-pool compatibility
+bug requires a new user commit/push and rebuilt image before cloud startup.
 
 The signup section below records the initial eligibility checks. Signup is now
-complete; do not repeat it. Next: the user commits/pushes the implementation,
-then deploys that revision after CI passes. Keys remain outside the repository.
+complete; do not repeat it. The commit, push, CI, clone and image build are also
+complete. Next: finish Neon corpus/tokens, publish/rebuild the connection fix,
+configure runtime secrets and HTTPS, start
+the service and verify it. Keys remain outside the repository.
 
 ## First action: establish account eligibility
 

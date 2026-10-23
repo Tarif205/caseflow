@@ -41,3 +41,42 @@ user-pushed revision, then record real deployment evidence.
 - Application code remains uncommitted locally. Next: user commit/push, GitHub CI,
   then deploy that revision with Neon and hosted-model secrets. No cloud API,
   public smoke result or completed Gate G1 is claimed. No assistant commit/push.
+
+## Subsequent verified progress and learning documentation
+
+The user committed/pushed `3d0bd84`; their GitHub Actions screenshot confirms the
+`checks` run passed. User cloned that revision onto EC2 and supplied successful
+image-build output: `support-copilot-knowledge:3d0bd84`, image id `04d288243eea`.
+The legacy builder warning did not block the build. No cloud application container
+has been started or public answer verified. The read-only Neon inspection was
+requested but its results have not yet been provided.
+
+The user requested a full explanation and study roadmap before continuing.
+Created `docs/PROJECT_EXPLAINED.md` and `docs/LEARNING_ROADMAP.md`, linking actual
+code/evidence, official references and relevant videos/search terms. These docs
+distinguish CI from manual deployment, current functionality from planned features,
+and guided execution from independent mastery. No new cloud action was taken.
+
+## Neon initialization and pooling compatibility fix
+
+User SQL results confirmed neondb, vector 0.8.6 and initially no public tables.
+The user's CLI initialization partially succeeded (schema transaction committed)
+before a later connection failed. Read-only diagnostics isolated Neon's rejection
+of statement_timeout passed as a startup option. database.connect now sets the
+10-second timeout transaction-locally after connecting. A real local Postgres
+regression covers pooler rejection, actual query cancellation and savepoint recovery.
+Local verification: 144 tests passed, lint/format passed.
+
+Assistant repeated the authorized initialization against Neon successfully: ready,
+vector 0.8.6, dimension 384, two tenant rows and zero documents; query timeout 10s.
+No stored credential values were changed, printed or copied into another file.
+Corpus/token-hash provisioning, hosted inference, HTTPS and public smoke remain
+pending. The EC2 image at 3d0bd84 needs rebuilding after the user commits/pushes
+this fix and CI passes. No assistant commit/push.
+
+User subsequently supplied successful hosted corpus seed output: 15 Northwind
+documents/30 chunks and 3 Contoso documents/6 chunks, using BGE small and baseline
+800/120 character windows. User token provisioning output confirms Northwind
+read/write and Contoso read hashes registered in Neon. No token values were shared.
+Next: publish the tested connection fix, obtain passing CI, update/rebuild EC2,
+then configure the runtime securely and perform actual deployed API checks.
