@@ -80,3 +80,89 @@ documents/30 chunks and 3 Contoso documents/6 chunks, using BGE small and baseli
 read/write and Contoso read hashes registered in Neon. No token values were shared.
 Next: publish the tested connection fix, obtain passing CI, update/rebuild EC2,
 then configure the runtime securely and perform actual deployed API checks.
+
+## Stop/resume record — 24 October 2026
+
+User-pushed `531d7c4` passed CI by screenshot. The user updated EC2 to that
+revision and rebuilt the image successfully: `df9d03e1bb95`, tag 531d7c4.
+User created the database parameter (Standard/SecureString visible in screenshot)
+and reported creating the model-key parameter in Parameter Store. No secret values
+were shared. IAM role creation/access testing remains pending.
+
+User explicitly chose to stop and resume tomorrow from IAM, then confirmed the
+EC2 instance was stopped, not terminated. No further deployment work should occur
+until resumed. Disk/image persist; credit consumption for storage remains possible.
+Resume with the EC2 role wizard, and start the existing Sydney instance when needed,
+checking its new public IP and status before SSH. API runtime/HTTPS/public smoke
+and G1 remain incomplete. No assistant commit/push.
+
+## Resumed deployment — 25 October 2026
+
+User created the EC2 IAM role and parameter-specific read policy, confirmed role
+attachment by screenshot, and restarted the instance. Current public IP is
+16.178.30.70. Code revision/image match 531d7c4/df9d03e1bb95. AWS CLI 2.38.5
+was installed; STS confirms the instance role and SecureString retrieval/decryption
+works for both named parameters without displaying their values.
+
+API container is now running privately on EC2 loopback port 8001, with 768 MB
+limit, restart unless-stopped, rotated logs and persistent model cache. Runtime
+credentials were passed by environment name rather than embedded in shell command
+arguments or a copied .env file. Docker's privileged metadata still retains the
+container environment; shell unsetting does not remove it from the running service.
+
+User ran the real laptop smoke script over an SSH tunnel. Saved artifact:
+`evals/results/day-05-ec2-ssh-smoke.json`, timestamp
+2026-10-25T16:39:35.869938+00:00. All checks passed: health/readiness, missing token,
+tenant searches, order refusal and a real cited warranty quote. This establishes
+the EC2 -> Neon/embeddings/Groq -> validated-answer path through private access,
+not public HTTPS. Certificate/proxy/public smoke, restart recovery and remaining
+G1 checks are pending. Next: public TCP 80/443 security-group rules and Caddy TLS
+using a verified free demo hostname. No assistant commit/push.
+## Public HTTPS milestone — 26 October 2026 (Asia/Dhaka)
+
+User saved TCP 80/443 Anywhere-IPv4 ingress while preserving SSH /32. Caddy
+2.11.7 container `support-copilot-proxy` was started with host networking,
+256 MB limit, persistent certificate/config volumes and restart unless-stopped.
+User logs confirm Let's Encrypt certificate obtained for 16-178-30-70.sslip.io.
+Proxy forwards to EC2 loopback 8001; raw API/DB ports remain unexposed.
+
+Public smoke passed: `evals/results/day-05-public-https-smoke.json`, checked_at
+2026-10-25T20:39:18.174217+00:00. All seven checks passed with normal certificate
+verification: health/readiness, missing-token rejection, both tenant searches,
+order-specific refusal and real warranty evidence with source citation. This is
+the actual deployed HTTPS path. No rate-limiting, production hardening or broad
+answer-quality result is inferred from it.
+
+Pending: memory/swap measurement, restart recovery with post-restart public checks,
+full API refusal evaluation and remaining G1 review. No complete G1/Day 5 claim.
+Current hostname depends on the public IP; update and verify it after IP changes.
+No assistant commit/push.
+
+## Restart, resource and actual refusal evidence — 26 October 2026
+
+User-supplied Docker stats show 348.9 MiB API memory and 11.14 MiB proxy memory.
+The host had 1.1 GiB available of 1.9 GiB total and no swap configured. This is
+a post-request snapshot, not a measured peak or concurrency/load test.
+
+Manual `docker restart` recovered the same API container. The first curl received
+a transient connection reset; a subsequent check confirmed Up and /ready success.
+The user reran public smoke successfully with a real warranty quotation. Evidence:
+`evals/results/day-05-public-after-restart.json`. Crash/reboot auto-recovery is
+not claimed just from a manual restart and configured restart policy.
+
+Added a repeatable API-level ten-case refusal evaluator. Actual public run returned
+10/10 refusals, no HTTP errors, 8 no_evidence and 2 record_lookup_required. These
+were deterministic pre-model gates; no model-decline/invented-answer behavior was
+needed on these ten cases. Dataset is synthetic/in-sample; answerable acceptance
+and semantic faithfulness require separate evaluation. Evidence:
+`evals/results/day-05-public-refusals.json`. The script stops on HTTP/contract
+errors, counts against the full planned denominator and cannot call a partial
+or provider-error run a passing gate.
+
+Validation: nine new tests passed; all 99 non-integration tests passed with 54
+integration tests deselected, and Ruff lint/format passed. The attempted full run
+was interrupted after DB setup timeouts; local Docker Desktop is stopped. Prior
+144-test verification concerns the earlier code. Fresh CI for evaluator/evidence
+and explicit clean-clone Compose runtime verification are pending. No completed
+G1 claim or assistant commit/push. No server code change was required by the
+operator-only evaluation tooling.

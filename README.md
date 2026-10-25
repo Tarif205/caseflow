@@ -2,7 +2,11 @@
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Day 4 Knowledge API works locally in Docker: scoped token authentication, tenant-filtered search, ingestion and answers with verified source quotes. A real hosted-model answer passed the end-to-end smoke check; 143 automated tests passed. GitHub CI passed for user-pushed commit `3d0bd84`. The user prepared EC2 and built that revision's image there; the cloud API has not yet started. The support agent, MCP server and public deployment remain pending. Learning checks remain deferred; no completed sprint gate or independent mastery is claimed.
+**Status:** Knowledge API is deployed on EC2 behind Caddy HTTPS with Neon and hosted inference. The public smoke check passed authentication, tenant searches, order-specific refusal and a real cited answer. Local verification totals 144 tests; GitHub CI passed for deployed revision `531d7c4`. Restart/resource checks and full API refusal evaluation remain pending. The support agent and MCP server are not implemented. Learning checks remain deferred; no completed sprint gate or independent mastery is claimed.
+
+Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
+is running at that IP). Article endpoints require private scoped tokens; none are
+published here. See [public verification evidence](evals/results/day-05-public-https-smoke.json).
 
 For an explanation from the beginning, read [Project explained](docs/PROJECT_EXPLAINED.md).
 For official topic names, exercises and video resources, use the
@@ -12,7 +16,7 @@ For official topic names, exercises and video resources, use the
 
 | Service | What it does | Status |
 |---------|--------------|--------|
-| `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Working locally; [setup and endpoints](services/knowledge-api/README.md) |
+| `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
 | `services/mock-backend` | Fictional orders, tickets and refunds for two tenants | Not started |
 | `services/support-agent` | LangGraph agent that drafts replies and pauses for human approval before a refund | Not started |
 | `services/mcp-server` | Read-only MCP tools with token auth and tenant isolation | Not started |
@@ -168,10 +172,13 @@ are stored as hashes and bind the caller to one tenant and explicit scopes. See 
 
 ## Next implementation step
 
-Day 5: prepare a zero-budget public deployment and verify the deployed service.
-Check current free-tier terms before provisioning anything. Git commits and pushes
-remain the user's responsibility; GitHub CI passed for commit `3d0bd84`.
+Day 5: commit the deployment evidence and new refusal evaluator, obtain passing CI,
+and finish explicit clean-clone Compose runtime verification. Public post-restart
+smoke and the actual API's 10/10 refusal gate passed. The latest local unit run
+passed 99 tests; database integration rerun needs Docker Desktop running. Earlier
+144-test baseline and GitHub CI for deployed `531d7c4` passed. Git commits and
+pushes remain the user's responsibility.
 Preparation: [AWS account and rollout](docs/deploy-aws.md), or the PRD's
-[Free Render fallback](docs/deploy-render.md) using `render.yaml`. Neither route
-has a verified public API deployment. AWS account access, server setup and image
-build are complete; hosted database preparation and public smoke checks are pending.
+[Free Render fallback](docs/deploy-render.md) using `render.yaml`. The AWS route's
+public HTTPS smoke passed; the Render fallback remains unused. Remaining gate
+checks are described in the AWS notes.

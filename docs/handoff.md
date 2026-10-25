@@ -1,6 +1,108 @@
 # Handoff: project state as of 19 October 2026
 
-## Latest update on 23 October 2026
+## Latest update on 26 October 2026
+
+### Current deployment status — supersedes the stopping point below
+
+User resumed work. Role `support-copilot-ec2-role` was created (screenshot), and
+user reported creation of inline policy `support-copilot-read-parameters` allowing
+ssm:GetParameter/GetParameters on exactly the two Sydney parameter ARNs. The EC2
+Security tab screenshot confirms role attachment. Existing instance was restarted;
+current public IPv4 reported by screenshot is **16.178.30.70** (verify after any
+future stop/start). Do not use the older 13.210.138.248 address.
+
+- User confirmed checkout `531d7c4` and image
+  `sha256:df9d03e1bb9593dcb6dc425ebab74951f455859043de7d1d99429f02c33abbf4`.
+- Installed AWS CLI on Ubuntu; reported version 2.38.5. STS output confirms the
+  instance role identity, without configured static access keys. Parameter Store
+  GetParameters with decryption succeeded for both expected SecureStrings; no
+  missing parameters. Only names/types were printed.
+- User started `support-copilot-knowledge` with the 531d7c4 image, restart
+  unless-stopped, 768 MB memory limit, rotated logs, persistent embedding cache,
+  host loopback binding 127.0.0.1:8001 -> container 8000 and Groq GPT-OSS-20B.
+  Credentials were loaded via Parameter Store into exported shell variables,
+  passed by variable name with sudo --preserve-env, then unset. No .env was copied
+  to EC2. Docker retains environment in privileged container metadata; do not
+  dump docker inspect configuration or claim secrets are only ever in RAM.
+- User output confirms container Up, /health 200 and /ready checks database and
+  embedding true. Embedding cache downloaded successfully.
+- Full real smoke **passed through encrypted SSH tunnel**, from laptop port
+  18001 to EC2 loopback 8001. Evidence file verified locally:
+  `evals/results/day-05-ec2-ssh-smoke.json`, checked_at
+  2026-10-25T16:39:35.869938+00:00. Includes health/readiness 200, missing token
+  401, both tenant searches isolated, order-specific refusal and a real verified
+  warranty quote citing warranty.md. No API keys or tokens in artifact.
+- Tunnel must run in a LOCAL Windows PowerShell terminal, not Ubuntu. A second
+  local terminal runs smoke_knowledge.py with base URL http://127.0.0.1:18001.
+  A silent ssh -N process is expected, not a failed connection.
+- User saved inbound rules for TCP 80/443 from Anywhere-IPv4, preserving SSH
+  restricted to the original /32 IP. Screenshot reviewed before saving. API
+  port 8001 and database port 5432 were not opened publicly.
+- User started `support-copilot-proxy` from official `caddy:2.11.7`, with host
+  networking, 256 MB limit, restart unless-stopped, rotated logs and persistent
+  /data and /config volumes. Reverse proxy: 16-178-30-70.sslip.io -> 127.0.0.1:8001.
+  Logs supplied by user confirm successful Let's Encrypt certificate issuance;
+  the HTTP/2/3 warnings concern plaintext port 80's redirect listener, not failure
+  of HTTPS. No access-log capture of request credentials was enabled.
+- **Public HTTPS smoke passed**, including actual model output and source quote
+  validation: `evals/results/day-05-public-https-smoke.json`, timestamp
+  2026-10-25T20:39:18.174217+00:00 (26 October in Asia/Dhaka). All seven checks
+  passed for https://16-178-30-70.sslip.io. This verifies the public deployment,
+  not just SSH forwarding. TLS verification was enabled; no insecure bypass.
+- User measured API memory 348.9 MiB/768 MiB and proxy 11.14 MiB/256 MiB; EC2
+  reports 1.9 GiB total, 1.1 GiB available, zero configured swap. This is a snapshot,
+  not peak/load-test evidence. Manual API container restart recovered. An immediate
+  curl saw connection reset during startup, then container Up and /ready passed.
+- Full public smoke passed again after that restart. Evidence:
+  `evals/results/day-05-public-after-restart.json`, timestamp
+  2026-10-25T20:43:19.750882+00:00. Automatic crash recovery/reboot was not tested;
+  unless-stopped is configured, not equivalent to a tested process crash.
+- Added reusable actual API refusal evaluator in refusal_evaluation.py plus
+  scripts/check_refusals.py. Run against public HTTPS: **10/10 refused, 0 errors**,
+  complete=true, 8 no_evidence and 2 record_lookup_required, top_k=5. Evidence:
+  `evals/results/day-05-public-refusals.json`, timestamp
+  2026-10-25T20:46:28.514185+00:00. All were deterministic pre-model refusals;
+  this does not establish model refusal quality, answerable coverage or held-out
+  generalization. Corpus/default threshold unchanged.
+- Latest validation: 9 new evaluator tests passed, all non-integration tests
+  **99 passed, 54 deselected**, lint/format clean. Full-suite rerun was interrupted
+  after local DB connection timeouts; read-only docker inspection confirms local
+  Docker Desktop engine is stopped. Prior 144-test baseline and deployed 531d7c4
+  CI passed; do not claim a fresh full-suite pass for the new evaluator yet.
+- **Next step:** user reviews/commits/pushes deployment docs, evidence and evaluator,
+  then obtains passing CI for this revision. Clean-clone Compose runtime verification
+  still needs explicit evidence for G1. Learning checks remain deferred; G1 is not
+  fully passed. No agent/MCP work begun. New evaluator is an operator tool; it does
+  not change the serving API behavior, so no API image rebuild is required for it.
+  Hostname encodes current IP; verify/update it after any IP change. No assistant
+  commit/push performed.
+
+### Stopping point saved on 24 October 2026
+
+Historical pause, now superseded by the resumed deployment status above. The user
+had explicitly stopped work until tomorrow and reported EC2 **Stopped**.
+
+- User pushed commit `531d7c4`; their screenshot confirms GitHub CI passed.
+- After an initial build accidentally used the old checkout, the user pulled
+  `531d7c4`, verified HEAD, and rebuilt. Actual new image id: `df9d03e1bb95`,
+  tagged `support-copilot-knowledge:531d7c4`. API has not started on EC2.
+- Neon is seeded and API token hashes are provisioned as recorded below.
+- In AWS Parameter Store, the user created `/support-copilot/DATABASE_URL`;
+  screenshot confirms Standard/SecureString. User reported creation of
+  `/support-copilot/LLM_API_KEY` using the same instructed settings. Values were
+  not shared. Default AWS-managed key alias/aws/ssm was instructed; actual
+  decryption/access has not yet been tested.
+- IAM role setup has **not started**. Resume from IAM -> Roles -> Create role ->
+  AWS service -> EC2, then establish narrowly scoped access to the two parameters.
+- EC2 was stopped at the user's request to conserve credits, not terminated.
+  Disk/image remain; storage can consume credits while stopped. On resume,
+  start the existing instance in Sydney (ap-southeast-2), wait for status checks,
+  and verify its current public IP before reconnecting; the old IP may change.
+- Next operational work after IAM: attach role, securely obtain runtime settings,
+  start API, configure HTTPS and verify deployed requests. Do not ask for secret
+  values in chat or assume instance-role/Parameter Store access already works.
+- No Day 5/G1 completion, public API, agent or MCP completion is claimed.
+  Learning checks remain deferred. Assistant made no commit/push.
 
 **This update supersedes the historical status and next-step statements below.**
 

@@ -1,5 +1,109 @@
 # Day 5: AWS deployment preparation
 
+## Current verified milestone — 26 October 2026
+
+The Knowledge API runs on EC2 from image `support-copilot-knowledge:531d7c4`
+(id df9d03e1bb95). Neon has the corpus and API token hashes. The instance role
+can read/decrypt the two standard Parameter Store values; no static AWS access
+keys were installed. The API binds only to EC2 loopback port 8001.
+
+Both the SSH-tunnel smoke and the **public HTTPS smoke passed** with a real cited
+warranty answer. Public URL: https://16-178-30-70.sslip.io. Evidence:
+[private check](../evals/results/day-05-ec2-ssh-smoke.json),
+[public check](../evals/results/day-05-public-https-smoke.json). Public run timestamp
+is 2026-10-25T20:39:18.174217+00:00 (26 October in Asia/Dhaka).
+All seven checks passed with normal TLS verification, including both tenants,
+missing-token rejection, order-specific refusal and verified source quotations.
+Current public IP is 16.178.30.70 and can change after stop/start.
+
+Public TCP 80/443 are open; SSH retains its restricted /32 source. Keep API 8001
+and Postgres 5432 unexposed. Caddy 2.11.7 forwards public HTTPS to EC2 loopback
+8001. User logs confirm Let's Encrypt certificate issuance for the hostname. The
+[DNS provider](https://sslip.io/) supports IP-encoded hostnames and the
+[Caddy docs](https://caddyserver.com/docs/quick-starts/reverse-proxy) describe
+automated HTTPS for publicly reachable names. No paid domain/load balancer is needed
+for this demo setup. Manual restart recovered and post-restart public smoke passed:
+[evidence](../evals/results/day-05-public-after-restart.json). A resource snapshot
+showed API 348.9 MiB, proxy 11.14 MiB, 1.1 GiB host memory available and no swap.
+This does not measure peak memory or prove automated crash/reboot recovery.
+
+The actual API refusal gate passed 10/10 development cases with no HTTP errors:
+[results](../evals/results/day-05-public-refusals.json). Eight were no_evidence and
+two record_lookup_required, all before generation. This is API refusal evidence,
+not held-out quality, answerable acceptance or model faithfulness evidence.
+Repeat from local PowerShell with:
+
+```powershell
+.venv\Scripts\python.exe scripts/check_refusals.py --base-url https://16-178-30-70.sslip.io --output evals/results/day-05-public-refusals.json
+```
+
+The evaluator sends ten synthetic unanswerable questions sequentially. It can
+consume up to ten hosted generations if the service's earlier gates allow them.
+Do not repeatedly run it without a reason. A provider/HTTP error stops evaluation
+and prevents a passing gate, rather than counting the failure as a refusal.
+
+### G1 review still open
+
+| Requirement | Evidence/status |
+|---|---|
+| Recall@5 >= 0.70 on 40 questions | Saved development retrieval result 1.000, synthetic/in-sample |
+| API refusal >= 70% of ten negatives | 10/10 passed over public HTTPS |
+| Tests locally and in CI, including tenant checks | 144-test prior baseline and deployed CI passed; new operator code has 99 unit tests passed; fresh CI pending |
+| Clean-clone Compose runtime | Image build/clone verified; an explicit fresh local Compose runtime still needs verification |
+| Public cited answer | Passed before and after manual API restart |
+| Pipeline explain-back | Deferred under the user's override, never marked passed |
+| No swapping | Guest has no swap configured; snapshot measured, no peak/load claim |
+| Results committed | Latest deployment evidence/evaluator awaiting user's commit/push |
+
+Local Docker Desktop is currently stopped, blocking a fresh local integration run
+and Compose verification. The remote EC2 API remains operational; these are different
+machines. Do not silently skip required integration checks or call G1 complete.
+
+### Proxy configuration actually used
+
+The user ran this in the Ubuntu SSH terminal after the API was ready and the
+security-group rules were saved. Do not run it again against an existing container
+of the same name. Named volumes preserve certificate state across recreation.
+
+```bash
+sudo docker run -d \
+  --name support-copilot-proxy \
+  --network host \
+  --restart unless-stopped \
+  --memory 256m \
+  --log-opt max-size=5m \
+  --log-opt max-file=2 \
+  -v support-copilot-caddy-data:/data \
+  -v support-copilot-caddy-config:/config \
+  caddy:2.11.7 \
+  caddy reverse-proxy \
+  --from 16-178-30-70.sslip.io \
+  --to 127.0.0.1:8001
+```
+
+Host networking makes the EC2 loopback API reachable from the proxy. Caddy's CLI
+mode logs that its admin endpoint is disabled. HTTP port 80 redirects to HTTPS;
+its HTTP/2/3 skip warnings do not indicate a failure of TLS on port 443.
+Check the current instance IP before using this IP-encoded name after restart.
+If it changes, recreate the proxy for the new hostname, retaining its data/config
+volumes, then verify TLS and public behavior before sending tokens. Do not bypass
+certificate verification. The API container can retain its original image/tag.
+
+Public verification command (local Windows PowerShell, project directory):
+
+```powershell
+.venv\Scripts\python.exe scripts/smoke_knowledge.py --base-url https://16-178-30-70.sslip.io --output evals/results/day-05-public-https-smoke.json
+```
+
+No SSH forwarding is required for this URL. The script loads bearer tokens from
+the ignored local .env without printing them. A closed SSH terminal does not stop
+the detached containers. Stop the instance when leaving it unused to conserve
+credits; EBS storage persists and may still consume credits. The free demo hostname
+depends on third-party DNS availability and the current IP; it is not a stable
+production domain or an availability guarantee. No rate-limiting guarantee is claimed.
+
+The earlier preparation notes below are historical and superseded by this section.
+
 Status on 23 October 2026: **EC2 prepared; application not deployed**. The user
 confirmed the Free plan ($100 credits, expiry 14 April 2027 or credit exhaustion),
 launched Ubuntu 24.04 LTS x86 on t3.small with 20 GiB gp3 in Sydney, and connected

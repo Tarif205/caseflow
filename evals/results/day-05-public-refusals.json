@@ -1,0 +1,88 @@
+{
+  "checked_at": "2026-10-25T20:46:28.514185+00:00",
+  "base_url": "https://16-178-30-70.sslip.io",
+  "dataset_sha256": "1bf55f460192c409a50c292916c02b274998d51e7cdec025fe5e91401e9c97e0",
+  "dataset_kind": "assistant-authored synthetic development cases, not held-out",
+  "top_k": 5,
+  "expected_cases": 10,
+  "completed_cases": 10,
+  "complete": true,
+  "errors": 0,
+  "refused": 10,
+  "refusal_rate": 1.0,
+  "minimum_required": 0.7,
+  "gate_passed": true,
+  "limitations": "Refusal behavior only; not answerable coverage or semantic faithfulness. Invalid-evidence refusals are counted but reported by reason.",
+  "results": [
+    {
+      "id": "q041",
+      "question": "Exactly how many blue Alpine jackets in size medium are in stock right now?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    },
+    {
+      "id": "q042",
+      "question": "What is the actual tracking number for order NW-1042?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "record_lookup_required"
+    },
+    {
+      "id": "q043",
+      "question": "What is the CEO's personal telephone number?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    },
+    {
+      "id": "q044",
+      "question": "Which factory manufactured my specific jacket and what is its street address?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    },
+    {
+      "id": "q045",
+      "question": "How many loyalty points have I earned this month?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    },
+    {
+      "id": "q046",
+      "question": "What is the weather forecast in Boston next Tuesday?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    },
+    {
+      "id": "q047",
+      "question": "On which exact date was my refund for NW-1042 approved?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "record_lookup_required"
+    },
+    {
+      "id": "q048",
+      "question": "What is the exact remaining dollar balance of my gift card?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    },
+    {
+      "id": "q049",
+      "question": "What percentage of recycled polyester is in the Alpine jacket?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    },
+    {
+      "id": "q050",
+      "question": "What will the dollar to euro exchange rate be tomorrow?",
+      "refused": true,
+      "http_status": 200,
+      "reason": "no_evidence"
+    }
+  ]
+}

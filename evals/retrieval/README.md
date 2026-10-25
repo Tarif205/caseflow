@@ -69,3 +69,20 @@ unanswerable request for an exact refund date. A related article cannot supply a
 order-specific fact it does not contain. The upcoming answer endpoint needs
 grounded generation and separate answer/refusal evaluation. No production score
 threshold is claimed here, and importer defaults are intentionally unchanged.
+
+## Actual API refusal gate
+
+`scripts/check_refusals.py` sends the ten unanswerable Northwind questions to a
+running API over HTTPS (HTTP is allowed only for loopback). It reads the local
+token without printing it, saves per-case HTTP/refusal outcomes and fingerprints
+the dataset. HTTP/provider errors or malformed responses stop the run and cannot
+pass the gate. The denominator stays ten for partial runs. Exit status is zero
+only for a complete run with at least seven actual refusals.
+
+The deployed result in `evals/results/day-05-public-refusals.json` refused all ten:
+eight below-threshold evidence cases and two concrete order-reference cases.
+No model call is needed for these refusal reasons. This result measures the
+complete API's abstention behavior on these development negatives, separately
+from Day 3's retrieval-only gate analysis. It does not measure answerable coverage,
+semantic answer quality, or held-out generalization. Invalid-evidence refusals
+would also count as safe abstentions but are reported by reason for inspection.
