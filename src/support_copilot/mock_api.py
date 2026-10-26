@@ -2,24 +2,38 @@
 
 import json
 import logging
+import os
 import time
 from typing import Annotated
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import psycopg
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel, ConfigDict, ValidationError
+from starlette.concurrency import run_in_threadpool
 
+from support_copilot.approvals import ApprovalDenied, ApprovalStore
 from support_copilot.auth import TOKEN_FORMAT, Principal, authenticate
 from support_copilot.config import Settings
 from support_copilot.database import connect
 from support_copilot.mock_backend import MockStore
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+class RefundRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    run_id: UUID
+
+
+def create_app(settings: Settings | None = None, *, enable_refunds=None) -> FastAPI:
     cfg = settings or Settings.from_env()
     app = FastAPI(title="Fictional internal mock backend")
+    refunds_enabled = (
+        enable_refunds
+        if enable_refunds is not None
+        else os.getenv("MOCK_REFUNDS_ENABLED") == "true"
+    )
     bearer = HTTPBearer(auto_error=False)
 
     def database():
@@ -111,12 +125,29 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return {"tickets": MockStore(conn).open_tickets(principal.tenant_id, limit)}
 
     @app.post("/refunds")
-    def refunds(principal: Identity):
+    async def refunds(request: Request, principal: Identity, conn: Database):
         # Approval records and execution arrive later. A model or caller-supplied
         # approved=true flag must never activate a write route prematurely.
-        raise HTTPException(
-            501, "Refund execution requires an approval workflow that is not enabled"
-        )
+        if not refunds_enabled:
+            raise HTTPException(501, "Refund execution is not enabled")
+        require(principal, "refunds:execute")
+        if request.query_params:
+            raise HTTPException(422, "Unexpected query fields")
+        body = bytearray()
+        async for part in request.stream():
+            body.extend(part)
+            if len(body) > 4096:
+                raise HTTPException(413, "Request too large")
+        try:
+            proposal = RefundRequest.model_validate_json(bytes(body))
+        except ValidationError:
+            raise HTTPException(422, "Invalid refund request") from None
+        try:
+            return await run_in_threadpool(
+                ApprovalStore(conn).execute, principal, str(proposal.run_id)
+            )
+        except ApprovalDenied:
+            raise HTTPException(403, "Refund not authorized") from None
 
     return app
 

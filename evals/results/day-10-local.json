@@ -1,0 +1,1596 @@
+{
+  "checked_at": "2026-10-26T11:43:15.692416+00:00",
+  "provider": "local",
+  "model": "qwen3:4b",
+  "dataset_sha256": "6c4aa8840f41faeb9ceed6db194fe2065d9391cc21c87b4836f40f8b98d2dc03",
+  "order_fixture_sha256": "edde792c6e67bcb3b1e81d780154cb3795b52cc1e5f3bdfd14bc2b579ddc7aee",
+  "dataset_kind": "synthetic development; immutable order reads and real KB retrieval",
+  "approval_stage": "non-durable placeholder; durable authority tested separately",
+  "settings": {
+    "strict_schema": true,
+    "hosted_max_tokens": 1200,
+    "hosted_reasoning_effort": "low",
+    "call_timeout_seconds": 60,
+    "run_timeout_seconds": 120,
+    "node_limit": 6,
+    "pause_between_cases_seconds": 3
+  },
+  "results": [
+    {
+      "id": "s001",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "invalid_evidence",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "6c16f4ac-7997-58e9-8e56-2ba3cfdfe69d",
+            "7e8b819e-bb42-5005-b79e-f39e31d0eec7"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 34.312,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s002",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Shipping options and delivery times\n\nNorthwind Outfitters ships within the contiguous United States. Standard shipping\ntakes 3 to 5 business days after dispatch and costs 6 dollars. Standard shipping is\nfree when the merchandise subtotal after discounts is at least 75 dollars. Express\nshipping takes 1 to 2 business days after dispatch and costs 15 dollars.\n\n## Dispatch and tracking\n\nOrders usually leave the warehouse within 2 business days. Delivery estimates do\nnot include that processing time, weekends or public holidays. A tracking link is\nemailed after the carrier receives the parcel; the first tracking scan can take\n24 hours to appear. Check spam if the dispatch email is missing.\n\n## Delivery limits\n\nNorthwind does not offer international shipping, same-day delivery, or delivery to\n",
+        "citations": [
+          {
+            "id": "81eed489-4331-56d3-b82e-bbc32f3d0fae",
+            "document_id": "shipping-policy",
+            "position": 0,
+            "text": "# Shipping options and delivery times\n\nNorthwind Outfitters ships within the contiguous United States. Standard shipping\ntakes 3 to 5 business days after dispatch and costs 6 dollars. Standard shipping is\nfree when the merchandise subtotal after discounts is at least 75 dollars. Express\nshipping takes 1 to 2 business days after dispatch and costs 15 dollars.\n\n## Dispatch and tracking\n\nOrders usually leave the warehouse within 2 business days. Delivery estimates do\nnot include that processing time, weekends or public holidays. A tracking link is\nemailed after the carrier receives the parcel; the first tracking scan can take\n24 hours to appear. Check spam if the dispatch email is missing.\n\n## Delivery limits\n\nNorthwind does not offer international shipping, same-day delivery, or delivery to\n",
+            "title": "Shipping options and delivery times",
+            "source": "shipping-policy.md",
+            "score": 0.7662733882314047
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "81eed489-4331-56d3-b82e-bbc32f3d0fae"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 26.156,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s003",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "invalid_evidence",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "63de9c18-7597-5cb5-baa7-da6d51b57104",
+            "56e8af40-5c79-51df-8083-55691876c5ec"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 29.547,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s004",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Contacting support and escalation\n\nNorthwind support operates Monday to Friday, 09:00 to 17:00 Eastern Time, excluding\nUS public holidays. Send a message using the support form and include an order number\nwhen the question concerns an order. The usual initial response target is 2 business\ndays; this is a target rather than a guaranteed resolution deadline.\n\n## What to include\n\nDescribe the issue and the outcome requested. Attach photos for a damaged item and\nthe tracking number for a delivery problem. Never send a full card number, account\npassword or API key. Avoid opening duplicate tickets for the same issue because\nsupport may need to merge them.\n\n## Human review\n\nRefund proposals above 80 dollars, uncertain eligibility, privacy requests, carrier\ninvestigations and suspected fraud req\n\n# Missing packages and stalled tracking\n\nFor a Northwind parcel marked delivered but missing, check the delivery address,\nbuilding reception, safe places around the door, and household members first.\nAllow 48 hours after the delivered scan because some carriers scan early.\n\n## Contact support\n\nIf the parcel is still missing after 48 hours, contact support with the order number\nand tracking number. Support opens a carrier investigation. For tracking that has\nnot updated for 5 business days, contact support even if no delivered scan appears.\nNorthwind cannot guarantee a replacement or refund before investigating the shipment.\n\n## What support can promise\n\nAn estimated delivery date is not confirmation of a lost parcel. The agent should\nreport tracking facts and escalate unresolved investigat\n\nOrder NW-1042 status: shipped.\n\nOrder NW-1042 tracking_number: DEMO-NW-TRACK-1042.",
+        "citations": [
+          {
+            "id": "28216054-f13c-59d1-8f6f-34b95b6f58a9",
+            "document_id": "contact-support",
+            "position": 0,
+            "text": "# Contacting support and escalation\n\nNorthwind support operates Monday to Friday, 09:00 to 17:00 Eastern Time, excluding\nUS public holidays. Send a message using the support form and include an order number\nwhen the question concerns an order. The usual initial response target is 2 business\ndays; this is a target rather than a guaranteed resolution deadline.\n\n## What to include\n\nDescribe the issue and the outcome requested. Attach photos for a damaged item and\nthe tracking number for a delivery problem. Never send a full card number, account\npassword or API key. Avoid opening duplicate tickets for the same issue because\nsupport may need to merge them.\n\n## Human review\n\nRefund proposals above 80 dollars, uncertain eligibility, privacy requests, carrier\ninvestigations and suspected fraud req",
+            "title": "Contacting support and escalation",
+            "source": "contact-support.md",
+            "score": 0.6821999753177161
+          },
+          {
+            "id": "378e76d0-b19e-51a7-8200-a7f81eb2921d",
+            "document_id": "missing-package",
+            "position": 0,
+            "text": "# Missing packages and stalled tracking\n\nFor a Northwind parcel marked delivered but missing, check the delivery address,\nbuilding reception, safe places around the door, and household members first.\nAllow 48 hours after the delivered scan because some carriers scan early.\n\n## Contact support\n\nIf the parcel is still missing after 48 hours, contact support with the order number\nand tracking number. Support opens a carrier investigation. For tracking that has\nnot updated for 5 business days, contact support even if no delivered scan appears.\nNorthwind cannot guarantee a replacement or refund before investigating the shipment.\n\n## What support can promise\n\nAn estimated delivery date is not confirmation of a lost parcel. The agent should\nreport tracking facts and escalate unresolved investigat",
+            "title": "Missing packages and stalled tracking",
+            "source": "missing-package.md",
+            "score": 0.6756710611483774
+          }
+        ],
+        "order": {
+          "id": "NW-1042",
+          "status": "shipped",
+          "tracking_number": "DEMO-NW-TRACK-1042"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "28216054-f13c-59d1-8f6f-34b95b6f58a9",
+            "378e76d0-b19e-51a7-8200-a7f81eb2921d"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 30.859,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s005",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Missing packages and stalled tracking\n\nFor a Northwind parcel marked delivered but missing, check the delivery address,\nbuilding reception, safe places around the door, and household members first.\nAllow 48 hours after the delivered scan because some carriers scan early.\n\n## Contact support\n\nIf the parcel is still missing after 48 hours, contact support with the order number\nand tracking number. Support opens a carrier investigation. For tracking that has\nnot updated for 5 business days, contact support even if no delivered scan appears.\nNorthwind cannot guarantee a replacement or refund before investigating the shipment.\n\n## What support can promise\n\nAn estimated delivery date is not confirmation of a lost parcel. The agent should\nreport tracking facts and escalate unresolved investigat\n\nOrder NW-1043 status: processing.\n\nOrder NW-1043 tracking_number: not available.\n\nOrder NW-1043 total: 45.00 USD.",
+        "citations": [
+          {
+            "id": "378e76d0-b19e-51a7-8200-a7f81eb2921d",
+            "document_id": "missing-package",
+            "position": 0,
+            "text": "# Missing packages and stalled tracking\n\nFor a Northwind parcel marked delivered but missing, check the delivery address,\nbuilding reception, safe places around the door, and household members first.\nAllow 48 hours after the delivered scan because some carriers scan early.\n\n## Contact support\n\nIf the parcel is still missing after 48 hours, contact support with the order number\nand tracking number. Support opens a carrier investigation. For tracking that has\nnot updated for 5 business days, contact support even if no delivered scan appears.\nNorthwind cannot guarantee a replacement or refund before investigating the shipment.\n\n## What support can promise\n\nAn estimated delivery date is not confirmation of a lost parcel. The agent should\nreport tracking facts and escalate unresolved investigat",
+            "title": "Missing packages and stalled tracking",
+            "source": "missing-package.md",
+            "score": 0.6720946226007244
+          }
+        ],
+        "order": {
+          "id": "NW-1043",
+          "status": "processing",
+          "tracking_number": null,
+          "total": "45.00 USD"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "378e76d0-b19e-51a7-8200-a7f81eb2921d"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 29.844,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s006",
+      "passed": true,
+      "result": {
+        "status": "needs_approval",
+        "reason": "approval_placeholder",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "needs_approval",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": {
+          "state": "required",
+          "durable": false,
+          "order_id": "NW-1044",
+          "amount_cents": 7500
+        },
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "94d3a15d-bb50-5c1b-973b-84096fa737d6"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "approval",
+            "status": "needs_approval"
+          }
+        ],
+        "elapsed_seconds": 27.875,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s007",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Cancelling an order\n\nA Northwind order may be cancelled within one hour of purchase if it has not been\ndispatched. Contact support immediately with your order number. Support must check\nthe current order status before confirming a cancellation; sending a request alone\ndoes not guarantee that it succeeded.\n\n## After dispatch\n\nA shipped order cannot be cancelled or recalled. Receive the parcel and use the\nreturns process if the item is eligible. Do not promise a cancellation when tracking\nalready shows carrier acceptance. Cancellation and refund processing are separate\noperations; any proposed mock refund in this demo still requires human approval.\n\n## Changing items\n\nSupport cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place\n\nport cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place a new order yourself. A cancelled order is\nnot eligible for a second refund. Card authorization holds follow the payments policy.\n",
+        "citations": [
+          {
+            "id": "e96ebe4e-03a9-5398-8770-2957de93dffa",
+            "document_id": "order-cancellation",
+            "position": 0,
+            "text": "# Cancelling an order\n\nA Northwind order may be cancelled within one hour of purchase if it has not been\ndispatched. Contact support immediately with your order number. Support must check\nthe current order status before confirming a cancellation; sending a request alone\ndoes not guarantee that it succeeded.\n\n## After dispatch\n\nA shipped order cannot be cancelled or recalled. Receive the parcel and use the\nreturns process if the item is eligible. Do not promise a cancellation when tracking\nalready shows carrier acceptance. Cancellation and refund processing are separate\noperations; any proposed mock refund in this demo still requires human approval.\n\n## Changing items\n\nSupport cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place",
+            "title": "Cancelling an order",
+            "source": "order-cancellation.md",
+            "score": 0.8210123915385361
+          },
+          {
+            "id": "13e5f5f6-6fe7-5e7f-9c9a-e836912e564c",
+            "document_id": "order-cancellation",
+            "position": 1,
+            "text": "port cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place a new order yourself. A cancelled order is\nnot eligible for a second refund. Card authorization holds follow the payments policy.\n",
+            "title": "Cancelling an order",
+            "source": "order-cancellation.md",
+            "score": 0.811433805057449
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "e96ebe4e-03a9-5398-8770-2957de93dffa",
+            "13e5f5f6-6fe7-5e7f-9c9a-e836912e564c"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 29.5,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s008",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "record_not_found",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": null,
+        "approval": null,
+        "proposed_action": null,
+        "steps": 3,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 18.0,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s009",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "record_not_found",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": null,
+        "approval": null,
+        "proposed_action": null,
+        "steps": 3,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 16.859,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s010",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "model_escalated",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "escalate",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "escalate",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 0,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 18.672,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s011",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Size and color exchanges\n\nNorthwind does not process direct exchanges. If an unused item has its original\ntags and is within the 30-day return window, start an authorized return and place\na separate order for the desired size or color. The new order uses current prices\nand available stock; support cannot reserve stock while waiting for a return.\n\n## Costs and exceptions\n\nA change-of-mind return has the normal 5-dollar return postage deduction. Shipping\nfor the replacement purchase follows the shipping policy. A sale price from the\noriginal purchase is not automatically transferred. If Northwind sent the wrong\nsize or color, report it under damaged and incorrect items instead; Northwind then\ncovers approved return postage.\n\n## Getting the right fit\n\nCheck the product's size chart before o\n\nstead; Northwind then\ncovers approved return postage.\n\n## Getting the right fit\n\nCheck the product's size chart before ordering again. A request for an exchange\ndoes not bypass the return eligibility checks, and a new order is paid separately.\n",
+        "citations": [
+          {
+            "id": "939f95d2-a8b3-515f-b129-32dfd2180989",
+            "document_id": "exchanges",
+            "position": 0,
+            "text": "# Size and color exchanges\n\nNorthwind does not process direct exchanges. If an unused item has its original\ntags and is within the 30-day return window, start an authorized return and place\na separate order for the desired size or color. The new order uses current prices\nand available stock; support cannot reserve stock while waiting for a return.\n\n## Costs and exceptions\n\nA change-of-mind return has the normal 5-dollar return postage deduction. Shipping\nfor the replacement purchase follows the shipping policy. A sale price from the\noriginal purchase is not automatically transferred. If Northwind sent the wrong\nsize or color, report it under damaged and incorrect items instead; Northwind then\ncovers approved return postage.\n\n## Getting the right fit\n\nCheck the product's size chart before o",
+            "title": "Size and color exchanges",
+            "source": "exchanges.md",
+            "score": 0.6882467494305122
+          },
+          {
+            "id": "a3c91542-93f5-5dff-a748-2da1c54c879c",
+            "document_id": "exchanges",
+            "position": 1,
+            "text": "stead; Northwind then\ncovers approved return postage.\n\n## Getting the right fit\n\nCheck the product's size chart before ordering again. A request for an exchange\ndoes not bypass the return eligibility checks, and a new order is paid separately.\n",
+            "title": "Size and color exchanges",
+            "source": "exchanges.md",
+            "score": 0.6774203988814878
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "939f95d2-a8b3-515f-b129-32dfd2180989",
+            "a3c91542-93f5-5dff-a748-2da1c54c879c"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 28.172,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s012",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "model_escalated",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "escalate",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "escalate",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 0,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 17.359,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s013",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Contoso returns and refunds\n\nContoso Gear accepts unused products with original packaging within 60 calendar\ndays of delivery. This is a Contoso policy, not Northwind's 30-day policy. Contact\nContoso support for a return authorization before shipping the product. Authorized\nContoso change-of-mind return postage is free.\n\n## Processing\n\nContoso inspects returned goods within 5 business days of arrival and then processes\nan approved refund to the original payment method. Bank posting may take another\n3 to 5 business days. Personalization and clearance products are excluded from\nchange-of-mind returns. Damaged items use Contoso's separate review procedure.\n\n## Tenant boundary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match f\n\nary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match for a question about a 60-day return window. The shared\narticle id is intentional: tenant identity must remain part of every storage key,\njoin and retrieval filter.\n",
+        "citations": [
+          {
+            "id": "2fa12959-21f0-5699-9aff-b2ced9901be8",
+            "document_id": "returns-policy",
+            "position": 0,
+            "text": "# Contoso returns and refunds\n\nContoso Gear accepts unused products with original packaging within 60 calendar\ndays of delivery. This is a Contoso policy, not Northwind's 30-day policy. Contact\nContoso support for a return authorization before shipping the product. Authorized\nContoso change-of-mind return postage is free.\n\n## Processing\n\nContoso inspects returned goods within 5 business days of arrival and then processes\nan approved refund to the original payment method. Bank posting may take another\n3 to 5 business days. Personalization and clearance products are excluded from\nchange-of-mind returns. Damaged items use Contoso's separate review procedure.\n\n## Tenant boundary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match f",
+            "title": "Contoso returns and refunds",
+            "source": "returns-policy.md",
+            "score": 0.8348156509133025
+          },
+          {
+            "id": "396d1970-e4a7-5966-8734-83f062bc40f2",
+            "document_id": "returns-policy",
+            "position": 1,
+            "text": "ary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match for a question about a 60-day return window. The shared\narticle id is intentional: tenant identity must remain part of every storage key,\njoin and retrieval filter.\n",
+            "title": "Contoso returns and refunds",
+            "source": "returns-policy.md",
+            "score": 0.7301977437616752
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "2fa12959-21f0-5699-9aff-b2ced9901be8",
+            "396d1970-e4a7-5966-8734-83f062bc40f2"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 34.094,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s014",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Contoso damaged item review\n\nReport damaged or incorrect Contoso products within 14 calendar days of delivery.\nInclude the order number, photographs of the damage and a picture of the packaging.\nContoso support reviews the evidence before choosing a repair, replacement or\nreturn. Do not discard the item until the support team responds.\n\n## Resolution and ownership\n\nAll financial adjustments need a human review. Contoso pays postage for a confirmed\nincorrect or damaged shipment. Support checks ownership before disclosing an order\nor proposing a resolution. A Northwind requester cannot authorize a Contoso refund\nor obtain Contoso order information.\n\n## Isolation fixture\n\nThe 14-day reporting period deliberately differs from Northwind's 7-day period.\nIf a Northwind search or answer uses the\n\n# Contoso returns and refunds\n\nContoso Gear accepts unused products with original packaging within 60 calendar\ndays of delivery. This is a Contoso policy, not Northwind's 30-day policy. Contact\nContoso support for a return authorization before shipping the product. Authorized\nContoso change-of-mind return postage is free.\n\n## Processing\n\nContoso inspects returned goods within 5 business days of arrival and then processes\nan approved refund to the original payment method. Bank posting may take another\n3 to 5 business days. Personalization and clearance products are excluded from\nchange-of-mind returns. Damaged items use Contoso's separate review procedure.\n\n## Tenant boundary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match f\n\nOrder CT-2001 status: delivered.\n\nOrder CT-2001 tracking_number: DEMO-CT-PRIVATE-2001.\n\nOrder CT-2001 total: 125.00 USD.",
+        "citations": [
+          {
+            "id": "f145235d-fe4b-5a7d-b175-1798f5ce0e80",
+            "document_id": "damaged-items",
+            "position": 0,
+            "text": "# Contoso damaged item review\n\nReport damaged or incorrect Contoso products within 14 calendar days of delivery.\nInclude the order number, photographs of the damage and a picture of the packaging.\nContoso support reviews the evidence before choosing a repair, replacement or\nreturn. Do not discard the item until the support team responds.\n\n## Resolution and ownership\n\nAll financial adjustments need a human review. Contoso pays postage for a confirmed\nincorrect or damaged shipment. Support checks ownership before disclosing an order\nor proposing a resolution. A Northwind requester cannot authorize a Contoso refund\nor obtain Contoso order information.\n\n## Isolation fixture\n\nThe 14-day reporting period deliberately differs from Northwind's 7-day period.\nIf a Northwind search or answer uses the",
+            "title": "Contoso damaged item review",
+            "source": "damaged-items.md",
+            "score": 0.5830350419241181
+          },
+          {
+            "id": "2fa12959-21f0-5699-9aff-b2ced9901be8",
+            "document_id": "returns-policy",
+            "position": 0,
+            "text": "# Contoso returns and refunds\n\nContoso Gear accepts unused products with original packaging within 60 calendar\ndays of delivery. This is a Contoso policy, not Northwind's 30-day policy. Contact\nContoso support for a return authorization before shipping the product. Authorized\nContoso change-of-mind return postage is free.\n\n## Processing\n\nContoso inspects returned goods within 5 business days of arrival and then processes\nan approved refund to the original payment method. Bank posting may take another\n3 to 5 business days. Personalization and clearance products are excluded from\nchange-of-mind returns. Damaged items use Contoso's separate review procedure.\n\n## Tenant boundary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match f",
+            "title": "Contoso returns and refunds",
+            "source": "returns-policy.md",
+            "score": 0.5574074846726692
+          }
+        ],
+        "order": {
+          "id": "CT-2001",
+          "status": "delivered",
+          "tracking_number": "DEMO-CT-PRIVATE-2001",
+          "total": "125.00 USD"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "f145235d-fe4b-5a7d-b175-1798f5ce0e80",
+            "2fa12959-21f0-5699-9aff-b2ced9901be8"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 31.828,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s015",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Gift cards and gift returns\n\nNorthwind digital gift cards are emailed to the recipient after payment is confirmed.\nThey do not expire and are redeemable only at Northwind checkout. A remaining\nbalance stays on the card for a future purchase. Gift cards cannot be exchanged\nfor cash and cannot be used to buy another gift card.\n\n## Returning a gift\n\nAn eligible gift return needs a gift receipt or the original order number and must\nmeet the normal unused-with-tags 30-day return requirement. The recipient receives\nstore credit; Northwind does not send the recipient a refund to somebody else's\ncard. The purchaser may request an original-payment refund through support instead.\n\n## Lost gift emails\n\nAsk support to resend the gift email after ownership is verified. Do not post a full\ngift-card co\n\n\n\n## Lost gift emails\n\nAsk support to resend the gift email after ownership is verified. Do not post a full\ngift-card code in a ticket. Support cannot reveal another customer's gift-card balance\nor order details without verifying the requesting customer's access.\n",
+        "citations": [
+          {
+            "id": "14ae6fd5-b6b9-5a3b-bfb5-6de976fb4b35",
+            "document_id": "gifts",
+            "position": 0,
+            "text": "# Gift cards and gift returns\n\nNorthwind digital gift cards are emailed to the recipient after payment is confirmed.\nThey do not expire and are redeemable only at Northwind checkout. A remaining\nbalance stays on the card for a future purchase. Gift cards cannot be exchanged\nfor cash and cannot be used to buy another gift card.\n\n## Returning a gift\n\nAn eligible gift return needs a gift receipt or the original order number and must\nmeet the normal unused-with-tags 30-day return requirement. The recipient receives\nstore credit; Northwind does not send the recipient a refund to somebody else's\ncard. The purchaser may request an original-payment refund through support instead.\n\n## Lost gift emails\n\nAsk support to resend the gift email after ownership is verified. Do not post a full\ngift-card co",
+            "title": "Gift cards and gift returns",
+            "source": "gifts.md",
+            "score": 0.7353561362836455
+          },
+          {
+            "id": "d7f9fc5c-b2ed-509a-8d4c-9c3b2fcb36c6",
+            "document_id": "gifts",
+            "position": 1,
+            "text": "\n\n## Lost gift emails\n\nAsk support to resend the gift email after ownership is verified. Do not post a full\ngift-card code in a ticket. Support cannot reveal another customer's gift-card balance\nor order details without verifying the requesting customer's access.\n",
+            "title": "Gift cards and gift returns",
+            "source": "gifts.md",
+            "score": 0.7185196708750541
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "14ae6fd5-b6b9-5a3b-bfb5-6de976fb4b35",
+            "d7f9fc5c-b2ed-509a-8d4c-9c3b2fcb36c6"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 27.953,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s016",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Contacting support and escalation\n\nNorthwind support operates Monday to Friday, 09:00 to 17:00 Eastern Time, excluding\nUS public holidays. Send a message using the support form and include an order number\nwhen the question concerns an order. The usual initial response target is 2 business\ndays; this is a target rather than a guaranteed resolution deadline.\n\n## What to include\n\nDescribe the issue and the outcome requested. Attach photos for a damaged item and\nthe tracking number for a delivery problem. Never send a full card number, account\npassword or API key. Avoid opening duplicate tickets for the same issue because\nsupport may need to merge them.\n\n## Human review\n\nRefund proposals above 80 dollars, uncertain eligibility, privacy requests, carrier\ninvestigations and suspected fraud req\n\n# Cancelling an order\n\nA Northwind order may be cancelled within one hour of purchase if it has not been\ndispatched. Contact support immediately with your order number. Support must check\nthe current order status before confirming a cancellation; sending a request alone\ndoes not guarantee that it succeeded.\n\n## After dispatch\n\nA shipped order cannot be cancelled or recalled. Receive the parcel and use the\nreturns process if the item is eligible. Do not promise a cancellation when tracking\nalready shows carrier acceptance. Cancellation and refund processing are separate\noperations; any proposed mock refund in this demo still requires human approval.\n\n## Changing items\n\nSupport cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place\n\nOrder NW-1045 status: cancelled.\n\nOrder NW-1045 tracking_number: not available.\n\nOrder NW-1045 total: 129.99 USD.",
+        "citations": [
+          {
+            "id": "28216054-f13c-59d1-8f6f-34b95b6f58a9",
+            "document_id": "contact-support",
+            "position": 0,
+            "text": "# Contacting support and escalation\n\nNorthwind support operates Monday to Friday, 09:00 to 17:00 Eastern Time, excluding\nUS public holidays. Send a message using the support form and include an order number\nwhen the question concerns an order. The usual initial response target is 2 business\ndays; this is a target rather than a guaranteed resolution deadline.\n\n## What to include\n\nDescribe the issue and the outcome requested. Attach photos for a damaged item and\nthe tracking number for a delivery problem. Never send a full card number, account\npassword or API key. Avoid opening duplicate tickets for the same issue because\nsupport may need to merge them.\n\n## Human review\n\nRefund proposals above 80 dollars, uncertain eligibility, privacy requests, carrier\ninvestigations and suspected fraud req",
+            "title": "Contacting support and escalation",
+            "source": "contact-support.md",
+            "score": 0.632896765125188
+          },
+          {
+            "id": "e96ebe4e-03a9-5398-8770-2957de93dffa",
+            "document_id": "order-cancellation",
+            "position": 0,
+            "text": "# Cancelling an order\n\nA Northwind order may be cancelled within one hour of purchase if it has not been\ndispatched. Contact support immediately with your order number. Support must check\nthe current order status before confirming a cancellation; sending a request alone\ndoes not guarantee that it succeeded.\n\n## After dispatch\n\nA shipped order cannot be cancelled or recalled. Receive the parcel and use the\nreturns process if the item is eligible. Do not promise a cancellation when tracking\nalready shows carrier acceptance. Cancellation and refund processing are separate\noperations; any proposed mock refund in this demo still requires human approval.\n\n## Changing items\n\nSupport cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place",
+            "title": "Cancelling an order",
+            "source": "order-cancellation.md",
+            "score": 0.6306993397445146
+          }
+        ],
+        "order": {
+          "id": "NW-1045",
+          "status": "cancelled",
+          "tracking_number": null,
+          "total": "129.99 USD"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "28216054-f13c-59d1-8f6f-34b95b6f58a9",
+            "e96ebe4e-03a9-5398-8770-2957de93dffa"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 40.156,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s017",
+      "passed": true,
+      "result": {
+        "status": "needs_approval",
+        "reason": "approval_placeholder",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "needs_approval",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": {
+          "state": "required",
+          "durable": false,
+          "order_id": "NW-1044",
+          "amount_cents": 5000
+        },
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "94d3a15d-bb50-5c1b-973b-84096fa737d6"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "approval",
+            "status": "needs_approval"
+          }
+        ],
+        "elapsed_seconds": 29.609,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s018",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "cap_exceeded",
+            "amount_exceeds_order"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "9430735c-4485-5e8f-809b-abcb080c8ddc"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 26.843,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s019",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "invalid_amount"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "6c16f4ac-7997-58e9-8e56-2ba3cfdfe69d"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 26.203,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s020",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "invalid_amount"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "6c16f4ac-7997-58e9-8e56-2ba3cfdfe69d"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 26.156,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s021",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "ineligible_status"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "e96ebe4e-03a9-5398-8770-2957de93dffa",
+            "13e5f5f6-6fe7-5e7f-9c9a-e836912e564c"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 28.672,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s022",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "ineligible_status"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "6c16f4ac-7997-58e9-8e56-2ba3cfdfe69d"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 26.969,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s023",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "record_not_found",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": null,
+        "approval": null,
+        "proposed_action": null,
+        "steps": 3,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 16.172,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s024",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "customer_mismatch"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "06933f05-d271-5c78-a736-0892e5950a9c"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 27.656,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s025",
+      "passed": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "ineligible_status"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [
+            "6c16f4ac-7997-58e9-8e56-2ba3cfdfe69d"
+          ],
+          "order_fields": [
+            "status",
+            "tracking_number",
+            "total"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 2,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 30.11,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    }
+  ],
+  "scenarios": 25,
+  "passed": 22,
+  "complete": true,
+  "success_rate": 0.88,
+  "rate_limit_retries": 0
+}

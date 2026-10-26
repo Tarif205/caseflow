@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-26T12:03:17.911524+00:00",
+  "base_url": "http://127.0.0.1:8002",
+  "database": "local",
+  "scope": "isolated synthetic fixture; operator decision simulated; not a demo approval",
+  "checks": [
+    "health_ready_missing_auth",
+    "durable_approval_pause",
+    "tenant_scope_and_forged_resume_blocked",
+    "simulated_operator_approved_and_resumed",
+    "exactly_one_mock_refund_after_retry"
+  ],
+  "complete": true,
+  "synthetic_fixture_removed": true
+}

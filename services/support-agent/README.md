@@ -1,3 +1,8 @@
+Day 10 update: authenticated HTTP workflow and opt-in guarded backend execution
+are verified in local containers; EC2 deployment is pending the user release commit.
+See [current service/deployment guide](../../docs/deploy-agent.md). Earlier sections below are
+historical modes; default backend execution remains disabled unless explicitly enabled.
+
 # Support agent: current local workflow
 
 Day 9 adds durable local approval/rejection, SQLite restart/resume and a guarded

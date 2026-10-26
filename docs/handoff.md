@@ -2,6 +2,51 @@
 
 ## Latest update on 26 October 2026
 
+### Day 10 local verification complete: user release commit is next
+
+- Added strict graph JSON schemas (Groq max_tokens 1200, low reasoning; Ollama
+  schema format), safe provider status/code/time/token diagnostics and one bounded
+  Retry-After retry. Initial hosted 14/25 had eight CONFIRMED HTTP 429 failures.
+  Paced hosted run 21/25 (84%), local 22/25 (88%). All three full reports retained.
+- New evaluation runner scripts/evaluate_agent.py uses immutable order fixtures,
+  real KB reads and explicit trusted fixture identity/scopes. Approval is a
+  non-durable required marker in quality eval; actual durable approval tested
+  separately. Do not claim held-out, intrinsic model or semantic completeness.
+  Dataset version scenarios-day07.jsonl preserves old Day 7/8 hashes. s023 now
+  explicitly accepts secure early foreign-order 404. New hash begins 6c4aa884.
+- Eight deterministic hostile-model/data injection cases pass. PostgresSaver 3.2.0
+  checkpoint backend passes separate-process restart/no-model-replay/one-receipt
+  test. SQLite CLI remains compatible. qwen3 unloaded after the 25-case run.
+- Added agent_api.py: bearer tenant/scopes, stored-ticket intake, ownership-bound
+  status/resume, separate operator decisions. Resume takes no approval body.
+  Same-run Postgres advisory locks serialize resumes. API forwards incoming worker
+  token to read services on the shared authority; no extra server tenant keys.
+- Mock backend POST /refunds now opt-in (MOCK_REFUNDS_ENABLED=true). Accepts only
+  run_id; reuses authoritative ledger with current worker/operator authority,
+  policy, snapshot, row locks and idempotency. Default/manual old backend stays
+  disabled. Docker API executes through this actual internal HTTP route.
+- **308 tests passed in 31.47s**, lint/format clean. Both new non-root service
+  Docker images build, no .env/Git history. CI builds all three service images.
+  Local Docker HTTP smoke passed: durable pause, missing/foreign/scope/forged
+  resume rejection, simulated operator approval, actual backend execution and
+  exactly one receipt after retry. Synthetic namespace/checkpoints removed.
+- Local support-agent at 127.0.0.1:8002, internal mock backend in Compose. Both
+  running; existing dev/cloud stacks preserved. Memory snapshot agent 97.98MiB,
+  backend 61.93MiB, not a peak/EC2 measurement. Evidence day-10-*.json.
+- Prepared compose.agent.yaml, compose.agent-aws.yaml, cloud schema/hash helper,
+  reviewed-commit EC2 deploy script with persistent Caddy /agent routing and rollback.
+  Read-only SSH works; EC2 checkout STILL 531d7c4. NO Day 10 cloud schema, role
+  hash or deployment change yet. No plan upgrade/new paid resources/dependencies.
+- **Next:** user commits/pushes Day 10 and verifies fresh CI, then assistant can
+  run scripts/provision_agent_cloud.py, deploy reviewed commit over verified SSH
+  using scripts/deploy_agent_ec2.sh and run scripts/smoke_agent.py against public
+  /agent with --database neon (isolated synthetic smoke). No approval of an
+  existing demo/customer request. Preserve the existing Knowledge API container.
+  See docs/deploy-agent.md for sequence and rollback. Do not ask for secret values.
+- G2 remains open pending fresh CI/public deployment smoke. Learning explanation
+  checks remain deferred; do not start Day 11 until technical G2 is verified.
+
+
 ### Day 9 functionality and human-approved demo verified
 
 - Added durable_agent.py with SQLite checkpoints, real interrupt/resume and

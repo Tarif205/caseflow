@@ -56,6 +56,7 @@ class AgentState(TypedDict, total=False):
     tool_calls: int
     events: list[dict]
     refund_executed: bool
+    diagnostic: dict
 
 
 class GraphModel:
@@ -63,10 +64,40 @@ class GraphModel:
 
     def __init__(self, settings, transport=None):
         self.settings, self.transport = settings, transport
+        self.retry_count = 0
 
     def complete_json(self, messages, schema, timeout):
         cfg = replace(self.settings, llm_timeout=min(timeout, self.settings.llm_timeout))
-        value = HttpChatModel(cfg, self.transport).complete_json(messages)
+        wire_schema = schema.model_json_schema()
+        # Provider strict schemas require every property to be explicitly present.
+        wire_schema["required"] = list(wire_schema["properties"])
+        for prop in wire_schema["properties"].values():
+            prop.pop("default", None)
+        started = time.monotonic()
+        for attempt in range(2):
+            try:
+                value = HttpChatModel(cfg, self.transport).complete_json(
+                    messages,
+                    schema=wire_schema,
+                    max_tokens=1200 if cfg.llm_provider == "openai_compatible" else 600,
+                    reasoning_effort="low",
+                )
+                break
+            except ModelUnavailable as exc:
+                wait = exc.diagnostic.get("retry_after_seconds", 0)
+                left = timeout - (time.monotonic() - started)
+                if (
+                    attempt
+                    or exc.diagnostic.get("http_status") != 429
+                    or not 0 < wait <= 30
+                    or wait + 5 >= left
+                ):
+                    raise
+                time.sleep(wait)
+                self.retry_count += 1
+                cfg = replace(
+                    cfg, llm_timeout=min(cfg.llm_timeout, timeout - (time.monotonic() - started))
+                )
         return schema.model_validate(value)
 
 
@@ -110,10 +141,18 @@ def build_graph(
                     update = {"status": "escalate", "reason": "deadline"}
             except ValidationError:
                 update = {"status": "escalate", "reason": "invalid_arguments_or_plan"}
-            except InvalidModelOutput:
-                update = {"status": "escalate", "reason": "invalid_model_output"}
-            except ModelUnavailable:
-                update = {"status": "escalate", "reason": "model_unavailable"}
+            except InvalidModelOutput as exc:
+                update = {
+                    "status": "escalate",
+                    "reason": "invalid_model_output",
+                    "diagnostic": exc.diagnostic,
+                }
+            except ModelUnavailable as exc:
+                update = {
+                    "status": "escalate",
+                    "reason": "model_unavailable",
+                    "diagnostic": exc.diagnostic,
+                }
             except RecordNotFound:
                 update = {"status": "escalate", "reason": "record_not_found"}
             except ToolFailure:
@@ -423,4 +462,5 @@ def run_graph(ticket, model, tools, limits=None, *, customer_id=None, clock=time
         "events": state["events"],
         "elapsed_seconds": round(clock() - started, 3),
         "refund_executed": False,
+        "diagnostic": state.get("diagnostic", {}),
     }

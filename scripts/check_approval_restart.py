@@ -20,7 +20,7 @@ from support_copilot.approvals import ApprovalStore
 from support_copilot.auth import authenticate, provision_token
 from support_copilot.config import Settings
 from support_copilot.database import connect, migrate
-from support_copilot.durable_agent import DurableAgent
+from support_copilot.durable_agent import DurableAgent, setup_postgres_checkpoints
 from support_copilot.mock_backend import MockStore
 
 
@@ -66,14 +66,20 @@ def child(phase, checkpoint, run_id):
     if actor is None:
         raise ValueError("Synthetic actor missing")
     agent = DurableAgent(
-        cfg, FixtureModel(fail=phase == "resume"), FixtureTools(cfg, actor), checkpoint
+        cfg,
+        FixtureModel(fail=phase == "resume"),
+        FixtureTools(cfg, actor),
+        checkpoint,
+        checkpoint_backend=os.getenv("RESTART_CHECKPOINT_BACKEND", "sqlite"),
     )
     return agent.start("t1") if phase == "start" else agent.resume(run_id)
 
 
-def verify():
+def verify(checkpoint_backend="sqlite"):
     cfg = settings()
     migrate(cfg)
+    if checkpoint_backend == "postgres":
+        setup_postgres_checkpoints(cfg)
     tenant = "test-restart-" + uuid4().hex
     worker, operator = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
     with connect(cfg) as conn:
@@ -99,7 +105,11 @@ def verify():
         )
         provision_token(conn, tenant, operator, ["refund:approve"])
     try:
-        env = {**os.environ, "RESTART_TEST_TOKEN": worker}
+        env = {
+            **os.environ,
+            "RESTART_TEST_TOKEN": worker,
+            "RESTART_CHECKPOINT_BACKEND": checkpoint_backend,
+        }
         with tempfile.TemporaryDirectory(prefix="copilot-approval-") as directory:
             checkpoint = Path(directory) / "checkpoints.sqlite"
 
@@ -157,10 +167,14 @@ def verify():
                 "simulated_human_approval": True,
                 "resume_without_model_replay": True,
                 "refund_rows_after_repeated_resume": 1,
+                "checkpoint_backend": checkpoint_backend,
                 "scope": "isolated synthetic tenant in loopback copilot_test; not a demo approval",
             }
     finally:
         with connect(cfg) as conn:
+            if checkpoint_backend == "postgres":
+                for table in ("checkpoint_writes", "checkpoint_blobs", "checkpoints"):
+                    conn.execute(f"DELETE FROM {table} WHERE thread_id LIKE %s", (tenant + ":%",))
             # Exact random test-tenant match only; never touch seeded demo/cloud rows.
             for table in (
                 "refunds",
@@ -181,9 +195,14 @@ def main():
     parser.add_argument("--checkpoint", type=Path)
     parser.add_argument("--run-id")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--checkpoint-backend", choices=["sqlite", "postgres"], default="sqlite")
     args = parser.parse_args()
     try:
-        result = child(args.phase, args.checkpoint, args.run_id) if args.phase else verify()
+        result = (
+            child(args.phase, args.checkpoint, args.run_id)
+            if args.phase
+            else verify(args.checkpoint_backend)
+        )
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")

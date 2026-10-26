@@ -1,0 +1,35 @@
+name: support-copilot-agent
+services:
+  mock-backend:
+    image: support-copilot-backend:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Load from Parameter Store}
+      MOCK_REFUNDS_ENABLED: "true"
+    mem_limit: 256m
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "2"
+  support-agent:
+    image: support-copilot-agent:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Load from Parameter Store}
+      LLM_API_KEY: ${LLM_API_KEY:?Load from Parameter Store}
+      LLM_PROVIDER: openai_compatible
+      LLM_BASE_URL: https://api.groq.com/openai/v1
+      LLM_MODEL: openai/gpt-oss-20b
+      LLM_TIMEOUT_SECONDS: "60"
+      KNOWLEDGE_API_URL: ${KNOWLEDGE_API_URL:?Use existing HTTPS Knowledge API URL}
+      MOCK_BACKEND_URL: http://mock-backend:8000
+      AGENT_ROOT_PATH: /agent
+    ports:
+      - "127.0.0.1:8002:8000"
+    depends_on:
+      - mock-backend
+    mem_limit: 384m
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "2"

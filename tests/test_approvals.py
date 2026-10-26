@@ -25,7 +25,18 @@ def ledger(db):
             (tenant,),
         )
     for tenant, token, scopes in [
-        (tenants[0], "w" * 43, ["agent:run", "tickets:read", "refunds:propose", "refunds:execute"]),
+        (
+            tenants[0],
+            "w" * 43,
+            [
+                "agent:run",
+                "tickets:read",
+                "orders:read",
+                "kb:read",
+                "refunds:propose",
+                "refunds:execute",
+            ],
+        ),
         (tenants[0], "a" * 43, ["refund:approve"]),
         (tenants[1], "f" * 43, ["refund:approve", "agent:run"]),
         (tenants[0], "r" * 43, ["agent:run", "tickets:read"]),

@@ -1,5 +1,8 @@
 # Day 9: durable local approval workflow
 
+Day 10 adds the opt-in internal HTTP write boundary and Postgres-backed agent API.
+See [deployment guide](deploy-agent.md); EC2 release deployment is still pending.
+
 SQLite remembers where the graph paused. Postgres holds the authoritative request,
 operator decision and refund ledger. A resume value is a wake-up signal, never
 permission. Only fictional orders and mock refunds are involved.

@@ -9,10 +9,11 @@ from support_copilot.config import PROJECT_ROOT
 
 
 @pytest.mark.integration
-def test_separate_processes_pause_approve_resume_without_model_replay(db):
+@pytest.mark.parametrize("backend", ["sqlite", "postgres"])
+def test_separate_processes_pause_approve_resume_without_model_replay(db, backend):
     # db fixture has already validated the loopback test database setting.
     result = subprocess.run(
-        [sys.executable, "scripts/check_approval_restart.py"],
+        [sys.executable, "scripts/check_approval_restart.py", "--checkpoint-backend", backend],
         cwd=PROJECT_ROOT,
         env=os.environ.copy(),
         capture_output=True,

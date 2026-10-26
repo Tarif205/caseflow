@@ -1,0 +1,56 @@
+services:
+  mock-backend:
+    image: support-copilot-backend:${COPILOT_IMAGE_TAG:-local}
+    build:
+      context: .
+      dockerfile: services/mock-backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://copilot:copilot-local-only@db:5432/copilot
+      MOCK_REFUNDS_ENABLED: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+    mem_limit: 256m
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "2"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  support-agent:
+    image: support-copilot-agent:${COPILOT_IMAGE_TAG:-local}
+    build:
+      context: .
+      dockerfile: services/support-agent/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://copilot:copilot-local-only@db:5432/copilot
+      LLM_PROVIDER: openai_compatible
+      LLM_BASE_URL: https://api.groq.com/openai/v1
+      LLM_MODEL: openai/gpt-oss-20b
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_TIMEOUT_SECONDS: "60"
+      KNOWLEDGE_API_URL: http://knowledge-api:8000
+      MOCK_BACKEND_URL: http://mock-backend:8000
+    ports:
+      - "127.0.0.1:8002:8000"
+    depends_on:
+      mock-backend:
+        condition: service_healthy
+      knowledge-api:
+        condition: service_healthy
+    mem_limit: 384m
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "2"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/ready')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6

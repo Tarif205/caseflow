@@ -1,0 +1,10 @@
+{
+  "process_exit_between_start_and_resume": true,
+  "durable_pause": true,
+  "unapproved_execution_blocked": true,
+  "simulated_human_approval": true,
+  "resume_without_model_replay": true,
+  "refund_rows_after_repeated_resume": 1,
+  "checkpoint_backend": "postgres",
+  "scope": "isolated synthetic tenant in loopback copilot_test; not a demo approval"
+}

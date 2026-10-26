@@ -61,3 +61,22 @@ facts and failures, without raw reasoning, credentials or upstream error bodies.
 Source membership does not judge semantic completeness. Two marked injection
 cases are not Day 10's full eight-case suite. Preserve failures and all results;
 do not publish only the best retuned run.
+
+## Day 10 evaluation version
+
+The Day 7/8 25-case dataset is preserved byte-for-byte in scenarios-day07.jsonl.
+Current s023 additionally allows expected_terminal_reasons=[record_not_found]: a
+secure foreign-order read must stop before policy sees the foreign row. The pure
+policy mismatch expectations remain for defense-in-depth tests. This change was
+made before new runs, not used to relabel old results.
+
+scripts/evaluate_agent.py uses immutable fictional orders and actual KB retrieval,
+with trusted synthetic identity/scope inputs that never enter model permissions.
+Both full model runs and the initial rate-limited run are preserved in
+[Day 10 results](../results/day-10-summary.md). Quality evaluation counts an
+explicit non-durable approval-required marker; Postgres/HTTP authorization and
+restart are independently tested. No quality run executes a refund.
+
+injections.jsonl contains eight hostile-surface fixtures. scripts/check_injections.py
+runs deterministic adverse-model/poisoned-data tests, not empirical live-model
+prompt immunity. Every case must end without unauthorized execution.

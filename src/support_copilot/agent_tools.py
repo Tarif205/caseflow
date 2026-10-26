@@ -51,7 +51,7 @@ class RecordNotFound(ToolFailure):
     pass
 
 
-def safe_base_url(url: str) -> str:
+def safe_base_url(url: str, *, allow_internal=False) -> str:
     p = urlparse(url)
     if (
         p.scheme not in {"https", "http"}
@@ -62,7 +62,10 @@ def safe_base_url(url: str) -> str:
         or p.fragment
     ):
         raise ValueError("Invalid tool service URL")
-    if p.scheme != "https" and p.hostname not in {"localhost", "127.0.0.1", "::1"}:
+    allowed = {"localhost", "127.0.0.1", "::1"}
+    if allow_internal:
+        allowed |= {"mock-backend", "knowledge-api"}
+    if p.scheme != "https" and p.hostname not in allowed:
         raise ValueError("Remote tool credentials require HTTPS")
     return url.rstrip("/")
 
@@ -75,10 +78,11 @@ class BoundTools:
     knowledge_token: str = field(repr=False)
     backend_token: str = field(repr=False)
     transport: object = field(default=None, repr=False)
+    allow_internal: bool = False
 
     def __post_init__(self):
-        self.knowledge_url = safe_base_url(self.knowledge_url)
-        self.backend_url = safe_base_url(self.backend_url)
+        self.knowledge_url = safe_base_url(self.knowledge_url, allow_internal=self.allow_internal)
+        self.backend_url = safe_base_url(self.backend_url, allow_internal=self.allow_internal)
         if not self.knowledge_token or not self.backend_token:
             raise ValueError("Read-tool credentials are required")
 

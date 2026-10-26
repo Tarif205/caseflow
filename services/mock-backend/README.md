@@ -1,3 +1,8 @@
+Day 10 update: authenticated HTTP workflow and opt-in guarded backend execution
+are verified in local containers; EC2 deployment is pending the user release commit.
+See [current service/deployment guide](../../docs/deploy-agent.md). Earlier sections below are
+historical modes; default backend execution remains disabled unless explicitly enabled.
+
 # Fictional mock backend — Day 6
 
 This internal FastAPI service supplies synthetic customer/order/ticket facts for

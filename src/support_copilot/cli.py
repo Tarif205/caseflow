@@ -115,6 +115,7 @@ def main() -> None:
             "provision-token",
             "seed-corpus",
             "seed-mock",
+            "init-agent",
         ],
     )
     parser.add_argument("--output", type=Path, help="Optionally save the JSON result")
@@ -131,6 +132,12 @@ def main() -> None:
     try:
         if args.command == "init-db":
             result = bootstrap(settings)
+        elif args.command == "init-agent":
+            from support_copilot.durable_agent import setup_postgres_checkpoints
+
+            bootstrap(settings)
+            setup_postgres_checkpoints(settings)
+            result = {"status": "ready", "checkpoint_backend": "postgres"}
         elif args.command == "check-search":
             result = check_search(settings)
         elif args.command == "seed-mock":
