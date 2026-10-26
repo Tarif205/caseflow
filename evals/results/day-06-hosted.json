@@ -1,0 +1,153 @@
+{
+  "checked_at": "2026-10-25T21:04:06.166651+00:00",
+  "provider": "hosted",
+  "model": "openai/gpt-oss-20b",
+  "dataset_sha256": "19dbaa46ecf240d8f6c2cb0d9de035582812131a0507f89c9322d31a2fef4328",
+  "dataset_kind": "assistant-authored synthetic development fixtures; not held-out",
+  "knowledge_url": "https://16-178-30-70.sslip.io",
+  "backend_url": "http://127.0.0.1:8004",
+  "limits": {
+    "steps": 6,
+    "tool_calls": 6,
+    "timeout_seconds": 120
+  },
+  "scenarios": 5,
+  "passed": 4,
+  "success_rate": 0.8,
+  "results": [
+    {
+      "id": "s001",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "invalid_model_output",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "steps": 2,
+        "tool_calls": 1,
+        "events": [
+          {
+            "tool": "search_kb",
+            "status": "ok"
+          }
+        ],
+        "elapsed_seconds": 8.36,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s002",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Shipping options and delivery times\n\nNorthwind Outfitters ships within the contiguous United States. Standard shipping\ntakes 3 to 5 business days after dispatch and costs 6 dollars. Standard shipping is\nfree when the merchandise subtotal after discounts is at least 75 dollars. Express\nshipping takes 1 to 2 business days after dispatch and costs 15 dollars.\n\n## Dispatch and tracking\n\nOrders usually leave the warehouse within 2 business days. Delivery estimates do\nnot include that processing time, weekends or public holidays. A tracking link is\nemailed after the carrier receives the parcel; the first tracking scan can take\n24 hours to appear. Check spam if the dispatch email is missing.\n\n## Delivery limits\n\nNorthwind does not offer international shipping, same-day delivery, or delivery to\n",
+        "citations": [
+          {
+            "id": "81eed489-4331-56d3-b82e-bbc32f3d0fae",
+            "document_id": "shipping-policy",
+            "position": 0,
+            "text": "# Shipping options and delivery times\n\nNorthwind Outfitters ships within the contiguous United States. Standard shipping\ntakes 3 to 5 business days after dispatch and costs 6 dollars. Standard shipping is\nfree when the merchandise subtotal after discounts is at least 75 dollars. Express\nshipping takes 1 to 2 business days after dispatch and costs 15 dollars.\n\n## Dispatch and tracking\n\nOrders usually leave the warehouse within 2 business days. Delivery estimates do\nnot include that processing time, weekends or public holidays. A tracking link is\nemailed after the carrier receives the parcel; the first tracking scan can take\n24 hours to appear. Check spam if the dispatch email is missing.\n\n## Delivery limits\n\nNorthwind does not offer international shipping, same-day delivery, or delivery to\n",
+            "title": "Shipping options and delivery times",
+            "source": "shipping-policy.md",
+            "score": 0.7675341319343648
+          }
+        ],
+        "order": null,
+        "steps": 2,
+        "tool_calls": 1,
+        "events": [
+          {
+            "tool": "search_kb",
+            "status": "ok"
+          }
+        ],
+        "elapsed_seconds": 7.171,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s003",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Product warranty and wear\n\nNorthwind provides a one-year limited warranty for manufacturing defects from the\npurchase date. Keep proof of purchase and contact support with the order number,\nphotos and a description of the defect. The warranty review may result in repair,\nreplacement or another resolution after a human assessment.\n\n## What is excluded\n\nNormal wear, accidental tears, misuse, unauthorized alterations and damage caused\nby ignoring care instructions are not manufacturing defects. The warranty is not\na lifetime replacement promise. A defect reported outside the ordinary return\nwindow can still be reviewed under the warranty if it is within the one-year period.\n\n## Arrival damage\n\nFor an item damaged on arrival or a wrong item, use the damaged-items reporting\nprocess within 7 d",
+        "citations": [
+          {
+            "id": "63de9c18-7597-5cb5-baa7-da6d51b57104",
+            "document_id": "warranty",
+            "position": 0,
+            "text": "# Product warranty and wear\n\nNorthwind provides a one-year limited warranty for manufacturing defects from the\npurchase date. Keep proof of purchase and contact support with the order number,\nphotos and a description of the defect. The warranty review may result in repair,\nreplacement or another resolution after a human assessment.\n\n## What is excluded\n\nNormal wear, accidental tears, misuse, unauthorized alterations and damage caused\nby ignoring care instructions are not manufacturing defects. The warranty is not\na lifetime replacement promise. A defect reported outside the ordinary return\nwindow can still be reviewed under the warranty if it is within the one-year period.\n\n## Arrival damage\n\nFor an item damaged on arrival or a wrong item, use the damaged-items reporting\nprocess within 7 d",
+            "title": "Product warranty and wear",
+            "source": "warranty.md",
+            "score": 0.7687202921128363
+          }
+        ],
+        "order": null,
+        "steps": 2,
+        "tool_calls": 1,
+        "events": [
+          {
+            "tool": "search_kb",
+            "status": "ok"
+          }
+        ],
+        "elapsed_seconds": 7.203,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s004",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "Order NW-1042 status: shipped.\n\nOrder NW-1042 tracking_number: DEMO-NW-TRACK-1042.",
+        "citations": [],
+        "order": {
+          "id": "NW-1042",
+          "status": "shipped",
+          "tracking_number": "DEMO-NW-TRACK-1042"
+        },
+        "steps": 2,
+        "tool_calls": 1,
+        "events": [
+          {
+            "tool": "get_order",
+            "status": "ok"
+          }
+        ],
+        "elapsed_seconds": 1.547,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s005",
+      "passed": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "Order NW-1043 status: processing.\n\nOrder NW-1043 tracking_number: not available.",
+        "citations": [],
+        "order": {
+          "id": "NW-1043",
+          "status": "processing",
+          "tracking_number": null
+        },
+        "steps": 2,
+        "tool_calls": 1,
+        "events": [
+          {
+            "tool": "get_order",
+            "status": "ok"
+          }
+        ],
+        "elapsed_seconds": 1.343,
+        "refund_executed": false
+      }
+    }
+  ],
+  "limitations": "Evidence selection/expected-order checks only, not semantic completeness or production safety."
+}

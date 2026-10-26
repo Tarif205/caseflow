@@ -166,3 +166,21 @@ was interrupted after DB setup timeouts; local Docker Desktop is stopped. Prior
 and explicit clean-clone Compose runtime verification are pending. No completed
 G1 claim or assistant commit/push. No server code change was required by the
 operator-only evaluation tooling.
+
+## Technical closeout — 26 October 2026
+
+User pushed 7c2f4fe and reports CI green. Docker Desktop is running again; full
+local suite passed **153 tests in 8.46s**, including database integration.
+Fresh committed local Git clone with no .env/working-tree files passed Compose
+build/up and health/readiness with brand-new DB/cache volumes. Port-only override
+and a separate project avoided touching the existing development stack. Generated
+temporary read tokens authenticated both tenants' real searches; source isolation
+and expected 15/30 + 3/6 corpus counts passed. A separate wrong-password application
+returned safe health 200/readiness 503. No hosted model calls or secrets were used
+by the clean-stack check. Evidence: evals/results/day-05-clean-clone.json.
+
+Temporary test containers/network/volumes were removed after verification; original
+development/cloud services and data were preserved. Technical G1 review is in
+docs/gates/G1-verification.md. Learning explain-back remains deferred. Latest
+evidence/report await user commit/push. Next implementation is Day 6; no agent
+work was started in this closeout. No assistant commit/push.

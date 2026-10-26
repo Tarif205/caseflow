@@ -12,6 +12,7 @@ from support_copilot.config import PROJECT_ROOT, Settings
 from support_copilot.database import KnowledgeStore, connect, migrate
 from support_copilot.embeddings import FastEmbedAdapter
 from support_copilot.ingestion import ingest_articles, load_articles
+from support_copilot.mock_backend import seed_mock
 
 DEMO_DOCUMENTS = [
     (
@@ -106,7 +107,15 @@ def check_search(settings: Settings) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "command", choices=["init-db", "check-search", "ingest", "provision-token", "seed-corpus"]
+        "command",
+        choices=[
+            "init-db",
+            "check-search",
+            "ingest",
+            "provision-token",
+            "seed-corpus",
+            "seed-mock",
+        ],
     )
     parser.add_argument("--output", type=Path, help="Optionally save the JSON result")
     parser.add_argument("--tenant", help="Explicit trusted-admin tenant for ingestion")
@@ -124,6 +133,9 @@ def main() -> None:
             result = bootstrap(settings)
         elif args.command == "check-search":
             result = check_search(settings)
+        elif args.command == "seed-mock":
+            bootstrap(settings)
+            result = seed_mock(settings, PROJECT_ROOT / "data/mock/entities.json")
         elif args.command == "seed-corpus":
             bootstrap(settings)
             result = seed_empty_corpus(settings, PROJECT_ROOT / "data")

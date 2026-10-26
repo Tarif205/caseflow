@@ -1,0 +1,58 @@
+{
+  "checked_at": "2026-10-25T20:53:50.152615+00:00",
+  "revision": "7c2f4fe349eb0c1ee82e77e5f644e74c29da6c19",
+  "clone_kind": "fresh local Git clone of committed main; no working-tree files or .env copied",
+  "project": "copilot-verify-7c2f4fe",
+  "compose_started": true,
+  "isolation_override": "only API image/name/host port and disabled DB publishing; empty LLM key",
+  "api_host_port": 18011,
+  "fresh_database_and_model_cache_volumes": true,
+  "corpus": {
+    "northwind": {
+      "documents": 15,
+      "chunks": 30
+    },
+    "contoso": {
+      "documents": 3,
+      "chunks": 6
+    }
+  },
+  "checks": [
+    {
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "route": "/ready",
+      "status": 200
+    },
+    {
+      "check": "authenticated_search",
+      "tenant": "northwind",
+      "hits": 5,
+      "source_isolated": true
+    },
+    {
+      "check": "authenticated_search",
+      "tenant": "contoso",
+      "hits": 5,
+      "source_isolated": true
+    }
+  ],
+  "missing_token_status": 401,
+  "bad_database_password_test": {
+    "isolated_test_application": true,
+    "health_status": 200,
+    "ready_status": 503,
+    "credentials_excluded_from_response": true
+  },
+  "live_chat_model_tested": false,
+  "live_chat_note": "covered separately by actual EC2 public smoke; fresh stack makes no hosted call",
+  "host_published_health_status": 200,
+  "host_published_ready_status": 200,
+  "cleanup": {
+    "temporary_containers_removed": true,
+    "temporary_volumes_removed": true,
+    "existing_development_stack_preserved": true
+  }
+}

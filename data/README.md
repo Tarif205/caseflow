@@ -6,6 +6,13 @@ information, account credentials or real order data belongs in this directory.
 
 ## Corpus
 
+Day 6 also adds `mock/entities.json`: 3 fictional customers, 5 orders and 4
+tickets across Northwind and Contoso. Monetary amounts are integer USD cents;
+dates/statuses are frozen fixtures, not current business facts. Seed them into
+the local database with `copilot seed-mock`; repeated seeds insert missing rows
+without replacing operator edits. They are not part of the help-center embedding
+corpus, and no refund execution or actual customer information is present.
+
 - `northwind/`: 15 Markdown help articles covering returns, shipping, cancellation,
   damaged items, missing parcels, exchanges, payments, promotions, gifts, address
   changes, sizing, warranty, product care, account privacy and contacting support.

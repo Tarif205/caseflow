@@ -1,0 +1,20 @@
+{
+  "customers": [
+    {"tenant_id":"northwind","id":"NW-C001","name":"Alex Example"},
+    {"tenant_id":"northwind","id":"NW-C002","name":"Sam Example"},
+    {"tenant_id":"contoso","id":"CT-C001","name":"Casey Example"}
+  ],
+  "orders": [
+    {"tenant_id":"northwind","id":"NW-1042","customer_id":"NW-C001","status":"shipped","total_cents":7999,"currency":"USD","tracking_number":"DEMO-NW-TRACK-1042","placed_on":"2026-10-20"},
+    {"tenant_id":"northwind","id":"NW-1043","customer_id":"NW-C001","status":"processing","total_cents":4500,"currency":"USD","tracking_number":null,"placed_on":"2026-10-21"},
+    {"tenant_id":"northwind","id":"NW-1044","customer_id":"NW-C002","status":"delivered","total_cents":7500,"currency":"USD","tracking_number":"DEMO-NW-TRACK-1044","placed_on":"2026-10-15"},
+    {"tenant_id":"northwind","id":"NW-1045","customer_id":"NW-C002","status":"cancelled","total_cents":12999,"currency":"USD","tracking_number":null,"placed_on":"2026-10-10"},
+    {"tenant_id":"contoso","id":"CT-2001","customer_id":"CT-C001","status":"delivered","total_cents":12500,"currency":"USD","tracking_number":"DEMO-CT-PRIVATE-2001","placed_on":"2026-10-17"}
+  ],
+  "tickets": [
+    {"tenant_id":"northwind","id":"NW-T001","customer_id":"NW-C001","text":"Where is order NW-1042?","status":"open"},
+    {"tenant_id":"northwind","id":"NW-T002","customer_id":"NW-C002","text":"Order NW-1044 arrived damaged; I would like a refund.","status":"open"},
+    {"tenant_id":"northwind","id":"NW-T003","customer_id":"NW-C001","text":"How do I return an unused jacket?","status":"closed"},
+    {"tenant_id":"contoso","id":"CT-T001","customer_id":"CT-C001","text":"Please check order CT-2001.","status":"open"}
+  ]
+}

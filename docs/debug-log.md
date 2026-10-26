@@ -47,6 +47,24 @@ Check first next time: whether the failing step is connection establishment,
 schema creation or later initialization; poolers can reject otherwise valid
 Postgres startup settings. Partial success across separate transactions is possible.
 
+## 4 Native tool/final-output contracts failed in Day 6 model baselines
+
+Observed 26 October 2026. Hosted GPT-OSS-20B completed four of five cases, but
+s001 failed final parsing at step two after reading policy evidence. qwen3:4b
+completed none: one model_unavailable around 62 seconds and four invalid model
+outputs at step one before any tool execution. Evidence is saved in the Day 6
+JSON artifacts; raw model reasoning/error bodies were deliberately not retained.
+
+Response: retain the baseline failures rather than relaxing validation or choosing
+only a successful rerun. The loop escalates safely and exposes no write tool.
+Cause is bounded to provider/output-contract failures by the observed categories;
+exact underlying native/text shapes and the first local availability cause are
+not established. Local loading/unloading and tight memory/request budgets matter.
+Future diagnosis should capture redacted finish/parse-stage metadata before
+changing one setting, not assume all failures mean the model lacks tool support.
+Unit tests verify invalid outputs/unknown tools/limits cannot become an action.
+Local qwen3 was unloaded afterward. No unsafe fallback or refund path was enabled.
+
 ## Template
 
 ```

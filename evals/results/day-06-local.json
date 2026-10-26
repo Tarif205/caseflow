@@ -1,0 +1,100 @@
+{
+  "checked_at": "2026-10-25T21:09:36.159645+00:00",
+  "provider": "local",
+  "model": "qwen3:4b",
+  "dataset_sha256": "19dbaa46ecf240d8f6c2cb0d9de035582812131a0507f89c9322d31a2fef4328",
+  "dataset_kind": "assistant-authored synthetic development fixtures; not held-out",
+  "knowledge_url": "https://16-178-30-70.sslip.io",
+  "backend_url": "http://127.0.0.1:8004",
+  "limits": {
+    "steps": 6,
+    "tool_calls": 6,
+    "timeout_seconds": 120
+  },
+  "scenarios": 5,
+  "passed": 0,
+  "success_rate": 0.0,
+  "results": [
+    {
+      "id": "s001",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "model_unavailable",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "steps": 1,
+        "tool_calls": 0,
+        "events": [],
+        "elapsed_seconds": 62.109,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s002",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "invalid_model_output",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "steps": 1,
+        "tool_calls": 0,
+        "events": [],
+        "elapsed_seconds": 59.515,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s003",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "invalid_model_output",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "steps": 1,
+        "tool_calls": 0,
+        "events": [],
+        "elapsed_seconds": 50.891,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s004",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "invalid_model_output",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "steps": 1,
+        "tool_calls": 0,
+        "events": [],
+        "elapsed_seconds": 46.454,
+        "refund_executed": false
+      }
+    },
+    {
+      "id": "s005",
+      "passed": false,
+      "result": {
+        "status": "escalate",
+        "reason": "invalid_model_output",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "steps": 1,
+        "tool_calls": 0,
+        "events": [],
+        "elapsed_seconds": 46.281,
+        "refund_executed": false
+      }
+    }
+  ],
+  "limitations": "Evidence selection/expected-order checks only, not semantic completeness or production safety."
+}

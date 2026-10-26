@@ -1,0 +1,63 @@
+# Fictional mock backend — Day 6
+
+This internal FastAPI service supplies synthetic customer/order/ticket facts for
+the agent. It is not a commerce integration. Data lives in the local Postgres
+database, separately from the hosted Knowledge API's policy corpus.
+
+Implementation: `src/support_copilot/mock_backend.py`, `mock_api.py` and the
+composite tenant keys in `schema.sql`. Fixtures: `data/mock/entities.json`.
+The current session's backend is already listening on loopback port 8004.
+
+## Initialize locally
+
+Use VS Code PowerShell in `G:\support-copilot`, with Docker Desktop running.
+Keep the existing `.env`; do not overwrite it. DATABASE_URL must point at the
+local development database for these Day 6 commands (empty selects the default).
+
+```powershell
+cd G:\support-copilot
+docker compose up -d --wait db
+uv run --frozen copilot seed-mock
+uv run --frozen copilot provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --env-name NORTHWIND_AGENT_API_TOKEN
+uv run --frozen copilot provision-token --tenant contoso --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --env-name CONTOSO_AGENT_API_TOKEN
+```
+
+The trusted seed command initializes the schema and inserts missing fixture rows
+without replacing existing edits. Success reports 3 fixture customers, 5 orders
+and 4 tickets. Prices use integer US cents. Dates and statuses are fixed fictional
+examples; they are not a live clock or actual carrier information.
+
+Token provisioning appends new values only to the ignored `.env`, prints metadata
+only and stores hashes in local Postgres. It does not change the existing
+Knowledge API tokens or register the new agent tokens in Neon. The agent uses
+separate credentials for reading policy articles and reading the internal backend.
+
+## Start when it is not already running
+
+In a local PowerShell terminal at the project root:
+
+```powershell
+uv run --frozen uvicorn support_copilot.mock_api:app --host 127.0.0.1 --port 8004 --no-access-log
+```
+
+Success: Uvicorn reports port 8004. Keep that terminal running; Ctrl+C stops this
+foreground server. Check `http://127.0.0.1:8004/health` before starting a duplicate.
+Interactive docs are at `http://127.0.0.1:8004/docs`; protected routes need an agent
+token from the local .env. Never share token values or screenshot the Authorize field.
+
+| Endpoint | Permission | Behavior |
+|---|---|---|
+| GET `/health` | Public | Process liveness |
+| GET `/orders/{id}` | `orders:read` | Only the credential's tenant; foreign/missing ids both return generic 404 |
+| GET `/tickets?limit=10` | `tickets:read` | Only open tickets in the credential's tenant; limit 1–50 |
+| POST `/refunds` | Authenticated | Always 501: approval/execution workflow not enabled |
+
+Tenant identity comes from the hashed token lookup, not query arguments. Unknown
+query fields are rejected. Wrong scope is 403; expired/revoked credentials are 401.
+Database failures have generic 503 responses. Request-id logs contain route, method,
+status and duration, without prompts, credential values or returned order data.
+
+The refund route is deliberately nonfunctional. `approved: true` supplied by a
+model/caller cannot activate it. No refund ledger or durable approval queue exists
+yet. Those belong to later PRD phases. The service stays local; no Docker/cloud
+deployment is claimed for this Day 6 backend.

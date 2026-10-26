@@ -42,22 +42,28 @@ consume up to ten hosted generations if the service's earlier gates allow them.
 Do not repeatedly run it without a reason. A provider/HTTP error stops evaluation
 and prevents a passing gate, rather than counting the failure as a refusal.
 
-### G1 review still open
+### G1 technical closeout
+
+Technical checks are verified; original learning explain-back remains deferred.
+See [the full review](gates/G1-verification.md) and
+[fresh-clone evidence](../evals/results/day-05-clean-clone.json). User reports
+green CI for 7c2f4fe and the full local suite now passes 153 tests. Latest evidence
+and documentation await the user's normal commit/push.
 
 | Requirement | Evidence/status |
 |---|---|
 | Recall@5 >= 0.70 on 40 questions | Saved development retrieval result 1.000, synthetic/in-sample |
 | API refusal >= 70% of ten negatives | 10/10 passed over public HTTPS |
-| Tests locally and in CI, including tenant checks | 144-test prior baseline and deployed CI passed; new operator code has 99 unit tests passed; fresh CI pending |
-| Clean-clone Compose runtime | Image build/clone verified; an explicit fresh local Compose runtime still needs verification |
+| Tests locally and in CI, including tenant checks | 153 local tests passed; user reports green CI for 7c2f4fe |
+| Clean-clone Compose runtime | Fresh committed clone passed build/up, initialization and authenticated tenant searches with isolated ports/volumes |
 | Public cited answer | Passed before and after manual API restart |
 | Pipeline explain-back | Deferred under the user's override, never marked passed |
 | No swapping | Guest has no swap configured; snapshot measured, no peak/load claim |
-| Results committed | Latest deployment evidence/evaluator awaiting user's commit/push |
+| Results committed | Deployment/refusal evidence committed in 7c2f4fe; latest clean-clone evidence/report awaiting user's normal commit/push |
 
-Local Docker Desktop is currently stopped, blocking a fresh local integration run
-and Compose verification. The remote EC2 API remains operational; these are different
-machines. Do not silently skip required integration checks or call G1 complete.
+Docker Desktop is now running; full local tests and fresh Compose verification
+completed. Temporary verification containers/volumes were removed without touching
+the development or cloud stacks. Do not call the deferred learning check passed.
 
 ### Proxy configuration actually used
 

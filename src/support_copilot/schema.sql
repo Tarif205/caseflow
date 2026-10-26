@@ -41,3 +41,34 @@ CREATE TABLE IF NOT EXISTS chunks (
 
 CREATE INDEX IF NOT EXISTS chunks_tenant_idx ON chunks (tenant_id);
 CREATE INDEX IF NOT EXISTS api_tokens_tenant_idx ON api_tokens (tenant_id);
+
+-- Fictional Day 6 backend. Composite keys keep every relationship tenant-local.
+CREATE TABLE IF NOT EXISTS customers (
+    tenant_id text NOT NULL REFERENCES tenants(id),
+    id text NOT NULL,
+    name text NOT NULL,
+    PRIMARY KEY (tenant_id, id)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+    tenant_id text NOT NULL,
+    id text NOT NULL,
+    customer_id text NOT NULL,
+    status text NOT NULL CHECK (status IN ('processing','shipped','delivered','cancelled','refunded')),
+    total_cents integer NOT NULL CHECK (total_cents >= 0),
+    currency text NOT NULL CHECK (currency = 'USD'),
+    tracking_number text,
+    placed_on date NOT NULL,
+    PRIMARY KEY (tenant_id, id),
+    FOREIGN KEY (tenant_id, customer_id) REFERENCES customers(tenant_id, id)
+);
+
+CREATE TABLE IF NOT EXISTS tickets (
+    tenant_id text NOT NULL,
+    id text NOT NULL,
+    customer_id text NOT NULL,
+    text text NOT NULL,
+    status text NOT NULL CHECK (status IN ('open','closed')),
+    PRIMARY KEY (tenant_id, id),
+    FOREIGN KEY (tenant_id, customer_id) REFERENCES customers(tenant_id, id)
+);

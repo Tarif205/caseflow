@@ -2,6 +2,63 @@
 
 ## Latest update on 26 October 2026
 
+### Day 7 complete: current next step (supersedes Day 6 below)
+
+- Added pure policy.py: strict immutable inputs, no IO/model/writes. Refund rules:
+  positive integer cents, fixed $80 USD cap, order-total bound, delivered status,
+  tenant/customer/order match, explicit agent:run and refunds:propose scopes,
+  deny-wins precedence. All decisions disable execution; eligible means needs_approval.
+- Customer identity must come from trusted intake, never ticket prose. Existing
+  tokens gained no scope. Policy integrates in Day 8; loop/backend remain read-only.
+- Expanded scenarios to 25, ten deterministic refund cases (two eligible/eight
+  denied). Preserved original ten byte-for-byte as scenarios-day06.jsonl; hashes
+  match both model reports. Runner supports --scenarios and --count up to 25.
+  Generic escalation cannot count as policy/approval success. No new live model run.
+- Full local suite **245 passed in 6.92s**, including Postgres integration tests.
+  Each denial covered; finite exhaustive property check covers 1,260 combinations.
+  See docs/decisions/004-refund-policy.md and docs/journal/day-07.md.
+- No cloud/schema/dependency/credential changes for Day 7. Day 6 real model results
+  unchanged. Pending work awaits user commit/push and fresh CI. No assistant commit.
+- **Next: Day 8**, LangGraph rebuild with code policy and non-executing approval
+  placeholder. Durable approval is Day 9. Learning checks remain deferred.
+
+### Day 6 complete — current next step
+
+- Built a local tenant-bound mock backend: composite Postgres customers/orders/
+  tickets, 3/5/4 synthetic fixtures, idempotent insert-only seed, authenticated
+  orders/tickets reads, request-id logs and generic errors. POST /refunds is
+  always disabled (501); no approval/ledger/execution is claimed.
+- Added plain bounded native-tool loop, separate Groq/Ollama tool adapters,
+  strict search_kb/get_order argument schemas, actor scopes and evidence-only
+  final rendering. Defaults: six steps/six tool calls/120s boundary budget;
+  each model call max 60s. No tool can accept tenant/URL/credential/approval fields.
+- New local agent tokens were generated into ignored .env as
+  NORTHWIND_AGENT_API_TOKEN and CONTOSO_AGENT_API_TOKEN; scopes kb:read,
+  orders:read, tickets:read, agent:run. Only hashes stored in LOCAL Postgres;
+  no new tokens/schema were applied to Neon. Existing knowledge credentials unchanged.
+- Backend is running on laptop loopback 8004 (started hidden for verification).
+  /health 200 verified. See services/mock-backend/README.md for setup/start commands.
+- First 10 synthetic scenarios written before real runs. Same first five evaluated
+  with Groq GPT-OSS-20B and local qwen3:4b, using real mock HTTP reads and deployed
+  policy retrieval. Hosted **4/5**, local **0/5**. Hosted s001 failed invalid final
+  output after a successful search; local had one model_unavailable and four
+  invalid_model_output failures, all before reads. Do not invent more specific
+  provider error causes: raw error/reasoning bodies were not retained.
+- Artifacts: evals/results/day-06-hosted.json, day-06-local.json and day-06-summary.md.
+  Hosted minimum 3/5 met. Synthetic/in-sample evidence/field checks, not a held-out
+  semantic benchmark or the full 25-case evaluation. No refund executed.
+- **196 tests passed**, lint/format clean. New tests include loop/tool/time bounds,
+  unknown tools/extra tenant args, invented evidence, native wire schemas, backend
+  isolation/scopes/expiry/revocation, seed preservation and disabled refunds.
+- Local model was stopped after five attempts; ollama ps shows none loaded.
+  The existing EC2 API remains on 531d7c4, unchanged. Day 6 agent/backend are local,
+  not deployed. LangGraph, deterministic refund policy, durable approval and MCP
+  remain pending; loop-vs-graph table marks graph behavior as planned.
+- Immediate review: user can run the hosted order demo in services/support-agent/
+  README.md; code/docs/evidence await USER commit/push and fresh CI. No assistant
+  commit/push. Learning checks deferred. **Next PRD step: Day 7**, complete 25
+  scenarios and pure policy (cap, ownership, order eligibility, deny-wins tests).
+
 ### Current deployment status — supersedes the stopping point below
 
 User resumed work. Role `support-copilot-ec2-role` was created (screenshot), and
@@ -69,13 +126,25 @@ future stop/start). Do not use the older 13.210.138.248 address.
   after local DB connection timeouts; read-only docker inspection confirms local
   Docker Desktop engine is stopped. Prior 144-test baseline and deployed 531d7c4
   CI passed; do not claim a fresh full-suite pass for the new evaluator yet.
-- **Next step:** user reviews/commits/pushes deployment docs, evidence and evaluator,
-  then obtains passing CI for this revision. Clean-clone Compose runtime verification
-  still needs explicit evidence for G1. Learning checks remain deferred; G1 is not
-  fully passed. No agent/MCP work begun. New evaluator is an operator tool; it does
-  not change the serving API behavior, so no API image rebuild is required for it.
-  Hostname encodes current IP; verify/update it after any IP change. No assistant
-  commit/push performed.
+- User pushed `7c2f4fe` (deployment/evaluator/evidence); local HEAD and origin/main
+  match. User reports its GitHub checks green. Docker Desktop is now running.
+  Fresh complete local run: **153 passed in 8.46s**, including all integration tests.
+- Fresh local Git clone of committed 7c2f4fe, without .env or working-tree files,
+  passed Compose build/up/health/readiness and actual authenticated tenant searches.
+  Used a separate project, brand-new DB/cache volumes and a port-only isolation
+  override (API 18011, no published DB); no cloud credentials or chat-model calls.
+  Fresh import matched 15/30 Northwind and 3/6 Contoso. Temporary synthetic tokens
+  were not printed. A separate test application with deliberately wrong demo DB
+  credentials returned health 200/ready 503 without exposing credentials.
+  Evidence: `evals/results/day-05-clean-clone.json`. Temporary containers and
+  their volumes were removed; existing local/cloud stacks were preserved.
+- G1 technical checks now have evidence; see `docs/gates/G1-verification.md`.
+  The original learning explain-back remains deferred, never passed. Latest clean
+  checkout evidence/report are local and await the user's normal commit/push.
+  **Next implementation step:** Day 6 mock orders/tickets backend and bounded
+  support-agent tool loop, preserving refund approval and tenant isolation.
+  No agent/MCP work begun. The API can stay on 531d7c4: subsequent changes add
+  operator tools/docs rather than serving behavior. No assistant commit/push.
 
 ### Stopping point saved on 24 October 2026
 
