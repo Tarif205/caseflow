@@ -2,6 +2,35 @@
 
 ## Latest update on 26 October 2026
 
+### Day 8 implementation complete: current next step
+
+- Added agent_graph.py using installed LangGraph 1.2.16, verified official API.
+  Typed state and nodes intake/retrieve/lookup/plan_action/policy_check/approval/
+  draft_reply/escalate. Execute is unreachable and independently disabled.
+- Structured JSON models for intake/planning; no identity/scope/approval model
+  arguments. Trusted identity/dependencies outside state. Reply still renders
+  only original chunks/whitelisted facts. Code refund policy integrated.
+- Eligible synthetic context reaches a terminal, NON-DURABLE approval marker.
+  No checkpoint/interrupt/resume, approval record, tracing, execution or deployed
+  agent yet. Real CLI supplies no end-customer identity and existing tokens lack
+  refunds:propose; no permissions were widened to improve model scores.
+- 266 tests passed (7.42s) with Postgres integration. All graph paths, safe errors,
+  evidence/identity injection, failed-read counting and time/tool/node budgets covered.
+- Real 25-case hosted comparison: graph 14/25, hand loop 10/25; first five 5/5
+  versus 4/5. Graph had nine model_unavailable failures, one correct policy denial
+  under missing identity/scope and one correct foreign-order 404 failing a strict
+  downstream policy label. No per-case upstream status retained; cause not proven.
+  Separate small/normal token probes returned 400/200 and do not diagnose those cases.
+- Results day-08-graph-hosted.json, day-08-loop-hosted.json and day-08-summary.md.
+  Same scenario hash, but sequential runs, changed model protocols and step units;
+  do not claim a controlled framework benchmark. All 50 results show no refund.
+- Generated docs/agent-graph.mmd, state/path guide, updated loop-vs-graph table,
+  journal. No dependency/schema/credential/cloud changes. Local model not loaded.
+- **Next: Day 9**, persistence, durable human approvals and tracing. G2 remains
+  open; 56% is below Day 10's 60% quality gate. Reconcile the foreign-order fixture
+  expectation and improve safe per-call provider diagnostics before that gate.
+  User commits/pushes; fresh CI not yet confirmed. Learning checks deferred.
+
 ### Day 7 complete: current next step (supersedes Day 6 below)
 
 - Added pure policy.py: strict immutable inputs, no IO/model/writes. Refund rules:

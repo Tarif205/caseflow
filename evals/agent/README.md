@@ -42,8 +42,10 @@ The runner remains the read-only loop. Reply checks require source substrings fr
 the right tenant and expected article/order/status. Infrastructure failures cannot
 count as successful escalation. Policy-denial cases additionally require
 reason=policy_denied and the expected code reasons; generic escalation is
-insufficient. Approval cases currently fail the judge because the loop cannot
-produce durable approval state. A future graph judge must verify that state.
+insufficient. Approval cases fail the default judge because the loop cannot produce durable
+approval state. Day 8 graph runs explicitly opt into non-durable placeholder
+checks (state=required, matching order/amount, no execution, eligible code policy).
+That mode is labeled in results and does not verify Day 9 durable approval.
 
 Runner `--count` supports 1 through 25, default five. `--scenarios` selects a
 dataset. To repeat the original-sized run, in PowerShell at G:\support-copilot

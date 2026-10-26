@@ -51,11 +51,29 @@ def load_scenarios(path: Path) -> list[Scenario]:
     return rows
 
 
-def judge(scenario: Scenario, result: dict, corpus_root: Path) -> bool:
+def judge(
+    scenario: Scenario, result: dict, corpus_root: Path, *, approval_placeholder=False
+) -> bool:
     # Day 6's read-only loop cannot satisfy an approval-state expectation.
     # Do not count a safe escalation as successful completion of that workflow.
     if scenario.needs_approval:
-        return False
+        approval = result.get("approval") or {}
+        policy = result.get("policy") or {}
+        amount = approval.get("amount_cents")
+        return bool(
+            approval_placeholder
+            and not result.get("refund_executed", True)
+            and result.get("status") == "needs_approval"
+            and result.get("reason") == "approval_placeholder"
+            and policy.get("outcome") == "needs_approval"
+            and policy.get("execution_allowed") is False
+            and approval.get("state") == "required"
+            and approval.get("durable") is False
+            and approval.get("order_id") == scenario.expected_order
+            and type(amount) is int
+            and amount == scenario.proposed_amount_cents
+            and 0 < amount <= scenario.expected_amount_max_cents
+        )
     if scenario.expected_policy_reasons:
         # A generic model escalation does not prove that the code policy ran.
         policy = result.get("policy") or {}

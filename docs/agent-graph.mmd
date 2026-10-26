@@ -1,0 +1,37 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__(<p>__start__</p>)
+	intake(intake)
+	retrieve(retrieve)
+	lookup(lookup)
+	plan_action(plan_action)
+	policy_check(policy_check)
+	approval(approval)
+	execute(execute)
+	draft_reply(draft_reply)
+	escalate(escalate)
+	__end__(<p>__end__</p>)
+	__start__ --> intake;
+	intake -.-> __end__;
+	intake -.-> retrieve;
+	lookup -.-> __end__;
+	lookup -.-> plan_action;
+	plan_action -.-> __end__;
+	plan_action -.-> policy_check;
+	policy_check -.-> __end__;
+	policy_check -.-> approval;
+	policy_check -.-> draft_reply;
+	policy_check -.-> escalate;
+	retrieve -.-> __end__;
+	retrieve -.-> lookup;
+	approval --> __end__;
+	draft_reply --> __end__;
+	escalate --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
+

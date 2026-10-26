@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from support_copilot.agent_evaluation import dataset_hash, judge, load_scenarios
+from support_copilot.agent_graph import GraphModel, run_graph
 from support_copilot.agent_loop import Limits, run_agent
 from support_copilot.agent_tools import BoundTools
 from support_copilot.auth import authenticate
@@ -21,6 +22,7 @@ def main():
     cfg = Settings.from_env()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--provider", choices=["hosted", "local"], required=True)
+    parser.add_argument("--engine", choices=["loop", "graph"], default="loop")
     parser.add_argument(
         "--knowledge-url", default=os.getenv("KNOWLEDGE_API_URL", "http://127.0.0.1:8001")
     )
@@ -74,9 +76,10 @@ def main():
         )
 
     try:
-        model = HttpToolModel(model_cfg)
+        model = GraphModel(model_cfg) if args.engine == "graph" else HttpToolModel(model_cfg)
+        run = run_graph if args.engine == "graph" else run_agent
         if args.ticket:
-            report = run_agent(args.ticket, model, bound(args.tenant), limits)
+            report = run(args.ticket, model, bound(args.tenant), limits)
         else:
             path = args.scenarios
             scenarios = load_scenarios(path)
@@ -84,11 +87,16 @@ def main():
                 raise ValueError("Requested count exceeds available scenarios")
             rows = []
             for scenario in scenarios[: args.count]:
-                result = run_agent(scenario.ticket, model, bound(scenario.tenant), limits)
+                result = run(scenario.ticket, model, bound(scenario.tenant), limits)
                 rows.append(
                     {
                         "id": scenario.id,
-                        "passed": judge(scenario, result, PROJECT_ROOT / "data"),
+                        "passed": judge(
+                            scenario,
+                            result,
+                            PROJECT_ROOT / "data",
+                            approval_placeholder=args.engine == "graph",
+                        ),
                         "result": result,
                     }
                 )
@@ -107,6 +115,10 @@ def main():
             report = {
                 "checked_at": datetime.now(UTC).isoformat(),
                 "provider": args.provider,
+                "engine": args.engine,
+                "approval_stage": "non-durable placeholder"
+                if args.engine == "graph"
+                else "unavailable",
                 "model": model_cfg.llm_model,
                 "dataset_sha256": dataset_hash(path),
                 "dataset_kind": "assistant-authored synthetic development fixtures; not held-out",
@@ -114,6 +126,7 @@ def main():
                 "backend_url": args.backend_url,
                 "limits": {
                     "steps": limits.max_steps,
+                    "step_unit": "graph node" if args.engine == "graph" else "model turn",
                     "tool_calls": limits.max_tool_calls,
                     "timeout_seconds": limits.timeout_seconds,
                 },

@@ -2,7 +2,7 @@
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Knowledge API deployed on EC2 with HTTPS; public/restart/refusal checks passed. Day 6 local read-only agent baseline: hosted 4/5, local 0/5. Day 7 adds 25 scenarios and a pure refund eligibility policy with an $80 cap and mandatory human approval. **245 local tests passed**, including 1,260 finite-domain policy combinations. Refund execution remains disabled; LangGraph integration, durable approvals, agent deployment and MCP are pending. CI last confirmed for `7c2f4fe`; pending Day 6/7 changes await user commit/push and CI. Learning checks remain deferred. See [Day 7 journal](docs/journal/day-07.md), [policy decision](docs/decisions/004-refund-policy.md) and [Day 6 model baseline](evals/results/day-06-summary.md).
+**Status:** Day 8 graph implemented: structured intake/planning, tenant-bound reads, code refund policy and non-durable approval placeholder. **266 local tests passed**. Hosted 25-case comparison: graph **14/25**, hand loop **10/25**, with provider failures preserved. Refund execution remains disabled; durable approvals/tracing are Day 9, and the Day 10 quality gate remains open. Knowledge API deployment is unchanged. Learning checks deferred; new changes await user commit/push and CI. See [graph guide](docs/agent-graph.md) and [results with limitations](evals/results/day-08-summary.md).
 
 Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
 is running at that IP). Article endpoints require private scoped tokens; none are
@@ -18,7 +18,7 @@ For official topic names, exercises and video resources, use the
 |---------|--------------|--------|
 | `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
 | `services/mock-backend` | Fictional orders/tickets for two tenants; refund execution disabled | [Local backend ready](services/mock-backend/README.md) |
-| `services/support-agent` | Read-only tool loop; later LangGraph and human approval | [Day 6 baseline ready](services/support-agent/README.md); graph/approvals pending |
+| `services/support-agent` | Read-only tool loop; later LangGraph and human approval | [Loop and graph ready](services/support-agent/README.md); durable approvals pending |
 | `services/mcp-server` | Read-only MCP tools with token auth and tenant isolation | Not started |
 
 ## Repository layout

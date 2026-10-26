@@ -83,3 +83,24 @@ def test_deny_label_requires_the_expected_code_reasons():
     assert not judge(scenario, result, PROJECT_ROOT / "data")
     result["policy"]["reasons"] = scenario.expected_policy_reasons
     assert judge(scenario, result, PROJECT_ROOT / "data")
+
+
+def test_placeholder_approval_scoring_is_explicit_and_cannot_count_as_durable():
+    scenario = load_scenarios(DATASET)[5]
+    result = {
+        "status": "needs_approval",
+        "reason": "approval_placeholder",
+        "refund_executed": False,
+        "policy": {"outcome": "needs_approval", "execution_allowed": False},
+        "approval": {
+            "state": "required",
+            "durable": False,
+            "order_id": scenario.expected_order,
+            "amount_cents": 7500,
+        },
+    }
+    assert not judge(scenario, result, PROJECT_ROOT / "data")
+    assert judge(scenario, result, PROJECT_ROOT / "data", approval_placeholder=True)
+    for field, value in [("amount_cents", 8001), ("order_id", "CT-2001"), ("state", "approved")]:
+        forged = {**result, "approval": {**result["approval"], field: value}}
+        assert not judge(scenario, forged, PROJECT_ROOT / "data", approval_placeholder=True)

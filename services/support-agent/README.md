@@ -1,6 +1,6 @@
 # Support agent — Day 6 bounded loop
 
-This is the plain loop baseline before the PRD Day 8 LangGraph rebuild. The model
+The default engine remains the plain loop baseline. Day 8 adds --engine graph. The model
 requests reads; Python validates and dispatches them; results return as tool messages.
 The only tools are `search_kb(query, top_k)` and `get_order(order_id)`.
 
@@ -83,3 +83,13 @@ To check policy behavior without a model, in PowerShell at G:\support-copilot:
 ```powershell
 .venv\Scripts\pytest.exe -q tests/test_policy.py tests/test_policy_scenarios.py
 ```
+
+## Day 8 graph
+
+Use `--engine graph` with the same trusted local runner and read-service setup.
+See [state, nodes, diagram and exact command](../../docs/agent-graph.md) and
+[25-case comparison](../../evals/results/day-08-summary.md). The graph uses the
+code policy. Eligible synthetic contexts reach a non-durable required-approval
+marker; the real demo CLI supplies no customer identity and existing credentials
+lack refund scope. There is no approval-to-execute path. Durable approval and
+restart/resume remain Day 9 work. Earlier Day 6/7 sections above are historical.
