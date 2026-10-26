@@ -1,0 +1,80 @@
+{
+  "checked_at": "2026-10-26T16:44:56.278603+00:00",
+  "transport": "stdio",
+  "sdk_version": "1.30.0",
+  "current_specification_at_check": "2026-07-28",
+  "scope": "local real reads only; no hosted model, writes or deployment",
+  "sessions": [
+    {
+      "tenant_fixture": "northwind",
+      "negotiated_protocol": "2025-11-25",
+      "tools": [
+        {
+          "tool": "search_knowledge_base",
+          "status": "ok",
+          "output_fields": [
+            "results"
+          ]
+        },
+        {
+          "tool": "get_order_status",
+          "status": "ok",
+          "output_fields": [
+            "currency",
+            "customer_id",
+            "id",
+            "status",
+            "total_cents",
+            "tracking_number"
+          ]
+        },
+        {
+          "tool": "list_open_tickets",
+          "status": "ok",
+          "output_fields": [
+            "tickets"
+          ]
+        }
+      ],
+      "foreign_read_blocked": true,
+      "injected_tenant_rejected": true,
+      "write_tool_unavailable": true
+    },
+    {
+      "tenant_fixture": "contoso",
+      "negotiated_protocol": "2025-11-25",
+      "tools": [
+        {
+          "tool": "search_knowledge_base",
+          "status": "ok",
+          "output_fields": [
+            "results"
+          ]
+        },
+        {
+          "tool": "get_order_status",
+          "status": "ok",
+          "output_fields": [
+            "currency",
+            "customer_id",
+            "id",
+            "status",
+            "total_cents",
+            "tracking_number"
+          ]
+        },
+        {
+          "tool": "list_open_tickets",
+          "status": "ok",
+          "output_fields": [
+            "tickets"
+          ]
+        }
+      ],
+      "foreign_read_blocked": true,
+      "injected_tenant_rejected": true,
+      "write_tool_unavailable": true
+    }
+  ],
+  "complete": true
+}

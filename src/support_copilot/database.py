@@ -25,12 +25,14 @@ def migrate(settings: Settings) -> None:
 
 
 @contextmanager
-def connect(settings: Settings):
+def connect(settings: Settings, *, read_only: bool = False):
     with psycopg.connect(
         settings.database_url,
         row_factory=dict_row,
         connect_timeout=5,
     ) as conn:
+        if read_only:
+            conn.execute("SET TRANSACTION READ ONLY")
         # Neon/PgBouncer rejects this setting in the connection startup packet.
         # Set it within our transaction instead, so it cannot leak to another
         # client when the pool returns this server connection to circulation.

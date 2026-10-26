@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-10-26T16:47:32.812637+00:00",
+  "inspector_version": "2.12.0",
+  "isolated_node_version": "24.22.1",
+  "system_node_unchanged": true,
+  "protocol_era": "legacy",
+  "transport": "stdio",
+  "listed_tools": [
+    "search_knowledge_base",
+    "get_order_status",
+    "list_open_tickets"
+  ],
+  "calls": [
+    {
+      "tool": "search_knowledge_base",
+      "status": "ok",
+      "output_fields": [
+        "results"
+      ]
+    },
+    {
+      "tool": "get_order_status",
+      "status": "ok",
+      "output_fields": [
+        "currency",
+        "customer_id",
+        "id",
+        "status",
+        "total_cents",
+        "tracking_number"
+      ]
+    },
+    {
+      "tool": "list_open_tickets",
+      "status": "ok",
+      "output_fields": [
+        "tickets"
+      ]
+    }
+  ],
+  "complete": true,
+  "scope": "local read-only Inspector CLI; no UI or deployment claim"
+}

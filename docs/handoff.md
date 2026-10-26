@@ -2,6 +2,36 @@
 
 ## Latest update on 26 October 2026
 
+### Day 11 stdio MCP verified: current next implementation is Day 12
+
+- Added mcp_server.py using locked official SDK 1.30.0 low-level Server. Three
+  tools only: search_knowledge_base, get_order_status, list_open_tickets.
+  Strict Pydantic input/output schemas; extra identity/URL/approval fields rejected;
+  projected outputs exclude tenant/token/internal metadata. Query/count bounds.
+- Added connect(read_only=True) for MCP; default other-service behavior unchanged.
+  Scope/active-token/tenant checks reused per read, model never supplies identity.
+  New local .env credentials NORTHWIND_MCP_API_TOKEN / CONTOSO_MCP_API_TOKEN have
+  only kb:read, orders:read, tickets:read. Hashes in LOCAL DB only; no cloud change.
+  MCP_TOKEN_ENV is a launcher setting selecting credential name, not tool input.
+- Real SDK stdio checks initialized/listed/called all tools for both tenants and
+  rejected foreign read, injected tenant and write tool. Negotiated 2025-11-25;
+  CURRENT spec checked is 2026-07-28, so do not claim latest-spec support.
+- Official Inspector 2.12.0 CLI, explicit legacy era, listed/called all tools.
+  Uses isolated Node 24.22.1 via npm cache G:/npm-cache; system Node still 22.16.0.
+  Cache already populated; scripts/check_mcp_inspector.py runs offline. No Python
+  dependencies changed, no global runtime upgrade or UI/screenshot claim.
+- **326 tests passed in 27.02s**, lint/format clean. 18 new tests include schema
+  rejection before IO, exact projections, scoped/foreign/missing reads, revocation
+  and actual SQL read-only enforcement. Evidence day-11-stdio.json and
+  day-11-inspector.json. Inspector/SDK smoke processes finished; no new listener.
+- Docs: services/mcp-server/README.md tool table/setup, decision 005, journal day-11.
+  No chat model calls, refunds, MCP HTTP/resource/prompt/deployment for Day 11.
+  Existing EC2 stacks/roles preserved. Learning checks deferred, never passed.
+- Next concrete step: USER commit/push Day 11. Next PRD implementation Day 12:
+  Streamable HTTP per-request auth/header/isolation tests, article resource,
+  draft prompt and threat table. Day 13 agent-as-MCP-client/deployment remains later.
+
+
 ### Day 10 deployed and public smoke verified: supersedes release-pending notes
 
 - User pushed 47906e1b13eaf4f7318ad38e9777082b04ab5030. GitHub Actions run
