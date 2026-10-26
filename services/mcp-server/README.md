@@ -1,4 +1,4 @@
-# Read-only MCP server: Day 11 local stdio
+# Read-only MCP server: local stdio and Streamable HTTP
 
 MCP lets a client discover tool schemas and call them through a standard protocol.
 This server wraps the existing retrieval/order/ticket reads. It does not call a
@@ -120,7 +120,7 @@ If recreating local read credentials after an empty database setup:
 Keep DATABASE_URL on the local development database for Day 11. These are trusted
 admin commands that generate tokens; do not add empty token placeholders first.
 
-## Verification and next step
+## Day 11 verification
 
 **326 tests passed in 27.02s**, including 18 new schema/projection/scope/tenant/read-only
 checks and the existing Postgres integration suite. Inspector listed and called
@@ -128,9 +128,84 @@ all tools. The SDK client independently initialized and called them for both ten
 No hosted/local chat model run, refund, write tool, HTTP transport, resource,
 prompt or MCP deployment was added for Day 11.
 
-Day 12 adds Streamable HTTP authorization/header/session coverage, the article
-resource and draft prompt. Day 13 connects the agent as an MCP client and deploys
-the server. Existing EC2 services remain on their verified Day 10 releases.
+## Day 12: authenticated Streamable HTTP
+
+The same three tools are now available at http://127.0.0.1:8003/mcp. Each HTTP
+request supplies its own Authorization bearer header. The server checks the
+credential against Postgres, then each read checks its scope and tenant again.
+It uses pre-provisioned project tokens; it does **not** implement OAuth discovery,
+token issuance or third-party-client authorization.
+
+```text
+SDK client -> authenticated POST /mcp -> request-bound identity -> scoped SQL
+                                                        +----> CPU embeddings
+```
+
+The server is stateless: no MCP session ID is issued, and any supplied
+Mcp-Session-Id is rejected. Authority cannot be transferred through a session ID.
+GET and DELETE return 405 after authentication; there is no resumable SSE channel.
+LangGraph's durable approval checkpoints remain separate from this transport.
+
+In **PowerShell at G:\support-copilot**, start the local server only if port 8003
+is not already running:
+
+```powershell
+.venv\Scripts\python.exe -m uvicorn support_copilot.mcp_http:app --host 127.0.0.1 --port 8003 --no-access-log
+```
+
+Expected: Uvicorn listening on 127.0.0.1:8003. It stays running in that terminal;
+Ctrl+C stops it. A background instance was started during Day 12 verification.
+In a second PowerShell terminal, run:
+
+```powershell
+.venv\Scripts\python.exe scripts/check_mcp_http.py
+```
+
+Expected: complete=true, three successful calls per tenant, resource_read=true,
+prompt_prepared=true and session_id_issued=false. The checker reads the two local
+MCP credentials from ignored .env without putting values in argv or reports.
+It runs concurrent real SDK HTTP clients and saves
+[HTTP evidence](../../evals/results/day-12-http.json). Different article hashes
+show that the same URI resolves to each caller's separate tenant content.
+
+Clients send application/json and the SDK's JSON/SSE Accept headers. Requests
+are bounded to 16 KiB. Missing, expired, revoked or malformed credentials get
+401; missing operation scopes get 403. Token query parameters are rejected.
+Host and Origin are checked before authentication. Defaults allow localhost and
+127.0.0.1 hosts, and Inspector origins http://localhost:6274 and
+http://127.0.0.1:6274. Non-browser clients can omit Origin. For other hosts, set
+MCP_ALLOWED_HOSTS (comma-separated bare hostnames) and MCP_ALLOWED_ORIGINS
+(comma-separated exact origins) in the **process environment** before starting
+Uvicorn. Wildcards are rejected. These two settings are not loaded from .env.
+Public exposure/deployment remains Day 13 work.
+
+### Article resource and prompt
+
+| Capability | Contract | Scope |
+|---|---|---|
+| Resource template kb://article/{id} | JSON id, title, source, chunks containing id, position, text | kb:read |
+| Prompt draft_support_reply | Required ticket (nonblank, max 4000 characters) and article_id (lowercase slug, max 100) | kb:read |
+
+The article resource reads only stored chunks for the authenticated tenant.
+It returns original overlapping chunks rather than reconstructing a full article.
+It permits at most 64 chunks, 4000 characters per chunk and 64 KiB serialized JSON.
+The resource ID is a document slug, never a file path or external URL. Missing and
+foreign articles share the same generic error; resources/list does not enumerate
+tenant documents. Extra prompt arguments are rejected.
+
+The prompt returns a trusted instruction prefix followed by JSON containing the
+untrusted ticket and article. It asks a future host model for a cited draft and
+human review. Preparing the prompt calls no model and performs no action.
+It does not establish that a future host model resists every prompt injection.
+
+**343 tests passed in 27.23s**, with lint and formatting clean. Day 12 adds 17
+cases covering HTTP authorization, concurrent identity isolation, resource/prompt
+scope checks, bounded inputs and hostile headers. See the
+[threat table](../../docs/mcp-threats.md). No dependencies, cloud services, schema,
+tokens or model calls were added for Day 12. Learning checks remain deferred.
+
+Day 13 connects the agent as an MCP client and deploys the server. Existing EC2
+services remain on their verified Day 10 releases; MCP is verified locally only.
 
 References: [current specification](https://modelcontextprotocol.io/specification),
 [official Python SDK](https://github.com/modelcontextprotocol/python-sdk),

@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-10-26T17:31:29.749418+00:00",
+  "url": "http://127.0.0.1:8003/mcp",
+  "transport": "streamable-http",
+  "stateless": true,
+  "scope": "local real read-only SDK clients; no model, action or deployment",
+  "sessions": [
+    {
+      "tenant_fixture": "contoso",
+      "protocol": "2025-11-25",
+      "session_id_issued": false,
+      "tools": [
+        {
+          "tool": "search_knowledge_base",
+          "status": "ok"
+        },
+        {
+          "tool": "get_order_status",
+          "status": "ok"
+        },
+        {
+          "tool": "list_open_tickets",
+          "status": "ok"
+        }
+      ],
+      "resource_read": true,
+      "article_sha256": "dd8362e32fa45ca42e29116f75792f90454c31c0c5b67ff465d09e6b87c64448",
+      "prompt_prepared": true
+    },
+    {
+      "tenant_fixture": "northwind",
+      "protocol": "2025-11-25",
+      "session_id_issued": false,
+      "tools": [
+        {
+          "tool": "search_knowledge_base",
+          "status": "ok"
+        },
+        {
+          "tool": "get_order_status",
+          "status": "ok"
+        },
+        {
+          "tool": "list_open_tickets",
+          "status": "ok"
+        }
+      ],
+      "resource_read": true,
+      "article_sha256": "0e85aef71c69037597db0eb324af0671e898a56bcf67c3c268faa6756943c993",
+      "prompt_prepared": true
+    }
+  ],
+  "complete": true,
+  "missing_auth_rejected": true
+}

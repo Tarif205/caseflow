@@ -2,7 +2,7 @@
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Day 11 local read-only MCP server implemented. Inspector listed/called all three tools; real SDK stdio checks passed for both tenants. **326 local tests passed**. Day 10 agent/backend release `47906e1` and Knowledge API remain deployed and verified; G2 technical checks passed. MCP HTTP/resource/prompt work is Day 12 and MCP deployment is Day 13. Learning checks remain deferred. See [MCP tools and setup](services/mcp-server/README.md) and [G2 evidence](docs/gates/G2-verification.md).
+**Status:** Day 12 local MCP stdio and authenticated stateless HTTP verified, including the article resource and draft-reply prompt. **343 local tests passed**; concurrent real HTTP clients stayed tenant-isolated. Day 10 agent/backend release `47906e1` and Knowledge API remain deployed and verified; G2 technical checks passed. MCP agent integration and deployment are Day 13. Learning checks remain deferred. See [MCP tools and setup](services/mcp-server/README.md), [MCP threat table](docs/mcp-threats.md) and [G2 evidence](docs/gates/G2-verification.md).
 
 Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
 is running at that IP). Article endpoints require private scoped tokens; none are
@@ -19,7 +19,7 @@ For official topic names, exercises and video resources, use the
 | `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
 | `services/mock-backend` | Fictional orders/tickets and approval-guarded mock refunds | [Local backend ready](services/mock-backend/README.md) |
 | `services/support-agent` | LangGraph workflow with durable human approval | [HTTP workflow deployed](services/support-agent/README.md); public smoke passed |
-| `services/mcp-server` | Read-only MCP tools with token auth and tenant isolation | [Local stdio and Inspector verified](services/mcp-server/README.md); HTTP/deployment pending |
+| `services/mcp-server` | Read-only MCP tools, article resource and draft prompt with token auth and tenant isolation | [Local stdio, Inspector and HTTP verified](services/mcp-server/README.md); deployment pending |
 
 ## Repository layout
 

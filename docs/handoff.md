@@ -2,6 +2,37 @@
 
 ## Latest update on 26 October 2026
 
+### Day 12 MCP HTTP verified: next implementation is Day 13
+
+- Added mcp_http.py: official SDK 1.30.0 Streamable HTTP, stateless JSON responses,
+  loopback http://127.0.0.1:8003/mcp. Fresh bearer authentication per request,
+  operation scopes and rechecked read authorization. Identity uses the SDK message's
+  exact request context, never a shared caller field or model arguments.
+- No session IDs issued; all incoming session headers rejected. GET/DELETE 405
+  after auth. No token query parameters. Explicit Host/Origin allowlists, duplicate
+  and malformed auth rejection, 16 KiB body bound. Request logs contain generated
+  ID/method/status/duration only. Process environment MCP_ALLOWED_HOSTS and
+  MCP_ALLOWED_ORIGINS configure nondefault hosts; these are not loaded from .env.
+- Added resource template kb://article/{id}: kb:read, tenant-filtered documents and
+  original overlapping chunks, bounded to 64 chunks/4000 chars each/64 KiB JSON.
+  No file or external URL reads, global document enumeration or foreign existence
+  detail. Added draft_support_reply(ticket, article_id), strict bounded args,
+  instructions plus untrusted JSON evidence; no model call/action. Stdio retained.
+- **343 tests passed in 27.23s**, Ruff lint/format clean. Seventeen new cases cover
+  concurrency, expiry/revocation/scopes/forged sessions, resource/prompt isolation,
+  hostile headers and input bounds. Real concurrent SDK HTTP clients for both
+  tenants called all tools, read different article content at the same URI and
+  prepared the prompt; no session IDs, negotiated 2025-11-25. Evidence:
+  evals/results/day-12-http.json, checked_at 2026-10-26T17:31:29.749418+00:00.
+- Current local background Uvicorn serves port 8003; logs ignored in
+  .cache/day12-mcp-final.stdout.log and .stderr.log. Do not start a second listener.
+  No package/schema/token/cloud changes or model calls. Existing EC2 services
+  remain untouched. This is project bearer authorization, not full OAuth
+  discovery/issuance/audience binding/third-party consent or latest-spec support.
+- Docs: services/mcp-server/README.md, docs/mcp-threats.md, decision 006 and journal
+  day-12. Learning checks deferred, never passed. Next concrete step: USER
+  commit/push Day 12. Day 13: agent as MCP client, deployment and integration proof.
+
 ### Day 11 stdio MCP verified: current next implementation is Day 12
 
 - Added mcp_server.py using locked official SDK 1.30.0 low-level Server. Three
