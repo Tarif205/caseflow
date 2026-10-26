@@ -1,5 +1,8 @@
 # Day 8: the support agent as a graph
 
+Day 8 baseline below. For the implemented Day 9 durable mode, see [approval flow](approval-flow.md).
+
+
 Implemented with installed LangGraph **1.2.16**. Checked the installed signatures
 and [official Graph API guide](https://docs.langchain.com/oss/python/langgraph/graph-api).
 Nodes return state updates; conditional edges choose the next node. This replaces

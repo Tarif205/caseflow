@@ -9,6 +9,7 @@ import psycopg
 
 TOKEN_FORMAT = re.compile(r"[A-Za-z0-9_-]{32,128}")
 KNOWN_SCOPES = {"kb:read", "kb:write", "orders:read", "tickets:read", "agent:run", "refund:approve"}
+KNOWN_SCOPES |= {"refunds:propose", "refunds:execute"}
 
 
 @dataclass(frozen=True)

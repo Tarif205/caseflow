@@ -72,3 +72,46 @@ CREATE TABLE IF NOT EXISTS tickets (
     PRIMARY KEY (tenant_id, id),
     FOREIGN KEY (tenant_id, customer_id) REFERENCES customers(tenant_id, id)
 );
+
+-- Durable authority records. Checkpoints are orchestration, not permission.
+CREATE TABLE IF NOT EXISTS agent_runs (
+    tenant_id text NOT NULL,
+    id text NOT NULL,
+    ticket_id text NOT NULL,
+    customer_id text NOT NULL,
+    requester_hash text NOT NULL REFERENCES api_tokens(token_hash),
+    created_at timestamptz NOT NULL DEFAULT now(),
+    PRIMARY KEY (tenant_id, id),
+    FOREIGN KEY (tenant_id, ticket_id) REFERENCES tickets(tenant_id, id),
+    FOREIGN KEY (tenant_id, customer_id) REFERENCES customers(tenant_id, id)
+);
+
+CREATE TABLE IF NOT EXISTS refund_approvals (
+    tenant_id text NOT NULL,
+    run_id text NOT NULL,
+    order_id text NOT NULL,
+    amount_cents integer NOT NULL CHECK (amount_cents > 0 AND amount_cents <= 8000),
+    order_digest text NOT NULL,
+    decision text NOT NULL DEFAULT 'pending' CHECK (decision IN ('pending','approved','rejected')),
+    decided_by text REFERENCES api_tokens(token_hash),
+    decided_at timestamptz,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    PRIMARY KEY (tenant_id, run_id),
+    FOREIGN KEY (tenant_id, run_id) REFERENCES agent_runs(tenant_id, id),
+    FOREIGN KEY (tenant_id, order_id) REFERENCES orders(tenant_id, id),
+    CHECK ((decision='pending' AND decided_by IS NULL AND decided_at IS NULL)
+        OR (decision<>'pending' AND decided_by IS NOT NULL AND decided_at IS NOT NULL))
+);
+
+CREATE TABLE IF NOT EXISTS refunds (
+    tenant_id text NOT NULL,
+    run_id text NOT NULL,
+    order_id text NOT NULL,
+    amount_cents integer NOT NULL CHECK (amount_cents > 0 AND amount_cents <= 8000),
+    approved_by text NOT NULL REFERENCES api_tokens(token_hash),
+    created_at timestamptz NOT NULL DEFAULT now(),
+    PRIMARY KEY (tenant_id, run_id),
+    UNIQUE (tenant_id, order_id),
+    FOREIGN KEY (tenant_id, run_id) REFERENCES refund_approvals(tenant_id, run_id),
+    FOREIGN KEY (tenant_id, order_id) REFERENCES orders(tenant_id, id)
+);

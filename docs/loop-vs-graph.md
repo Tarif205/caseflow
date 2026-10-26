@@ -1,5 +1,8 @@
 # Hand loop versus LangGraph
 
+Day 8 baseline below. For the implemented Day 9 durable mode, see [approval flow](approval-flow.md).
+
+
 Day 8 comparison; persistence and durable approval are still future work.
 
 | Concern | Day 6 plain Python loop | Day 8 implemented graph |

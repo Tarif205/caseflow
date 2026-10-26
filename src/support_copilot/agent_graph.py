@@ -1,7 +1,7 @@
-"""Day 8 graph: structured intake, read nodes, plain policy and approval placeholder.
+"""Bounded graph with optional Day 9 persistence and authoritative approval hooks.
 
-No checkpointer or executable refund exists yet. Dependencies/identity live outside
-model state. Only run_graph is the trusted operator entry point.
+run_graph retains the read-only Day 8 mode. DurableAgent binds the local checkpoint
+and approval ledger; dependencies/identity remain outside model control.
 """
 
 import json
@@ -11,10 +11,12 @@ from decimal import Decimal
 from typing import Literal, TypedDict
 
 from langgraph.graph import END, START, StateGraph
+from langgraph.types import interrupt
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, ValidationError
 
 from support_copilot.agent_loop import Limits
 from support_copilot.agent_tools import OrderArgs, RecordNotFound, SearchArgs, ToolFailure
+from support_copilot.approvals import ApprovalDenied
 from support_copilot.chat import HttpChatModel, InvalidModelOutput, ModelUnavailable
 from support_copilot.policy import ActionProposal, PolicyContext, PolicyOrder, policy_check
 
@@ -53,6 +55,7 @@ class AgentState(TypedDict, total=False):
     steps: int
     tool_calls: int
     events: list[dict]
+    refund_executed: bool
 
 
 class GraphModel:
@@ -76,7 +79,17 @@ def execute_disabled(state: AgentState) -> dict:
     return {"status": "escalate", "reason": "execution_disabled"}
 
 
-def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=time.monotonic):
+def build_graph(
+    model,
+    tools,
+    context: PolicyContext,
+    limits: Limits,
+    *,
+    clock=time.monotonic,
+    checkpointer=None,
+    workflow=None,
+    tracer=None,
+):
     started = clock()
     attempted_reads = [0]
 
@@ -85,6 +98,7 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
 
     def guard(name, fn):
         def node(state):
+            attempted_reads[0] = max(attempted_reads[0], state.get("tool_calls", 0))
             steps = state.get("steps", 0)
             if steps >= limits.max_steps:
                 return {"status": "escalate", "reason": "step_limit"}
@@ -92,7 +106,7 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
                 return {"status": "escalate", "reason": "deadline"}
             try:
                 update = fn(state)
-                if remaining() <= 0:
+                if remaining() <= 0 and not update.get("refund_executed"):
                     update = {"status": "escalate", "reason": "deadline"}
             except ValidationError:
                 update = {"status": "escalate", "reason": "invalid_arguments_or_plan"}
@@ -106,6 +120,8 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
                 update = {"status": "escalate", "reason": "read_service_failure"}
             except ToolLimit:
                 update = {"status": "escalate", "reason": "tool_limit"}
+            except ApprovalDenied:
+                update = {"status": "escalate", "reason": "approval_denied"}
             return {
                 **update,
                 "steps": steps + 1,
@@ -114,7 +130,9 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
                 + [{"node": name, "status": update.get("status", "ok")}],
             }
 
-        return node
+        if tracer is None:
+            return node
+        return lambda state: tracer.call(name, lambda: node(state))
 
     def ask(schema, instruction, data):
         messages = [
@@ -216,18 +234,44 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
 
     def check_policy(state):
         action = state["proposed_action"]["action"]
-        info = state["intake"]
+        info = dict(state["intake"])
+        raw = state["order"]
+        if workflow is not None and action == "refund" and info["amount_cents"] is None and raw:
+            # A full-refund request without an amount proposes the stored total.
+            # Cap/ownership/status checks and explicit human approval still apply.
+            info["amount_cents"] = raw["total_cents"]
         proposal = ActionProposal(
             action=action,
             order_id=info["order_id"] if action == "refund" else None,
             amount_cents=info["amount_cents"] if action == "refund" else None,
         )
-        raw = state["order"]
         order = PolicyOrder(**{k: raw[k] for k in PolicyOrder.model_fields}) if raw else None
         decision = policy_check(proposal, context, order)
-        return {"policy_result": decision.model_dump()}
+        return {"policy_result": decision.model_dump(), "intake": info}
 
     def approval(state):
+        if workflow is not None:
+            row = workflow.request(state)
+            # Resume data is only a wake-up signal. Authority is the stored decision.
+            interrupt(
+                {
+                    "kind": "refund_approval",
+                    "run_id": workflow.run_id,
+                    "order_id": row["order_id"],
+                    "amount_cents": row["amount_cents"],
+                }
+            )
+            row = workflow.decision()
+            if row["decision"] != "approved":
+                return {"status": "escalate", "reason": "approval_rejected"}
+            return {
+                "approval": {
+                    "state": "approved",
+                    "durable": True,
+                    "order_id": row["order_id"],
+                    "amount_cents": row["amount_cents"],
+                }
+            }
         # A terminal marker, not a durable interrupt or executable approval record.
         return {
             "status": "needs_approval",
@@ -238,6 +282,19 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
                 "order_id": state["intake"]["order_id"],
                 "amount_cents": state["intake"]["amount_cents"],
             },
+        }
+
+    def execute(state):
+        if workflow is None:
+            return execute_disabled(state)
+        if not state.get("approval") or state["approval"].get("state") != "approved":
+            raise ApprovalDenied("Human approval required")
+        receipt = workflow.execute()
+        return {
+            "status": "refunded",
+            "reason": "approved_mock_refund",
+            "refund_executed": True,
+            "reply": f"Fictional refund recorded: {receipt['amount_cents']} USD cents for {receipt['order_id']}.",
         }
 
     def escalate(state):
@@ -285,7 +342,7 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
         "plan_action": plan_action,
         "policy_check": check_policy,
         "approval": approval,
-        "execute": execute_disabled,
+        "execute": execute,
         "draft_reply": draft_reply,
         "escalate": escalate,
     }
@@ -315,9 +372,15 @@ def build_graph(model, tools, context: PolicyContext, limits: Limits, *, clock=t
     builder.add_conditional_edges(
         "policy_check", route_policy, [END, "draft_reply", "approval", "escalate"]
     )
-    for terminal in ("draft_reply", "approval", "escalate", "execute"):
+    if workflow is not None:
+        builder.add_conditional_edges(
+            "approval", lambda s: END if s.get("status") else "execute", [END, "execute"]
+        )
+    else:
+        builder.add_edge("approval", END)
+    for terminal in ("draft_reply", "escalate", "execute"):
         builder.add_edge(terminal, END)
-    return builder.compile()
+    return builder.compile(checkpointer=checkpointer)
 
 
 def run_graph(ticket, model, tools, limits=None, *, customer_id=None, clock=time.monotonic):

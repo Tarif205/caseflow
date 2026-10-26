@@ -61,3 +61,11 @@ The refund route is deliberately nonfunctional. `approved: true` supplied by a
 model/caller cannot activate it. No refund ledger or durable approval queue exists
 yet. Those belong to later PRD phases. The service stays local; no Docker/cloud
 deployment is claimed for this Day 6 backend.
+
+## Day 9 local ledger
+
+The shared schema now includes agent_runs, refund_approvals and refunds. The local
+durable CLI uses ApprovalStore for code-guarded, transactional fictional refunds
+after a distinct operator decision. This HTTP service still returns 501 for
+POST /refunds. Day 10 must expose the same boundary internally for deployment.
+See [approval workflow](../../docs/approval-flow.md); no cloud schema was changed.

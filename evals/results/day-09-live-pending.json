@@ -1,0 +1,31 @@
+{
+  "run_id": "152af441-f371-43fd-9f01-b8626f8c9585",
+  "status": "needs_approval",
+  "reason": "durable_interrupt",
+  "refund_executed": false,
+  "reply": "",
+  "events": [
+    {
+      "node": "intake",
+      "status": "ok"
+    },
+    {
+      "node": "retrieve",
+      "status": "ok"
+    },
+    {
+      "node": "lookup",
+      "status": "ok"
+    },
+    {
+      "node": "plan_action",
+      "status": "ok"
+    },
+    {
+      "node": "policy_check",
+      "status": "ok"
+    }
+  ],
+  "approval_durable": true,
+  "trace_url": "https://cloud.langfuse.com/project/cmv7449is00head0e6zk6qcz0/traces/498b6ec9953ae2c5aee8334af43f3578"
+}

@@ -2,6 +2,42 @@
 
 ## Latest update on 26 October 2026
 
+### Day 9 functionality and human-approved demo verified
+
+- Added durable_agent.py with SQLite checkpoints, real interrupt/resume and
+  authenticated stored-ticket/customer binding. Postgres agent_runs,
+  refund_approvals and refunds are authoritative; resume data never grants approval.
+- Local CLI scripts/agent_workflow.py supports start/pending/approve/reject/resume.
+  Distinct worker/operator identities, strict scopes, expiry/revocation checks,
+  ownership, cap, immutable proposal/order snapshot and transactional idempotency.
+  One refund per order; a partial also closes the fictional order. HTTP POST
+  /refunds remains 501; local execution calls the guarded repository. Day 10 must
+  wire that same boundary into the deployed internal backend.
+- New local .env settings NORTHWIND_WORKER_API_TOKEN (read/agent/propose/execute)
+  and NORTHWIND_APPROVER_API_TOKEN (refund:approve). Values not printed/copied;
+  hashes only in local DB. Existing read tokens unchanged; no cloud migration.
+- **291 tests passed in 16.87s**, including real Postgres, cross-process pause/
+  simulated approval/resume with no model replay and one receipt after repeated
+  resume. Forged resume/rejection/missing scope/expiry/revocation/order or amount
+  changes fail closed. Committed receipt not erased by a later deadline check.
+- Langfuse metadata-only run/node spans; safe failed intake trace delivery and
+  reason verified through read API. No prompts/customer data/keys/raw errors.
+  Evidence day-09-failed-trace.json. Browser tool failed local kernel asset setup;
+  UI screenshot NOT captured, remains manual. API evidence is not a UI screenshot.
+- **LIVE DEMO COMPLETED BY USER:** run 152af441-f371-43fd-9f01-b8626f8c9585,
+  ticket NW-T002/order NW-1044, $75 (7500 USD cents). User explicitly ran approve,
+  then resume --trace. Returned refunded/approved_mock_refund with durable approval.
+  Read-only ledger verification confirms approved decision, order refunded and
+  exactly ONE receipt. Evidence: evals/results/day-09-live-approved.json. Resume
+  trace URL is user-reported; failed-trace delivery was independently API-verified.
+  No assistant approval or execution. Next: user commit/push, then Day 10.
+- Files: .cache/agent-checkpoints.sqlite (ignored), docs/approval-flow.md,
+  docs/approval-graph.mmd, docs/journal/day-09.md and Day 9 JSON evidence.
+  Checkpoint includes fictional ticket/evidence, never service credentials.
+- Next PRD step: Day 10 diagnostics/eval/injection tests, Postgres
+  checkpointer and service deployment/G2. G2 is still open (last hosted 14/25).
+  Default Day 8 graph remains read-only. User commits/pushes; learning deferred.
+
 ### Day 8 implementation complete: current next step
 
 - Added agent_graph.py using installed LangGraph 1.2.16, verified official API.

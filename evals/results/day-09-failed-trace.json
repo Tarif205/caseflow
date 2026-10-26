@@ -1,0 +1,19 @@
+{
+  "trace_url": "https://cloud.langfuse.com/project/cmv7449is00head0e6zk6qcz0/traces/ab6e70fb9cbb0b7b5cdcf82634dda401",
+  "trace_id": "ab6e70fb9cbb0b7b5cdcf82634dda401",
+  "delivery_verified_by_read_api": true,
+  "failed_node": "intake",
+  "safe_reason": "model_unavailable",
+  "metadata_only": true,
+  "kind": "deliberate fake-model failure, not a real provider diagnostic",
+  "observations": [
+    {
+      "name": "intake",
+      "level": "ERROR"
+    },
+    {
+      "name": "support-agent-run",
+      "level": "ERROR"
+    }
+  ]
+}

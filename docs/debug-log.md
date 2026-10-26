@@ -65,6 +65,27 @@ changing one setting, not assume all failures mean the model lacks tool support.
 Unit tests verify invalid outputs/unknown tools/limits cannot become an action.
 Local qwen3 was unloaded afterward. No unsafe fallback or refund path was enabled.
 
+## 5 Langfuse read API returned serialized span output
+
+Observed 26 October 2026 during Day 9 trace verification. Export succeeded and
+the intake/root spans were visible through the read API, but the verification
+assertion failed. Safe field-type inspection showed input=None and output=str.
+The verifier assumed an already-decoded dictionary. Normalize JSON strings before
+checking the allowed status/reason keys. Reverified delivered ERROR intake span
+with model_unavailable. No raw response, model reasoning or credentials printed.
+Check first next time: the returned field type; SDK serialization and API parsing
+options can differ even when the underlying trace is correct.
+
+## 6 A late deadline must not erase a committed write receipt
+
+Found during Day 9 code review, before a demo refund was approved. The existing
+read-only node guard replaced any late result with deadline escalation. Applied
+unchanged to execute, it could conceal a committed mock refund. Preserve a
+successful committed receipt after execution; still check deadline before starting.
+Added a regression where the clock advances after execution and verified the
+refunded result remains truthful. Ledger idempotency protects process-crash replay.
+This was a reviewed risk and test fix, not an observed duplicate or demo refund.
+
 ## Template
 
 ```

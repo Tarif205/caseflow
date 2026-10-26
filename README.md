@@ -2,7 +2,7 @@
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Day 8 graph implemented: structured intake/planning, tenant-bound reads, code refund policy and non-durable approval placeholder. **266 local tests passed**. Hosted 25-case comparison: graph **14/25**, hand loop **10/25**, with provider failures preserved. Refund execution remains disabled; durable approvals/tracing are Day 9, and the Day 10 quality gate remains open. Knowledge API deployment is unchanged. Learning checks deferred; new changes await user commit/push and CI. See [graph guide](docs/agent-graph.md) and [results with limitations](evals/results/day-08-summary.md).
+**Status:** Day 9 local workflow verified: SQLite checkpoints, human approval/rejection, guarded idempotent mock refunds and metadata-only Langfuse traces. **291 local tests passed**, including separate-process restart/resume. The user approved and resumed the fictional $75 refund; read-only verification confirms exactly one receipt. HTTP refund execution remains disabled, and agent deployment/G2 are pending. Last full hosted comparison remains graph 14/25 versus loop 10/25. See [approval workflow](docs/approval-flow.md). Dashboard screenshot remains manual; trace delivery is API-verified. Learning checks deferred; user commits/pushes new work.
 
 Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
 is running at that IP). Article endpoints require private scoped tokens; none are
@@ -18,7 +18,7 @@ For official topic names, exercises and video resources, use the
 |---------|--------------|--------|
 | `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
 | `services/mock-backend` | Fictional orders/tickets for two tenants; refund execution disabled | [Local backend ready](services/mock-backend/README.md) |
-| `services/support-agent` | Read-only tool loop; later LangGraph and human approval | [Loop and graph ready](services/support-agent/README.md); durable approvals pending |
+| `services/support-agent` | Read-only tool loop; later LangGraph and human approval | [Local durable workflow ready](services/support-agent/README.md); deployment pending |
 | `services/mcp-server` | Read-only MCP tools with token auth and tenant isolation | Not started |
 
 ## Repository layout

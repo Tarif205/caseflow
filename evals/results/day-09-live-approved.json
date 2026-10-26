@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-10-26T11:32:42.057037+00:00",
+  "run_id": "152af441-f371-43fd-9f01-b8626f8c9585",
+  "order_id": "NW-1044",
+  "amount_cents": 7500,
+  "decision": "approved",
+  "order_status": "refunded",
+  "refund_receipts": 1,
+  "ledger_verified_read_only": true,
+  "user_reported_resume_status": "refunded",
+  "user_reported_refund_executed": true,
+  "trace_url": "https://cloud.langfuse.com/project/cmv7449is00head0e6zk6qcz0/traces/26c494e2f681a8dc3c23bbe1b5838e12",
+  "scope": "fictional local demo; user explicitly approved and ran resume"
+}

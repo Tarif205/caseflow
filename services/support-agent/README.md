@@ -1,3 +1,11 @@
+# Support agent: current local workflow
+
+Day 9 adds durable local approval/rejection, SQLite restart/resume and a guarded
+mock refund ledger. Start with the [approval guide](../../docs/approval-flow.md).
+The user-approved fictional $75 request completed with exactly one verified receipt.
+The HTTP refund route remains disabled. The default loop/Day 8 graph below remain
+read-only. The following sections document those earlier baseline modes.
+
 # Support agent — Day 6 bounded loop
 
 The default engine remains the plain loop baseline. Day 8 adds --engine graph. The model
