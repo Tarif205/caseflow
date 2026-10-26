@@ -71,3 +71,14 @@ remain deferred. See [G2 checklist](../../docs/gates/G2-verification.md).
 Provider references checked against current official docs:
 [Groq structured outputs](https://console.groq.com/docs/structured-outputs) and
 [reasoning effort](https://console.groq.com/docs/reasoning).
+
+## Deployment completed after user push
+
+Release 47906e1 passed GitHub Actions and is deployed at
+https://16-178-30-70.sslip.io/agent. Public isolated synthetic approval/refund smoke
+passed; its temporary Neon rows/checkpoints were removed. The original Knowledge
+API 531d7c4 also passed the full public smoke after proxy replacement. Evidence:
+day-10-release-ci.json, day-10-ec2-deployment.json, day-10-public-agent-smoke.json
+and day-10-existing-knowledge-smoke.json. Prior release-pending statements above
+record the earlier preparation state. G2 technical release checks now verified;
+manual screenshot/learning explain-back deferred, deployed tracing disabled.

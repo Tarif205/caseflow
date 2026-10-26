@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-26T16:24:59.047420+00:00",
+  "base_url": "https://16-178-30-70.sslip.io/agent",
+  "database": "neon",
+  "scope": "isolated synthetic fixture; operator decision simulated; not a demo approval",
+  "checks": [
+    "health_ready_missing_auth",
+    "durable_approval_pause",
+    "tenant_scope_and_forged_resume_blocked",
+    "simulated_operator_approved_and_resumed",
+    "exactly_one_mock_refund_after_retry"
+  ],
+  "complete": true,
+  "synthetic_fixture_removed": true
+}

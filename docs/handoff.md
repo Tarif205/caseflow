@@ -2,6 +2,44 @@
 
 ## Latest update on 26 October 2026
 
+### Day 10 deployed and public smoke verified: supersedes release-pending notes
+
+- User pushed 47906e1b13eaf4f7318ad38e9777082b04ab5030. GitHub Actions run
+  40340314622 completed SUCCESS, independently read via public API from EC2
+  after local public API rate limit; connector returned no push runs. Evidence
+  evals/results/day-10-release-ci.json. No assistant commit/push.
+- Additive Neon schema/Postgres checkpoints/mock fixtures initialized; existing
+  local WORKER/APPROVER role hashes provisioned in Neon. No raw secret copied or
+  printed, no existing credentials changed. Initial deploy attempt did not execute
+  because automatic review hit a usage limit; user said carry on, retry passed.
+- Exact reviewed commit deployed on existing Ubuntu EC2. Images:
+  support-copilot-agent:47906e1b13ea and support-copilot-backend:47906e1b13ea.
+  Existing Knowledge API image/container remains 531d7c4, not replaced.
+- Public base https://16-178-30-70.sslip.io/agent; Caddy 2.11.7 persists /agent/*
+  routing to loopback 8002 and other routes to existing loopback 8001. Backend
+  has no published port. Old proxy retained stopped as
+  support-copilot-proxy-before-agent for rollback; cert volumes reused.
+- **Public HTTPS agent smoke PASSED**: health/readiness/missing auth, durable
+  approval pause, tenant/scope/forged resume blocked, distinct synthetic operator
+  decision, resume and exactly one mock receipt after retry. Its exact temporary
+  Neon tenant and checkpoints removed. No seeded demo/customer request approved.
+  Evidence day-10-public-agent-smoke.json, checked_at 2026-10-26T16:24:59+00:00.
+- Original Knowledge API's full public smoke PASSED after proxy change, including
+  both tenant searches, order refusal and real cited warranty answer. Evidence
+  day-10-existing-knowledge-smoke.json, checked_at 2026-10-26T16:27:51+00:00.
+- EC2 memory snapshot MiB: Knowledge 236.9, agent 91.89, backend 59.64, proxy 10.42.
+  Not peak/load evidence. Build startup curls retried connection resets and recovered.
+  Evidence day-10-ec2-deployment.json. No new EC2 resource/IAM expansion/paid plan.
+- **G2 technical release checks verified.** Hosted 84%, local 88%, 308 tests,
+  eight enforcement cases and Postgres restart evidence remain as below. Manual
+  trace screenshot and learner explain-back remain deferred, never passed.
+  Deployed tracing remains disabled until credentials are supplied securely;
+  only local Day 9 trace export was verified. Do not claim cloud trace export.
+- **Next:** user saves deployment evidence/docs with normal commit/push; next PRD
+  implementation is Day 11, read-only MCP server. Preserve deployed stacks and
+  role boundaries. Current IP can change on EC2 stop/start; verify it first.
+
+
 ### Day 10 local verification complete: user release commit is next
 
 - Added strict graph JSON schemas (Groq max_tokens 1200, low reasoning; Ollama

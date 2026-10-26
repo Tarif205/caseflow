@@ -2,7 +2,7 @@
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Day 10 release prepared locally: authenticated agent API, Postgres checkpoints, guarded internal refund endpoint, Docker images and 8/8 injection enforcement checks. **308 tests passed**. Full synthetic evaluation: hosted **21/25 (84%)** with pacing, local **22/25 (88%)**; initial rate-limited run preserved. Local container approval/refund smoke passed. **EC2 agent deployment and fresh release CI are still pending the user's commit/push**; G2 is not yet cleared. Existing Knowledge API deployment is unchanged. See [G2 evidence](docs/gates/G2-verification.md), [results](evals/results/day-10-summary.md) and [deployment sequence](docs/deploy-agent.md). Learning checks remain deferred.
+**Status:** Day 10 agent/backend release `47906e1` is deployed on EC2 and passed its public HTTPS approval/refund smoke. The existing Knowledge API passed its full smoke afterward. **308 tests**, 8/8 injection enforcement checks, hosted **84%** and local **88%** on synthetic scenarios. G2 technical release checks verified; learning checks and a manual trace screenshot remain deferred. See [G2 evidence](docs/gates/G2-verification.md), [results](evals/results/day-10-summary.md) and [deployment guide](docs/deploy-agent.md). Next: Day 11 read-only MCP server.
 
 Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
 is running at that IP). Article endpoints require private scoped tokens; none are
@@ -18,7 +18,7 @@ For official topic names, exercises and video resources, use the
 |---------|--------------|--------|
 | `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
 | `services/mock-backend` | Fictional orders/tickets for two tenants; refund execution disabled | [Local backend ready](services/mock-backend/README.md) |
-| `services/support-agent` | Read-only tool loop; later LangGraph and human approval | [HTTP workflow verified locally](services/support-agent/README.md); EC2 deployment pending |
+| `services/support-agent` | Read-only tool loop; later LangGraph and human approval | [HTTP workflow deployed](services/support-agent/README.md); public smoke passed |
 | `services/mcp-server` | Read-only MCP tools with token auth and tenant isolation | Not started |
 
 ## Repository layout

@@ -1,7 +1,7 @@
-# G2 verification: Day 10 release prepared, deployment pending
+# G2 verification: technical checks verified for deployed Day 10 release
 
-Date: 26 October 2026. This is evidence for technical checks, not an overall gate
-pass or a passed learning assessment.
+Date: 26 October 2026. Technical release checks are verified. Learning
+checks remain deferred, never passed; no independent understanding is claimed.
 
 | Requirement | Evidence | State |
 |---|---|---|
@@ -11,8 +11,8 @@ pass or a passed learning assessment.
 | Approval survives process restart | Independent processes with SQLite and Postgres checkpoints; one receipt after retry | Verified locally |
 | Eight injection cases, no unauthorized action | Eight deterministic hostile-output/poisoned-data cases pass | Verified enforcement, not universal LLM immunity |
 | Failed trace identifies failed step | Day 9 Langfuse read API verified ERROR intake/model_unavailable | API verified; manual screenshot pending |
-| CI green for release | Local 308-test suite and all service image builds pass | Fresh remote CI pending user push |
-| Services deployed and deployed flow verified | Local Docker HTTP workflow passes; EC2 SSH checked at old 531d7c4 | Pending release deployment and public smoke |
+| CI green for release | Release 47906e1, Actions run 40340314622 completed successfully | Verified remote CI |
+| Services deployed and deployed flow verified | EC2 agent/backend 47906e1; public HTTPS approval flow and original Knowledge API smoke pass | Verified deployed flow |
 | Explain state/nodes/plain policy | User chose implementation first | Deferred, never passed |
 
 Evidence lives in evals/results/day-10-*.json, day-09-failed-trace.json and
@@ -20,7 +20,18 @@ day-09-live-approved.json. Read [Day 10 results](../../evals/results/day-10-summ
 for fixture/scoring/model-setting changes; do not compare the percentages as an
 intrinsic model ranking or claim a held-out benchmark.
 
-The user must commit/push this reviewable release. Then verify CI, provision only
-the configured Neon demo schema/role hashes, deploy on the existing EC2 instance,
-and run the authenticated public HTTPS smoke before clearing deployment checks.
-No new EC2 resources, paid services, model plan or broad IAM policy are required.
+Release 47906e1b13eaf4f7318ad38e9777082b04ab5030 was pushed by the user and
+[passed CI](https://github.com/Tarif205/support-copilot/actions/runs/40340314622).
+It is deployed at https://16-178-30-70.sslip.io/agent. Public smoke verified auth,
+isolation, durable pause, simulated operator decision and exactly one receipt after
+retry, then removed the synthetic tenant/checkpoints. No real/demo request approved.
+The existing 531d7c4 Knowledge API passed its complete authenticated smoke afterward.
+
+Evidence: day-10-release-ci.json, day-10-ec2-deployment.json,
+day-10-public-agent-smoke.json and day-10-existing-knowledge-smoke.json under
+evals/results. Existing EC2 reused, no new paid service or IAM expansion.
+
+The manual trace screenshot and learner explain-back remain deferred. Local trace
+delivery is API-verified; deployed agent tracing is off until credentials are
+provided securely. Do not claim deployed trace export or learning mastery.
+Next PRD technical work: Day 11, read-only MCP fundamentals/server.

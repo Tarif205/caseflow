@@ -1,8 +1,11 @@
 # Day 10 agent release and deployment
 
-Current state: built/tested locally, **not deployed to EC2 yet**. Existing EC2
-Knowledge API and proxy remain unchanged. The remote checkout was read-only
-verified at 531d7c4. The user commits/pushes; the assistant does not commit.
+Current state: **deployed and verified**, release 47906e1b13eaf4f7318ad38e9777082b04ab5030.
+Public base: https://16-178-30-70.sslip.io/agent. Release CI passed; public agent
+smoke and the original Knowledge API smoke passed. Original Knowledge API remains
+on 531d7c4. See [deployment evidence](../evals/results/day-10-ec2-deployment.json).
+The sequence below documents the completed release and future repeat deployments.
+User commits/pushes; the assistant does not commit.
 
 ## Service contract
 
@@ -56,7 +59,7 @@ and manual backend terminal were preserved. qwen3 was stopped after evaluation.
 .venv\Scripts\python.exe scripts/provision_agent_cloud.py
 ```
 
-This is an explicit admin operation, not yet performed for Day 10. It uses the
+This explicit admin operation was performed for the deployed Day 10 release. It uses the
 existing NEON_DATABASE_URL and local role tokens in memory; only hashes enter
 Neon. It inserts missing fictional fixtures without overwriting existing rows.
 No secret file is uploaded, no IAM expansion or new paid resource is needed.
@@ -103,8 +106,7 @@ support-copilot-proxy-before-agent to support-copilot-proxy and start it. The ol
 Knowledge API image/container stays available. Do not remove certificate volumes,
 Neon data or checkpoint tables as a rollback step.
 
-Public proof and fresh remote CI are still pending; local success is not a deployed
-gate pass. Deployment tracing is off unless existing Langfuse credentials are
+Release CI and public proof are now verified in the saved Day 10 evidence. Deployment tracing is off unless existing Langfuse credentials are
 provided securely; local Day 9 tracing is independently verified. The default
 free-tier inference limits still apply. Do not upgrade plans to finish the gate.
 No multi-worker load/DoS test or automatic approval-expiry policy is claimed.

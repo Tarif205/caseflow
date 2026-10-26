@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-10-26T16:30:31.077488+00:00",
+  "commit": "47906e1b13eaf4f7318ad38e9777082b04ab5030",
+  "agent_base_url": "https://16-178-30-70.sslip.io/agent",
+  "agent_image": "support-copilot-agent:47906e1b13ea",
+  "backend_image": "support-copilot-backend:47906e1b13ea",
+  "knowledge_image_preserved": "support-copilot-knowledge:531d7c4",
+  "caddy_image": "caddy:2.11.7",
+  "rollback_container": "support-copilot-proxy-before-agent",
+  "agent_port_binding": "127.0.0.1:8002->8000/tcp",
+  "backend_port_published": false,
+  "cloud_schema_initialized": true,
+  "role_token_hashes_provisioned": [
+    "WORKER",
+    "APPROVER"
+  ],
+  "public_agent_smoke_complete": true,
+  "existing_knowledge_smoke_complete": true,
+  "idle_memory_mib_snapshot": {
+    "knowledge": 236.9,
+    "agent": 91.89,
+    "backend": 59.64,
+    "proxy": 10.42
+  },
+  "limits": "Snapshot, not peak/load evidence. Deployed tracing disabled; local trace delivery verified separately. No real/demo request approved by this release smoke."
+}

@@ -34,3 +34,23 @@ remote code 531d7c4. No Day 10 cloud schema, role or service deployment changes 
 The user's commit/push and fresh CI are the next release step, followed by EC2
 deployment and public authenticated smoke. G2 remains open until those are verified.
 No assistant commit/push, new paid resource or plan upgrade.
+
+## Release deployed after user push
+
+The user pushed 47906e1; Actions run 40340314622 passed. Neon additive schema,
+checkpoints, fixtures and role-token hashes provisioned without exposing secrets.
+An automatic-review usage failure initially prevented deployment; after the user
+said carry on, the same command passed review and deployed the exact commit.
+
+EC2 now runs agent/backend images tagged 47906e1b13ea, with agent loopback 8002
+and no backend public port. Caddy persistently serves /agent while preserving
+Knowledge API 531d7c4. Old proxy retained stopped for rollback; cert volumes reused.
+Public synthetic HTTP smoke passed pause/auth/approval/resume/idempotency and
+removed its own Neon rows/checkpoints. The original Knowledge API full smoke
+also passed, including actual cited model output. No real/demo approval performed.
+
+Saved release CI, EC2 metadata, public agent and preserved-Knowledge smoke JSONs.
+EC2 snapshot MiB: Knowledge 236.9, agent 91.89, backend 59.64, proxy 10.42.
+G2 technical release checks verified; manual trace screenshot/explain-back deferred.
+Cloud tracing remains off; do not infer it from local Langfuse proof. Next technical
+work: Day 11 MCP. User saves evidence/docs with their normal commit/push.

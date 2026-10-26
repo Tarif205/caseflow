@@ -1,5 +1,5 @@
 Day 10 update: authenticated HTTP workflow and opt-in guarded backend execution
-are verified in local containers; EC2 deployment is pending the user release commit.
+are deployed on EC2 in release 47906e1; public HTTPS smoke passed.
 See [current service/deployment guide](../../docs/deploy-agent.md). Earlier sections below are
 historical modes; default backend execution remains disabled unless explicitly enabled.
 
