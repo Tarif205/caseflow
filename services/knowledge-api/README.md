@@ -82,18 +82,19 @@ provisional minimum similarity of 0.691243. Source validation prevents invented
 quotations and citations to unprovided chunks; it does not prove that a quotation
 fully answers a question. There is no held-out generated-answer quality benchmark.
 Concrete order references are refused because this service has policies, not live
-orders. The later support agent will use order tools.
+orders. The support agent uses MCP order tools for those facts.
 
 `/ready` does not check live chat-model availability or quota. Provider errors are
 reported without upstream bodies or secrets. Request logs record ids, route,
 duration and status rather than prompts or authorization headers. The Docker image
-runs as an unprivileged user and excludes `.env`. This local service is not yet
-configured for public traffic, TLS, rate limiting or production authorization policy.
+runs as an unprivileged user and excludes `.env`. The recorded EC2 deployment uses Caddy TLS and scoped bearer auth; no production
+rate-limiting, availability guarantee or comprehensive hardening is claimed.
 
 Evidence: [live smoke](../../evals/results/day-04-api-smoke.json),
 [transport check](../../evals/results/day-04-api-transport.json), and
 [technical record](../../docs/journal/day-04.md). CI runs tests with a separate local
-Postgres service and builds the image; a GitHub run is pending the user's push.
+Postgres service and builds the image. Public regression after the MCP rollout
+also passed; see the current [results index](../../docs/RESULTS.md).
 
 Stop the services without deleting data:
 

@@ -1,0 +1,43 @@
+{
+  "source_revision": "db34193036e285266a9b514181c2b813aa404a5f",
+  "project": "caseflow-g4-fd514ea9",
+  "clone_kind": "git clone --no-local of committed source; no private .env or virtualenv copied",
+  "complete": false,
+  "checks": [
+    "four_images_built_and_all_services_healthy",
+    {
+      "port": 18011,
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "port": 18011,
+      "route": "/ready",
+      "status": 200
+    },
+    {
+      "port": 18012,
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "port": 18012,
+      "route": "/ready",
+      "status": 200
+    },
+    {
+      "port": 18013,
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "port": 18013,
+      "route": "/ready",
+      "status": 200
+    },
+    "missing_mcp_bearer_rejected"
+  ],
+  "elapsed_seconds": 193.47,
+  "isolated_stack_removed": true,
+  "scope": "Local Docker only; fresh DB/cache; reused host build cache. Port/image/project override; blank model key. No hosted generation or refund run. Timing excludes tool installation."
+}

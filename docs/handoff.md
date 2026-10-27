@@ -1,5 +1,30 @@
 # Handoff: project state as of 19 October 2026
 
+## Day 14 portfolio preparation on 28 October 2026
+
+User committed Day 13 proof as db34193; working tree was clean at start. Application
+images remain bb7491d; no deployment needed for portfolio docs. No assistant commit.
+
+- Replaced stale root README with current architecture, local setup, CI vs deployment,
+  evidence and limitations. Corrected current service README statements while
+  preserving historical sections and all original result files.
+- Added docs/RESULTS.md, PORTFOLIO.md, DEMO.md, decisions/README.md, Gate G4 and journal.
+  CV bullets cite real numbers and identify AI-assisted implementation. Video and
+  independent understanding are not claimed.
+- Targeted all-reachable Git object/working-tree scan found zero configured secret
+  or common credential-pattern matches across 482 blobs; Office XML inspected.
+  evals/results/day-14-secret-scan.json records bounded coverage.
+- Fresh-clone automated Docker check uses committed db34193, new project/volumes,
+  isolated ports 18011/18012/18013, no published DB and blank model key. Four images
+  built; health/readiness and both tenant SDK calls PASSED, foreign errors masked.
+  day-14-clean-clone.json complete=true; temporary stack/volumes/image tags removed;
+  original five local services healthy. Active attempts 346.28s including ad hoc
+  harness keyword errors; final corrected run 56.44s. No app fix or hosted call.
+- G4 OPEN: user records/reviews a 3-minute demo, does a timed README-only run,
+  reviews actual AWS billing/resources and rehearses 10 minutes without notes.
+  All learner checks stay deferred/unassessed. Next concrete step is docs/DEMO.md.
+  Then user commits/pushes docs/evidence. Do not ask to repeat cloud authorization.
+
 ## Day 13 public deployment verified on 28 October 2026
 
 This supersedes the pending retry and recovered-only state below. Release
@@ -453,7 +478,7 @@ successfully. No old data volumes or deployed service containers replaced.
 - **Next: Day 8**, LangGraph rebuild with code policy and non-executing approval
   placeholder. Durable approval is Day 9. Learning checks remain deferred.
 
-### Day 6 complete — current next step
+### Day 6 complete â€” current next step
 
 - Built a local tenant-bound mock backend: composite Postgres customers/orders/
   tickets, 3/5/4 synthetic fixtures, idempotent insert-only seed, authenticated
@@ -490,7 +515,7 @@ successfully. No old data volumes or deployed service containers replaced.
   commit/push. Learning checks deferred. **Next PRD step: Day 7**, complete 25
   scenarios and pure policy (cap, ownership, order eligibility, deny-wins tests).
 
-### Current deployment status — supersedes the stopping point below
+### Current deployment status â€” supersedes the stopping point below
 
 User resumed work. Role `support-copilot-ec2-role` was created (screenshot), and
 user reported creation of inline policy `support-copilot-read-parameters` allowing
@@ -880,7 +905,7 @@ Vectors have 384 dimensions. Unrelated pairs score about 0.4, not near 0: this m
 These are real bugs worth entries in `docs/debug-log.md`; the learner has not logged any yet.
 
 1. **Wrong venv name and Python version:** `python -m venv venv` with system Python 3.11; `.gitignore` only ignored `.venv/`. Fixed by deleting it and running `uv venv --python 3.12`.
-2. **VS Code kept activating the deleted `venv`:** fixed via Python: Select Interpreter → `.venv`.
+2. **VS Code kept activating the deleted `venv`:** fixed via Python: Select Interpreter â†’ `.venv`.
 3. **`wsl --install` installed WSL but no distribution:** fixed with `wsl --install Ubuntu`. Ubuntu rejects usernames with capitals; `tarif_420` worked.
 4. **Ran `wsl -l -v` inside Ubuntu:** "command not found", because `wsl` is a Windows command. Lesson: know which shell you are in.
 5. **`docker` not recognised:** Docker was simply not installed yet. Installed with `winget install -e --id Docker.DockerDesktop`.

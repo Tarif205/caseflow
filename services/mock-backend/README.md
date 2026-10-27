@@ -1,7 +1,23 @@
-Day 10 update: authenticated HTTP workflow and opt-in guarded backend execution
-are deployed on EC2 in release 47906e1; public HTTPS smoke passed.
-See [current service/deployment guide](../../docs/deploy-agent.md). Earlier sections below are
-historical modes; default backend execution remains disabled unless explicitly enabled.
+# CaseFlow internal mock backend
+
+**Current deployment:** release bb7491d uses the internal backend with guarded
+mock refunds enabled. It has no published host port. A separate operator's durable
+approval, current order facts, worker authority, policy and unique receipt are
+rechecked on execution. The request supplies an approved run ID, not an amount
+or an approval flag. No real commerce system is connected.
+
+Start it with the [root README's full Compose setup](../../README.md).
+The public MCP-backed synthetic workflow verified pause/resume, forged approval
+rejection and exactly one fictional receipt after retry; its fixture was removed.
+See [results](../../docs/RESULTS.md) and [deployment](../../docs/deploy-mcp.md).
+A manually launched backend defaults to refund execution disabled; only the
+reviewed internal Compose configuration opts in.
+
+The remaining Day6 instructions describe the earlier direct-read development
+mode. Host port8004 is optional historical development, not a current published
+backend port or a requirement for the MCP-backed graph.
+
+---
 
 # Fictional mock backend — Day 6
 
@@ -11,7 +27,7 @@ database, separately from the hosted Knowledge API's policy corpus.
 
 Implementation: `src/caseflow/mock_backend.py`, `mock_api.py` and the
 composite tenant keys in `schema.sql`. Fixtures: `data/mock/entities.json`.
-The current session's backend is already listening on loopback port 8004.
+The optional direct development server can listen on loopback8004.
 
 ## Initialize locally
 

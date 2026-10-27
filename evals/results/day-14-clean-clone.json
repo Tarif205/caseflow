@@ -1,0 +1,73 @@
+{
+  "source_revision": "db34193036e285266a9b514181c2b813aa404a5f",
+  "project": "caseflow-g4-fd514ea9",
+  "clone_kind": "git clone --no-local of committed source; no private .env or virtualenv copied",
+  "complete": true,
+  "checks": [
+    "four_images_built_and_all_services_healthy",
+    {
+      "port": 18011,
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "port": 18011,
+      "route": "/ready",
+      "status": 200
+    },
+    {
+      "port": 18012,
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "port": 18012,
+      "route": "/ready",
+      "status": 200
+    },
+    {
+      "port": 18013,
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "port": 18013,
+      "route": "/ready",
+      "status": 200
+    },
+    "missing_mcp_bearer_rejected"
+  ],
+  "isolated_stack_removed": true,
+  "scope": "Local Docker only; fresh DB/cache; reused host build cache. Port/image/project override; blank model key. No hosted generation or refund run. Timing excludes tool installation.",
+  "retry_elapsed_seconds": 51.49,
+  "initial_harness_failure": {
+    "category": "TypeError",
+    "cause": "Ad hoc harness passed unsupported SDK keyword arguments; existing checker correctly uses http_client.",
+    "application_change_required": false
+  },
+  "corrected_run_elapsed_seconds": 56.44,
+  "total_elapsed_seconds_including_harness_retries": 346.28,
+  "mcp_clients": [
+    {
+      "tenant": "northwind",
+      "three_tools_resource_prompt": true,
+      "foreign_order_masked": true,
+      "session_id_issued": false
+    },
+    {
+      "tenant": "contoso",
+      "three_tools_resource_prompt": true,
+      "foreign_order_masked": true,
+      "session_id_issued": false
+    }
+  ],
+  "previous_harness_failures": [
+    "Unsupported headers keyword",
+    "Misspelled httpx_client keyword; inspected signature and corrected to http_client"
+  ],
+  "checked_at": "2026-10-27T19:30:11.426150+00:00",
+  "initial_build_startup_attempt_seconds": 193.47,
+  "timing_qualification": "Sum of active build/check attempts including harness retries; excludes gaps spent editing docs/harness and preinstalled tools. Not a timed README-only user run.",
+  "temporary_image_tags_removed": true,
+  "original_local_services_healthy": true
+}

@@ -19,12 +19,12 @@ public MCP-backed approval/resume/idempotency smoke passed with fixture cleanup.
 
 ---
 
-Day 10 history: authenticated HTTP workflow and opt-in guarded backend execution
-are deployed on EC2 in release 47906e1; public HTTPS smoke passed.
+Day10 history: authenticated HTTP workflow and opt-in guarded backend execution
+were deployed on EC2 in release47906e1 before the current MCP release.
 See [current service/deployment guide](../../docs/deploy-agent.md). Earlier sections below are
 historical modes; default backend execution remains disabled unless explicitly enabled.
 
-# Support agent: current local workflow
+# Historical Day9 local workflow
 
 Day 9 adds durable local approval/rejection, SQLite restart/resume and a guarded
 mock refund ledger. Start with the [approval guide](../../docs/approval-flow.md).

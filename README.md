@@ -1,192 +1,170 @@
-# CaseFlow Platform
+# CaseFlow
 
-Formerly Support Copilot. See the [rename guide](docs/rename-caseflow.md) for the
-completed GitHub/folder steps and existing deployment identifiers we preserve.
+CaseFlow is a support automation portfolio project for fictional Northwind Outfitters
+and Contoso. It retrieves cited policy evidence, reads order facts through MCP,
+and pauses a LangGraph workflow for a separate operator before recording a mock refund.
+All customer data and payments are fictional.
 
-**Deployment:** release `bb7491d` is live on the existing EC2 server. Public MCP,
-MCP-backed approval workflow and original Knowledge API checks passed.
-See [G3 verification](docs/gates/G3-verification.md).
+**Deployed:** MCP/agent/backend release `bb7491d`, with the original Knowledge API
+`531d7c4`, on the existing AWS EC2 server. Public verification passed on 28 October
+2026 (Dhaka). Authenticated endpoints require private scoped tokens.
+[Public health](https://16-178-30-70.sslip.io/health) is available while that instance
+is running at the recorded IP. [Deployment evidence](docs/gates/G3-verification.md).
 
-A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
+| Measured result | Scope and evidence |
+|---|---|
+| 370 automated tests passed | Includes local Postgres integration; [release record](evals/results/day-13-cloud-timing-fix.json) |
+| Agent: 22/25 scenarios (88%) | Live hosted MCP run on synthetic development cases; [results](evals/results/day-13-agent-mcp.json) |
+| Retrieval Recall@5: 1.000 on 40 questions | In-sample, assistant-authored labels; [methodology](evals/retrieval/README.md) |
+| 16/16 injection enforcement checks | Eight surfaces through two adapters; deterministic checks, not model immunity |
+| Public approval and retry checks passed | One mock receipt after repeated resume; temporary smoke fixture removed |
 
-**Status:** Day 13 technical checks passed. **370 tests passed**, live MCP evaluation scored **22/25 (88%)**, and public SDK, official Inspector and approval/refund checks passed. Learning checks remain deferred. See [architecture](docs/architecture.md), [G3 evidence](docs/gates/G3-verification.md) and [deployment guide](docs/deploy-mcp.md).
+[Full results and limitations](docs/RESULTS.md) ? [Architecture](docs/architecture.md) ?
+[Demo guide](docs/DEMO.md) ? [Portfolio and CV material](docs/PORTFOLIO.md)
 
-Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
-is running at that IP). Article endpoints require private scoped tokens; none are
-published here. See [public verification evidence](evals/results/day-05-public-https-smoke.json).
+## How the services work together
 
-For an explanation from the beginning, read [Project explained](docs/PROJECT_EXPLAINED.md).
-For official topic names, exercises and video resources, use the
-[Learning roadmap](docs/LEARNING_ROADMAP.md).
-
-## Services
-
-| Service | What it does | Status |
-|---------|--------------|--------|
-| `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
-| `services/mock-backend` | Fictional orders/tickets and approval-guarded mock refunds | [Local backend ready](services/mock-backend/README.md) |
-| `services/support-agent` | LangGraph workflow with durable human approval | [MCP-backed workflow publicly verified](services/support-agent/README.md); release `bb7491d` deployed |
-| `services/mcp-server` | Read-only MCP tools, article resource and draft prompt with token auth and tenant isolation | [Public HTTP and agent integration verified](services/mcp-server/README.md); release `bb7491d` deployed |
-
-## Repository layout
-
-```
-docs/      architecture, decisions, journal, debug log
-data/      Northwind help-center articles, mock orders
-evals/     retrieval/, agent/, mcp/ datasets and scripts; results/
-services/  the four services above
-src/       shared Python implementation
-compose.yaml  local Knowledge API and Postgres with pgvector
-infra/     deployment notes and later configuration
+```mermaid
+flowchart LR
+    W[Worker] --> A[Support Agent / LangGraph]
+    A -->|Scoped read calls| M[Read-only MCP]
+    M --> D[(Postgres / pgvector)]
+    K[Knowledge API] --> D
+    O[Separate operator] -->|Stored approval| A
+    A -->|Approved run ID| B[Internal mock backend]
+    B -->|Policy, authority, one receipt| D
 ```
 
-## Running it
+| Component | Responsibility | Local address |
+|---|---|---|
+| [Knowledge API](services/knowledge-api/README.md) | Ingest, retrieve, select validated quotations with citations | http://127.0.0.1:8001/docs |
+| [Support Agent](services/support-agent/README.md) | Read evidence, plan, check policy, pause/resume with durable approval | http://127.0.0.1:8002/docs |
+| [MCP server](services/mcp-server/README.md) | Three read tools, article resource, draft prompt; fresh bearer auth | http://127.0.0.1:8003/mcp |
+| [Mock backend](services/mock-backend/README.md) | Fictional order/ticket storage and guarded mock refund endpoint | Docker network only |
 
-For the complete HTTP service, follow the [Knowledge API setup](services/knowledge-api/README.md).
-Its interactive API documentation is at http://localhost:8001/docs while running.
-The commands below exercise the database and retrieval components directly.
+Python 3.12, FastAPI, LangGraph, official MCP Python SDK, FastEmbed/BGE-small
+(384 dimensions), Postgres/pgvector, Docker Compose, GitHub Actions, AWS EC2,
+SSM Parameter Store and Neon. Chat adapters support Ollama and compatible hosted
+inference; the recorded hosted runs used Groq. Dependency versions are in `uv.lock`.
+Langfuse metadata traces were verified locally; deployed trace export is not claimed.
 
-Use Windows PowerShell in `G:\caseflow`, with Docker Desktop running:
+## Fresh local setup: policy search without a chat key
+
+Prerequisites: Git, Docker Desktop running Linux containers, `uv`, Python 3.12
+(uv can provision Python), free ports 5432/8001/8002/8003. Use PowerShell 5.1.
+Image/package/model downloads need network access. First startup may take several
+minutes; the recorded warm-build time is not a promise for a new machine.
+
+In a new parent directory, clone and open the project:
 
 ```powershell
-cd G:\caseflow
-uv sync --frozen --cache-dir G:\uv-cache
+git clone https://github.com/Tarif205/caseflow.git
+cd caseflow
+uv sync --frozen
+```
+
+For an existing checkout, enter its folder instead of cloning again. Preserve an
+existing `.env`. With a fresh checkout, no `.env` is required for the search-only
+setup below. Local `DATABASE_URL` must be empty/unset or the default loopback DB;
+`NEON_DATABASE_URL` is never selected automatically for local commands.
+
+```powershell
 docker compose up -d --wait db
-uv run --frozen caseflow init-db
-uv run --frozen caseflow check-search --output evals/results/day-01-search.json
+uv run --frozen caseflow init-agent
+uv run --frozen caseflow seed-mock
+uv run --frozen caseflow provision-token --tenant northwind --scope kb:read --scope kb:write --env-name NORTHWIND_API_TOKEN
+uv run --frozen caseflow provision-token --tenant contoso --scope kb:read --env-name CONTOSO_API_TOKEN
+docker compose up -d --build --wait --wait-timeout 300 knowledge-api
+uv run --frozen python scripts/smoke_knowledge.py --skip-model
 ```
 
-`init-db` creates the vector extension and initial tables without dropping existing data.
-`check-search` inserts or replaces three Day 1 demo articles under `northwind-day1-demo`, then embeds
-five questions and runs raw SQL cosine-distance search. It does not call a chat model.
-Expect `top1_accuracy: 1.0` on this small check. It is not the later 40-question evaluation.
+Success: healthy Knowledge API, both tenant searches isolated, missing bearer401,
+and refusal of a concrete order question; `live_model_tested` is false. Tokens
+are generated into ignored `.env` and only hashes are stored in the local database.
+The public demo DB credentials in Compose are local-only and bind loopback5432.
+Startup seeds18 documents/36 chunks; no LLM server is required for this check.
 
-The local-only database uses the public demo credentials in `compose.yaml`, binds to
-`127.0.0.1:5432`, has a health check and a 384 MB memory limit. Its data survives container
-restarts in the Docker volume `support-copilot_dbdata`. Do not use these credentials for
-deployment or expose this database to the internet.
-
-An empty or missing `DATABASE_URL` selects this local database. A nonempty value overrides
-it; `NEON_DATABASE_URL` is deliberately not selected automatically. The embedding cache
-defaults to `G:\fastembed-cache` on Windows and `.cache/fastembed` on Linux. Set
-`FASTEMBED_CACHE_PATH` to override it. The configured model must produce 384 dimensions.
-
-### Import the help center
+## Add MCP and the agent
 
 ```powershell
-uv run --frozen caseflow ingest --tenant northwind --directory data/northwind
-uv run --frozen caseflow ingest --tenant contoso --directory data/contoso
+uv run --frozen caseflow provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --env-name NORTHWIND_MCP_API_TOKEN
+uv run --frozen caseflow provision-token --tenant contoso --scope kb:read --scope orders:read --scope tickets:read --env-name CONTOSO_MCP_API_TOKEN
+docker compose -f compose.yaml -f compose.agent.yaml up -d --build --wait --wait-timeout 300
+uv run --frozen python scripts/check_mcp_http.py --timeout-seconds 180 --output .cache/local-mcp-check.json
 ```
 
-The default 800-character chunks with 120-character overlap produce 30 chunks for
-Northwind's 15 articles and 6 chunks for Contoso's 3 articles. Each embedding includes
-the article title as context. Original chunk text is preserved for later citations.
-Imports replace only the supplied documents in the specified tenant. Re-importing
-does not append duplicates; no missing-file deletions are performed automatically.
-This CLI is a trusted local admin command, not an authenticated public ingest API.
+Success: two tenant clients call all three tools, read their own article at the
+same URI and prepare the prompt. The prompt itself calls no model or action.
+Agent readiness at http://127.0.0.1:8002/ready reports `read_transport: mcp`.
+The backend has no published host port. Compose retains the old project/volume
+names intentionally; see the [rename compatibility map](docs/rename-caseflow.md).
 
-To reproduce the two-pass import, count, stable-id and tenant-isolation check:
+To run real agent planning, add your own compatible hosted key as `LLM_API_KEY`
+in ignored `.env`, then recreate the agent with the same Compose command.
+`compose.agent.yaml` selects the recorded Groq-compatible endpoint/model; provider
+access and quotas are external prerequisites. No key is shipped in this repository.
+
+The following opt-in smoke creates its own temporary fictional customer, worker
+and operator, simulates that fixture's approval, verifies one mock receipt after
+retry, then removes its fixture/checkpoints. It never approves an existing request:
 
 ```powershell
-uv run --frozen python evals/retrieval/check_ingestion.py --output evals/results/day-02-ingestion.json
+uv run --frozen python scripts/smoke_agent.py --base-url http://127.0.0.1:8002 --database local --require-mcp --output .cache/local-agent-smoke.json
 ```
 
-That script refuses remote databases and uses only the local `copilot` development
-database. See [data documentation](data/README.md) and the
-[chunking decision](docs/decisions/001-chunking.md) for corpus and import semantics.
+For manual role-separated approval and a recording, follow [the demo guide](docs/DEMO.md).
+For a generated Knowledge answer, see its service README's provider settings;
+`/ready` does not check live chat quota. Local setup makes no AWS or Neon changes.
 
-Stop the local database when finished:
-
-```powershell
-docker compose stop db
-```
-
-### Tests
-
-Unit tests use fake embeddings and do not download a model or call a hosted service:
+## Tests and CI
 
 ```powershell
-uv run --frozen pytest -q -m "not integration"
 uv run --frozen ruff check src tests scripts evals/retrieval
 uv run --frozen ruff format --check src tests scripts evals/retrieval
+uv run --frozen pytest -q -m "not integration"
 ```
 
-For integration tests, create a separate local database once:
+For the full suite, start the local DB and create a separate test database once:
 
 ```powershell
-docker compose exec -T db createdb -U caseflow copilot_test
+docker compose exec -T db createdb -U copilot copilot_test
 $env:TEST_DATABASE_URL = 'postgresql://copilot:copilot-local-only@127.0.0.1:5432/copilot_test'
 uv run --frozen pytest -q
 ```
 
-If `copilot_test` already exists, skip `createdb`. Integration tests reject remote hosts and
-database names other than `copilot_test`; test data is rolled back after each test.
-Without `TEST_DATABASE_URL`, these tests explicitly skip rather than pretend to pass.
+If that database already exists, skip `createdb`. Integration tests reject remote
+DBs and other database names; without `TEST_DATABASE_URL`, they skip explicitly.
+CI runs lint, formatting, all tests, deployment rollback/configuration checks and
+four image builds. It is **continuous integration**, with a separately invoked,
+CI-gated deployment helper; pushes do not automatically deploy to EC2.
 
-## Results
+## Operations and boundaries
 
-The recorded [Day 1 search sanity check](evals/results/day-01-search.json) returned the
-expected article first for all five questions over a three-article corpus. This is a
-small setup check, not evidence of production retrieval quality. Agent evaluations and a
-full generated-answer benchmark remain pending.
-
-The [Day 2 ingestion check](evals/results/day-02-ingestion.json) verified identical
-chunk ids, source text and counts after two imports with real embeddings. Search
-results for each tenant were checked against that tenant's original source files.
-The [Day 3 development results](evals/results/day-03-retrieval.md) compare five
-configurations using 40 answerable and 10 unanswerable synthetic questions. Run:
+Stop local services while preserving data:
 
 ```powershell
-uv run --frozen python evals/retrieval/run.py
+docker compose -f compose.yaml -f compose.agent.yaml stop
 ```
 
-All configurations found the expected article within five chunks on this set.
-Larger chunks improved MRR@5 from 0.950 to 1.000 and top-1 article accuracy from
-90% to 100%. Those labels are assistant-authored and have not been independently
-reviewed; configurations and thresholds were tuned on the same set. These are
-development results, not a held-out benchmark or evidence of generated-answer quality.
+Tenant identity/scopes come from a hashed bearer credential, never model arguments.
+Refund policy, current order facts, separate durable approval and transactional
+idempotency are enforced in code. MCP cannot approve or execute refunds.
+Tenant SQL filters/composite foreign keys are used; PostgreSQL RLS is not implemented.
+This project bearer scheme is not a complete MCP OAuth authorization server.
 
-Score thresholds rejected 9/10 unanswerable questions, but at the larger-chunk
-threshold also rejected 5/40 answerable ones. An exact refund-date question still
-passed despite the answer not being in the corpus. The Day 2 importer defaults remain
-unchanged until API-level evaluation. See [evaluation methodology](evals/retrieval/README.md).
+The model can still misunderstand evidence or escalate unnecessarily. Development
+metrics are not held-out production quality, and cited quotations do not guarantee
+semantic completeness. No load/availability guarantee or real payment integration
+is claimed. See the [threat boundaries](docs/mcp-threats.md).
 
-| Metric | Result | Date |
-|--------|--------|------|
-| Day 1 sanity check top-1 accuracy (5 questions, 3 articles) | 5/5 | 2026-10-22 |
-| Full corpus import | 18 documents / 36 chunks | 2026-10-22 |
-| Repeat import | Identical ids, text and counts | 2026-10-22 |
-| Automated tests including local Postgres integration | 196 passed | 2026-10-26 |
-| Day 6 five-case agent baseline, hosted / local | 4/5 / 0/5 (synthetic development cases) | 2026-10-26 |
-| Actual deployed API refusal (10 synthetic development negatives) | 10/10, no HTTP errors | 2026-10-26 |
-| Fresh-checkout Compose startup, import and tenant searches | Passed with isolated ports/volumes | 2026-10-26 |
-| Docker API smoke check with real hosted model | Cited warranty answer, auth, isolation and order refusal passed | 2026-10-22 |
-| Retrieval Recall@5 (40 synthetic development questions) | 1.000 | 2026-10-22 |
-| MRR@5 baseline / larger chunks | 0.950 / 1.000 | 2026-10-22 |
-| Larger-chunk score gate: unanswerable rejection / answerable acceptance | 90% / 87.5% (in-sample) | 2026-10-22 |
-| Full agent scenarios (25) | Pending; first 10 written, first 5 tested with both models | |
-| Refund attempts that paused for approval | Not implemented | |
-| Cross-tenant leaks in MCP tests | MCP not implemented | |
+## Documentation and next steps
 
-## Configuration
+- [Results and evidence](docs/RESULTS.md), [G3 technical verification](docs/gates/G3-verification.md), [G4 checklist](docs/gates/G4-verification.md)
+- [AWS Knowledge deployment](docs/deploy-aws.md), [current MCP/agent deployment and rollback](docs/deploy-mcp.md)
+- [Eight architecture decisions](docs/decisions/README.md), [approval flow](docs/approval-flow.md)
+- [Project explained from zero](docs/PROJECT_EXPLAINED.md), [learning roadmap](docs/LEARNING_ROADMAP.md)
+- [Demo recording guide](docs/DEMO.md), [CV and walkthrough material](docs/PORTFOLIO.md)
 
-Use `.env.example` as a reference for setting names. Preserve an existing `.env`; do not
-overwrite it with the example. `.env` is ignored and must never be committed. Database
-credentials are excluded from settings representations and CLI driver error messages.
-
-Tenant isolation currently relies on mandatory parameterized filters in the application
-queries and composite database foreign keys. This initial schema does not implement
-Postgres row-level security; clients must never receive database credentials. API tokens
-are stored as hashes and bind the caller to one tenant and explicit scopes. See the
-[Day 4 evidence and limitations](docs/journal/day-04.md).
-
-## Next implementation step
-
-Day 7: complete the 25 scenarios and pure policy check with deny-path tests.
-Day 6's hosted minimum passed, and local failures are recorded. Day 6 code/docs
-and final Day 5 evidence await user commit/push. Refund execution stays disabled
-until a verified approval workflow exists. Learning checks remain deferred.
-Preparation: [AWS account and rollout](docs/deploy-aws.md), or the PRD's
-[Free Render fallback](docs/deploy-render.md) using `render.yaml`. The AWS route's
-public HTTPS smoke passed; the Render fallback remains unused. Remaining gate
-checks are described in the AWS notes.
+Day 14 documentation and reproducibility checks are in progress. Recording and
+learner walkthrough remain pending; learning checks are deferred, never passed.
+Historical journal and evidence retain the original project name and earlier states.

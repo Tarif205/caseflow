@@ -1,6 +1,6 @@
 # 007: keep the graph and adapt its reads through the locked MCP SDK
 
-Date: 27 October 2026. Status: accepted for the local Day 13 integration.
+Date: 27 October 2026. Status: accepted; deployed and publicly verified in Day13 release bb7491d.
 
 ## Context and options
 
