@@ -26,8 +26,12 @@ server SQL read-only transactions remain the write boundary.
 
 Bind principal, bearer and URL outside model control. Fresh stateless client per
 read gives explicit lifecycle and avoids shared credential state. Bound the whole
-sequence by remaining graph time (max 20 seconds), network response size and
+sequence by remaining graph time (max 45 seconds after cloud timing checks), network response size and
 strict output validation. Fail closed without direct HTTP fallback.
+
+The initial 20-second sequence budget was too short for the cloud connection:
+a private read with discovery took 24.73s. The revised 45s limit remains clamped
+to the graph's remaining 120s budget. See decision 008 for the deployment fix.
 
 ## Consequences and evidence
 

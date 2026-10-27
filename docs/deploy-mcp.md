@@ -1,14 +1,21 @@
 # Day 13 MCP deployment and local verification
 
-Status on 27 October 2026: **approved and release-ready; awaiting user commit/push and CI**.
-No Day 13 AWS service or public proxy route has been changed.
+Status on 28 October 2026: **first rollout recovered; timing/rollback fix awaits a new commit and CI**.
+Read-only MCP hashes are provisioned in Neon. EC2 runtime is restored to Day 10
+images; MCP is stopped and its public route was never enabled. Approval persists.
+
+Release 5bb883f passed CI but its 3s cloud readiness probe timed out. A readiness
+request took 4.18s and a private MCP discovery/read took 24.73s. Source now allows
+15s readiness, a 20s Docker deadline, 30s startup grace and 45s MCP reads within
+remaining graph time. Use a new corrected SHA; do not retry the failed release.
+The restored original agent and Knowledge API passed full public smoke tests.
 
 The user explicitly approved: "I approve exposing authenticated MCP on my existing
 EC2 server and adding the two existing read-only MCP token hashes to Neon."
 The approved source changes are now prepared and validated. This supersedes the
 earlier approval-review rejections and general-instruction ambiguity. Do not ask
-for the same approval again. The remaining prerequisite is the user-pushed release
-and successful CI, followed by actual deployment and public checks.
+for the same approval again. The remaining prerequisite is the corrective user-pushed
+release and successful CI, followed by a new rollout and public checks.
 
 - Expose authenticated HTTPS /mcp on existing EC2 i-073581e82c41622ea at the current
   documented hostname 16-178-30-70.sslip.io, with loopback-only upstream port8003.
@@ -103,7 +110,8 @@ bash scripts/deploy_mcp_ec2.sh FULL_REVIEWED_SHA CURRENT_IP_ENCODED_HOSTNAME
    The old deploy_agent_ec2.sh delegates to this helper. It checks clean/exact
    source, CI, existing proxy/cache volume and available memory before rollout.
    It builds MCP/agent/backend images, validates the Caddy candidate, waits for
-   services, then reloads the existing proxy. It does not replace the Knowledge
+   MCP readiness before replacing the existing agent/backend, then reloads the
+   existing proxy. It does not replace the Knowledge
    API or create a new instance, certificate volume, IAM role or SSM parameter.
 4. Run the public checks from local PowerShell, using the verified current host:
 
@@ -130,9 +138,12 @@ Explicit approval subsequently authorized both listed changes. The cloud Compose
 file now contains the private-port MCP service and the agent's fixed internal MCP
 URL. New deploy_mcp_ec2.sh owns the approved release process; the old helper delegates.
 
-The helper saves prior image references and proxy contents in an ignored
-.cache/day13-rollback-RELEASE_PREFIX directory. On rollout failure it restores
-those images/routes and stops a newly introduced MCP service. Proxy contents are
+The helper saves the previous cloud Compose file, image references and proxy
+contents in an ignored .cache/day13-rollback-RELEASE_PREFIX directory. The prior
+source commit comes from the running agent image's 12-character commit tag.
+Rollback restores that topology and its images/routes, avoiding new health and
+dependency rules on old images. A stopped failed MCP container is not treated as
+the previous running release. Proxy contents are
 copied into its existing bind-mounted inode, so reload sees the intended file.
 For an explicit rollback while checked out at the same release, run:
 
@@ -146,7 +157,10 @@ credentials. Recheck the Knowledge API and old agent workflow after rollback.
 
 ## Final local release checks
 
-370 tests passed in 29.22s, including five new credential-provisioning cases.
+370 tests passed in 30.10s after the timing/rollback correction, including the
+credential-provisioning cases. Recovery and latency evidence is saved in
+day-13-rollback-*.json and day-13-cloud-read-latency.json. The approved read-only
+token hashes remain active; original worker/operator authority is unchanged.
 scripts/check_mcp_deploy_safety.py passed in a network-disabled Linux container
 with stubbed AWS/Docker/Git/curl commands: success, failed-CI refusal, failures
 before/after proxy update, automatic rollback, explicit rollback and no credentials

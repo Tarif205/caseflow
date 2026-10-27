@@ -3,6 +3,10 @@
 Formerly Support Copilot. See the [rename guide](docs/rename-caseflow.md) for the
 completed GitHub/folder steps and existing deployment identifiers we preserve.
 
+**Deployment retry:** the first CI-green MCP rollout hit cloud latency limits.
+The original public services are restored and verified. Corrected timing and
+rollback settings await a new release commit and CI; public MCP remains pending.
+
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
 **Status:** Day 13 agent reads now use MCP locally. **370 tests passed**, live MCP evaluation scored **22/25 (88%)**, and the Docker approval/refund workflow and official HTTP Inspector checks passed. Public MCP deployment is approved and prepared, awaiting a user-pushed release and CI; EC2 still runs its verified Day 10 agent/backend release `47906e1` and existing Knowledge API. Learning checks remain deferred. See [architecture](docs/architecture.md), [G3 evidence](docs/gates/G3-verification.md) and [deployment guide](docs/deploy-mcp.md).

@@ -1,0 +1,6 @@
+{
+  "scope": "private SSH-tunnel read only; no public MCP route or model call",
+  "read_sequence_seconds": 24.73,
+  "order_read_verified": true,
+  "includes": "initialize, notification, registry discovery, schema checks and order call"
+}

@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-10-27T14:07:39.515588+00:00",
+  "base_url": "https://16-178-30-70.sslip.io",
+  "live_model_tested": true,
+  "checks": [
+    {
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "route": "/ready",
+      "status": 200
+    },
+    {
+      "check": "missing_token",
+      "status": 401
+    },
+    {
+      "check": "tenant_search",
+      "tenant": "northwind",
+      "hits": 5,
+      "isolated": true
+    },
+    {
+      "check": "tenant_search",
+      "tenant": "contoso",
+      "hits": 5,
+      "isolated": true
+    },
+    {
+      "check": "order_specific_refusal",
+      "found": false
+    },
+    {
+      "check": "live_cited_answer",
+      "found": true,
+      "answer": "Northwind provides a one-year limited warranty for manufacturing defects from the\npurchase date.",
+      "citations": [
+        {
+          "chunk_id": "63de9c18-7597-5cb5-baa7-da6d51b57104",
+          "document_id": "warranty",
+          "title": "Product warranty and wear",
+          "source": "warranty.md",
+          "quote": "Northwind provides a one-year limited warranty for manufacturing defects from the\npurchase date."
+        }
+      ]
+    }
+  ]
+}

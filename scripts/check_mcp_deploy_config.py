@@ -53,6 +53,14 @@ def main():
         and mcp["ports"][0]["target"] == 8000
     )
     assert int(mcp["mem_limit"]) == 512 * 1024 * 1024
+    # Cloud DB round trips measured >4s. Allow a real DB readiness request to
+    # complete, with a larger outer Docker deadline and startup grace period.
+    for service in ("mcp-server", "support-agent"):
+        check = cfg["services"][service]["healthcheck"]
+        match = re.search(r"timeout=(\d+)", " ".join(check["test"]))
+        assert match and int(match[1]) >= 10
+        assert float(check["timeout"].removesuffix("s")) > int(match[1])
+        assert float(check["start_period"].removesuffix("s")) > 0
     assert set(mcp["environment"]["MCP_ALLOWED_HOSTS"].split(",")) == {
         host,
         "mcp-server",

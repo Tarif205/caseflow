@@ -19,6 +19,9 @@ from caseflow.mcp_server import CONTRACTS
 
 NAMES = {"search_kb": "search_knowledge_base", "get_order": "get_order_status"}
 MAX_RESPONSE_BYTES = 128_000
+# A cloud read includes several authenticated RPCs. Sydney-to-Neon verification
+# measured 24.73s; keep a finite sequence budget within the graph's remaining time.
+MAX_READ_SECONDS = 45
 
 
 @dataclass
@@ -108,8 +111,10 @@ class MCPTools:
             raise ToolFailure("MCP deadline exceeded")
 
         async def run():
-            with anyio.fail_after(min(timeout, 20)):
-                return await self._invoke(remote_name, checked.model_dump(), min(timeout, 20))
+            with anyio.fail_after(min(timeout, MAX_READ_SECONDS)):
+                return await self._invoke(
+                    remote_name, checked.model_dump(), min(timeout, MAX_READ_SECONDS)
+                )
 
         try:
             return anyio.run(run)

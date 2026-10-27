@@ -24,7 +24,7 @@ available to external read clients but not added to the graph's model tool set.
 The worker's incoming credential is forwarded only to the configured MCP service.
 The server authenticates it independently on each request and read. Connections
 remain stateless; there is no shared session authority. The adapter validates
-structured outputs, bounds each complete RPC sequence to 20 seconds or the
+structured outputs, bounds each complete RPC sequence to 45 seconds or the
 remaining graph budget, bounds responses to 128,000 bytes and follows no redirect.
 Unavailable or malformed MCP responses fail closed; there is no direct-read fallback.
 

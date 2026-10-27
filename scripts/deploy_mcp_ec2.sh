@@ -46,14 +46,15 @@ compose=(sudo --preserve-env=DATABASE_URL,LLM_API_KEY,COPILOT_IMAGE_TAG,KNOWLEDG
 
 restore_previous() {
     local failed=0
-    [[ -s "$rollback_dir/images.yaml" && -s "$rollback_dir/Caddyfile.agent" ]] || return 1
+    [[ -s "$rollback_dir/images.yaml" && -s "$rollback_dir/Caddyfile.agent" && -s "$rollback_dir/compose.previous.yaml" ]] || return 1
+    local restore=(sudo --preserve-env=DATABASE_URL,LLM_API_KEY,COPILOT_IMAGE_TAG,KNOWLEDGE_API_URL,MCP_PUBLIC_HOST docker compose --project-directory "$PWD" -f "$rollback_dir/compose.previous.yaml" -f "$rollback_dir/images.yaml")
     # Preserve the bind-mounted inode by copying contents rather than renaming it.
     cat "$rollback_dir/Caddyfile.agent" > "$proxy_config" || failed=1
     sudo docker exec support-copilot-proxy caddy reload --config /etc/caddy/Caddyfile || failed=1
     if [[ -s "$rollback_dir/had-mcp" ]]; then
-        "${compose[@]}" -f "$rollback_dir/images.yaml" up -d --no-deps --wait mcp-server mock-backend support-agent || failed=1
+        "${restore[@]}" up -d --no-deps --wait mcp-server mock-backend support-agent || failed=1
     else
-        "${compose[@]}" -f "$rollback_dir/images.yaml" up -d --no-deps --wait mock-backend support-agent || failed=1
+        "${restore[@]}" up -d --no-deps --wait mock-backend support-agent || failed=1
         "${compose[@]}" stop mcp-server || failed=1
     fi
     curl --retry 10 --retry-all-errors --retry-delay 2 --max-time 15 -fsS http://127.0.0.1:8002/ready || failed=1
@@ -72,8 +73,17 @@ mkdir -p "$rollback_dir"
 if [[ ! -s "$rollback_dir/images.yaml" ]]; then
     old_agent="$(sudo docker inspect --format '{{.Config.Image}}' support-copilot-agent-support-agent-1)"
     old_backend="$(sudo docker inspect --format '{{.Config.Image}}' support-copilot-agent-mock-backend-1)"
-    old_mcp="$(sudo docker inspect --format '{{.Config.Image}}' support-copilot-agent-mcp-server-1 2>/dev/null)" || old_mcp=""
+    old_mcp=""
+    old_mcp_running="$(sudo docker inspect --format '{{.State.Running}}' support-copilot-agent-mcp-server-1 2>/dev/null || true)"
+    if [[ "$old_mcp_running" == true ]]; then
+        old_mcp="$(sudo docker inspect --format '{{.Config.Image}}' support-copilot-agent-mcp-server-1)"
+    fi
     [[ "$old_agent" =~ ^[a-zA-Z0-9_./:@-]+$ && "$old_backend" =~ ^[a-zA-Z0-9_./:@-]+$ ]]
+    # Restore the previous topology too: new health/dependency rules must not
+    # be applied to old images during rollback. Release images use commit tags.
+    previous_commit="${old_agent##*:}"
+    [[ "$previous_commit" =~ ^[0-9a-f]{12}$ ]]
+    git show "$previous_commit:compose.agent-aws.yaml" > "$rollback_dir/compose.previous.yaml"
     cat "$proxy_config" > "$rollback_dir/Caddyfile.agent"
     printf 'services:\n  support-agent:\n    image: %s\n  mock-backend:\n    image: %s\n' "$old_agent" "$old_backend" > "$rollback_dir/images.yaml"
     if [[ -n "$old_mcp" ]]; then
@@ -108,7 +118,9 @@ rollback_on_error() {
     exit "$status"
 }
 trap rollback_on_error ERR
-"${compose[@]}" up -d --wait
+# Keep the current agent running until the new read service proves ready.
+"${compose[@]}" up -d --wait mcp-server
+"${compose[@]}" up -d --wait mock-backend support-agent
 curl --retry 12 --retry-all-errors --retry-delay 2 --max-time 15 -fsS http://127.0.0.1:8003/ready
 curl --retry 12 --retry-all-errors --retry-delay 2 --max-time 15 -fsS http://127.0.0.1:8002/ready
 cat .cache/Caddyfile.mcp-candidate > "$proxy_config"

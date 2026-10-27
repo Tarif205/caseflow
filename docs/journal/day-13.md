@@ -1,5 +1,15 @@
 # Day 13: MCP-backed agent, local proof and deployment boundary
 
+28 October continuation: release5bb883f passed CI and approved read-only hashes
+were provisioned. Its rollout failed a3s readiness probe; cloud readiness measured
+4.18s and private MCP discovery/read24.73s. Old public images/routes recovered;
+full original agent and Knowledge smokes passed. MCP stopped, public route never
+enabled. Source now uses15s/20s probe budgets,30s grace and45s read sequences,
+restores previous Compose topology as well as images, and excludes stopped orphan
+MCP containers from previous-release state. MCP now starts/checks before replacing
+the current agent.370 tests and revised config/rollback checks pass. New user
+commit/CI and successful public retry remain required. Approval persists.
+
 Release-preparation update: explicit user approval now covers public MCP on the
 existing EC2 host and two existing read-only token hashes in Neon. Prepared the
 cloud Compose topology, atomic/idempotent hash helper, public MCP checker options

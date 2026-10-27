@@ -20,6 +20,7 @@ log=Path(os.environ['HARNESS_LOG'])
 with log.open('a') as f: f.write(name+' '+' '.join(args)+'\n')
 if name=='git':
     if args[0]=='rev-parse': print('a'*40)
+    elif args[0]=='show': print(json.dumps({'name':'support-copilot-agent','services':{'support-agent':{'image':'old-agent:bbbbbbbbbbbb','depends_on':['mock-backend']},'mock-backend':{'image':'old-backend:bbbbbbbbbbbb'}}}))
 elif name=='aws': print('dry-run-private-value')
 elif name=='awk': print('2048')
 elif name=='curl':
@@ -32,8 +33,10 @@ elif name=='sudo':
     os.execvp(args[0],args)
 elif name=='docker':
     if args[0]=='inspect':
-        if args[-1].endswith('mcp-server-1'): sys.exit(1)
-        print('old-agent:stable' if args[-1].endswith('support-agent-1') else 'old-backend:stable')
+        if args[-1].endswith('mcp-server-1'):
+            print('false' if 'Running' in args[2] else 'failed-mcp:cccccccccccc')
+            sys.exit(0)
+        print('old-agent:bbbbbbbbbbbb' if args[-1].endswith('support-agent-1') else 'old-backend:bbbbbbbbbbbb')
     if args[0]=='compose' and 'up' in args and os.getenv('HARNESS_FAIL')=='compose' and '--no-deps' not in args:
         sys.exit(42)
 """
@@ -87,7 +90,15 @@ def exercise(source, *, failed="", ci="success", manual=False):
             assert "reverse_proxy 127.0.0.1:8001" in proxy.read_text()
         rollback = root / ".cache" / ("day13-rollback-" + SHA[:12])
         images = (rollback / "images.yaml").read_text()
-        assert "old-agent:stable" in images and "old-backend:stable" in images
+        assert "old-agent:bbbbbbbbbbbb" in images and "old-backend:bbbbbbbbbbbb" in images
+        previous = json.loads((rollback / "compose.previous.yaml").read_text())
+        assert not (
+            rollback / "had-mcp"
+        ).exists()  # A stopped failed attempt is not the old release.
+        assert "healthcheck" not in previous["services"]["support-agent"]
+        assert "mcp-server" not in previous["services"]
+        if failed:
+            assert "compose.previous.yaml" in events
         if manual:
             result = subprocess.run(
                 command + ["--rollback"], env=env, capture_output=True, text=True, timeout=30

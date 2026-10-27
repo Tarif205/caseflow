@@ -2,6 +2,24 @@
 
 One entry per non-trivial bug. Target: at least 15 by Day 14.
 
+## 2026-10-27: cloud readiness and MCP sequence budgets were too short
+
+Symptom: CI-green release5bb883f failed MCP health during EC2 rollout. Probe logs
+showed TimeoutError despite normal Uvicorn startup. HTTP readiness allowed3s;
+an existing DB-backed readiness request measured4.18s. A private MCP discovery/
+order-read sequence verified successfully in24.73s, exceeding its initial20s cap.
+Fix: cloud readiness HTTP15s, outer Docker20s, grace30s; MCP sequence45s or less
+when remaining graph time is lower. All finite bounds and security checks remain.
+
+Recovery also exposed a rollback bug: old images were merged into the new Compose
+file, inheriting the faulty health/dependency rules. Original47906e1 Compose
+restored the previous topology and both full public smokes passed. Rollback now
+snapshots/restores the previous Compose file too; stopped failed MCP containers
+are not classified as a running prior release. Linux harness covers both cases.
+Verification:370 tests passed in30.10s, config/harness checks passed. Corrective
+commit/CI and public MCP retry still pending. Transferable habit: measure cloud
+round trips and roll back configuration together with application images.
+
 ## 2026-10-27: provisioning test could not import scripts in CI
 
 Symptom: release642869a failed collection of test_mcp_cloud_credentials.py with

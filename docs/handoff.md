@@ -1,5 +1,43 @@
 # Handoff: project state as of 19 October 2026
 
+## Cloud rollout recovered; corrected source ready on 28 October 2026
+
+Incident/verification occurred 27 October; this entry supersedes pending-deploy
+and unchanged-cloud notes below. Explicit approval persists; do not ask again.
+
+- User pushed 5bb883fef9a3382bd3862cbf648217b90c8b53d9. CI40514197783 SUCCESS,
+  independently saved in day-13-release-ci.json. Two existing read-only MCP
+  hashes ACTUALLY provisioned in Neon: kb:read/orders:read/tickets:read only.
+  No raw value printed/copied; original worker/operator permissions unchanged.
+- EC2 checkout updated to 5bb883f; three CaseFlow images built. Deployment stopped
+  before proxy update when MCP readiness exceeded its 3s probe deadline. Existing
+  agent readiness measured 4.18s. MCP startup logs were normal; probe TimeoutError.
+- Automatic rollback restored prior images/proxy but inherited new health and
+  dependency rules. Exact original 47906e1 cloud Compose was recovered from Git
+  and used to complete restoration. Initial health-disable override hit dependency
+  checks; original topology resolved it. Transient startup 502 recovered on retry.
+- Recovery verified: agent/backend images47906e1b13ea, Knowledge531d7c4 and original
+  proxy/cert volumes. MCP STOPPED, public /mcp never enabled. Cloud checkout is
+  5bb883f while runtime is47906e1. Full original agent synthetic smoke PASSED,
+  exactly one mock receipt and fixture cleanup; full Knowledge smoke PASSED,
+  including real cited warranty answer. Evidence day-13-rollback-recovery.json,
+  day-13-rollback-agent-smoke.json and day-13-rollback-knowledge-smoke.json.
+- Private benchmark briefly started only the MCP pod and used an SSH tunnel.
+  Order read/discovery verified in24.73s, proving old20s sequence limit too short.
+  Pod stopped in finally, no public route/model call. day-13-cloud-read-latency.json.
+- Source fixes: readiness HTTP15s/Docker20s/start grace30s; client read max45s
+  clamped to remaining graph120s. Rollback snapshots/restores previous Compose via
+  running image commit tag. A stopped orphan MCP does not set had-mcp. Linux
+  harness covers both rollback regressions; real config check verifies probe margin.
+- 370 tests passed with pytest console entrypoint in30.10s; lint/format and Linux
+  rollback/config checks passed. Decision008 explains the changes. No auth,
+  tenant or refund guard relaxed. No new instance/IAM/paid resource created.
+- NEXT: USER corrective commit/push. Verify NEW exactSHA CI; do not retry5bb.
+  Pull into existing ~/support-copilot and run approved deploy_mcp_ec2.sh. Hash
+  provisioning is already done/idempotent. Run public MCP SDK/Inspector, agent
+  --require-mcp synthetic smoke and existing KB smoke; capture actual host stats.
+  G3 remains open until corrected public MCP-backed deployment is verified.
+
 ## Release CI import fix on 27 October 2026
 
 User pushed642869a9cb3d337e7c4626b028f153b4353bbb87. Workflow40512907454/job122219012837

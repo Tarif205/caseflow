@@ -1,0 +1,34 @@
+{
+  "recorded_client_date": "2026-10-28",
+  "failed_release": "5bb883fef9a3382bd3862cbf648217b90c8b53d9",
+  "ci_run": 40514197783,
+  "ci_conclusion": "success",
+  "rollout_result": "failed readiness; original services recovered",
+  "observations": {
+    "old_http_probe_seconds": 3,
+    "existing_agent_readiness_seconds": 4.18,
+    "old_mcp_sequence_budget_seconds": 20,
+    "private_cloud_mcp_sequence_seconds": 24.73
+  },
+  "corrected_limits": {
+    "http_probe_seconds": 15,
+    "docker_probe_deadline_seconds": 20,
+    "startup_grace_seconds": 30,
+    "mcp_sequence_max_seconds": 45,
+    "graph_remaining_budget_still_enforced": true
+  },
+  "rollback_fix": "restore previous Compose topology plus prior images and proxy; ignore stopped orphan MCP containers",
+  "tests": {
+    "passed": 370,
+    "pytest_seconds": 30.1
+  },
+  "config_and_linux_harness_passed": true,
+  "runtime_state": {
+    "agent_backend_release": "47906e1b13ea",
+    "knowledge_release": "531d7c4",
+    "mcp_stopped": true,
+    "public_mcp_enabled": false,
+    "approved_read_only_hashes_provisioned": true
+  },
+  "release_state": "corrective user commit/push and CI required before retry"
+}

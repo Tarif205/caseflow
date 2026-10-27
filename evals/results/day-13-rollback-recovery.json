@@ -1,0 +1,22 @@
+{
+  "recovery_complete": true,
+  "restored_commit": "47906e1b13ea",
+  "original_compose_restored": true,
+  "public_checks": {
+    "knowledge": {
+      "status": "ok"
+    },
+    "agent": {
+      "status": "ready",
+      "checkpoint_backend": "postgres"
+    }
+  },
+  "mcp_stopped": true,
+  "public_mcp_enabled": false,
+  "running": [
+    "support-copilot-agent-support-agent-1:support-copilot-agent:47906e1b13ea:Up About a minute",
+    "support-copilot-agent-mock-backend-1:support-copilot-backend:47906e1b13ea:Up About a minute",
+    "support-copilot-proxy:caddy:2.11.7:Up 22 hours",
+    "support-copilot-knowledge:support-copilot-knowledge:531d7c4:Up 41 hours"
+  ]
+}
