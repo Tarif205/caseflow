@@ -6,8 +6,8 @@ from uuid import uuid4
 import pytest
 from psycopg.conninfo import conninfo_to_dict
 
-from support_copilot.config import Settings
-from support_copilot.database import KnowledgeStore, connect, migrate
+from caseflow.config import Settings
+from caseflow.database import KnowledgeStore, connect, migrate
 
 
 @pytest.fixture

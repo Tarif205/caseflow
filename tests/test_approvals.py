@@ -2,8 +2,8 @@ from uuid import uuid4
 
 import pytest
 
-from support_copilot.approvals import ApprovalDenied, ApprovalStore
-from support_copilot.auth import authenticate, provision_token
+from caseflow.approvals import ApprovalDenied, ApprovalStore
+from caseflow.auth import authenticate, provision_token
 
 
 @pytest.fixture

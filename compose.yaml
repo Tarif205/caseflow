@@ -19,7 +19,7 @@ services:
     command:
       - sh
       - -c
-      - copilot seed-corpus && exec uvicorn support_copilot.knowledge_api:app --host 0.0.0.0 --port 8000 --no-access-log
+      - caseflow seed-corpus && exec uvicorn caseflow.knowledge_api:app --host 0.0.0.0 --port 8000 --no-access-log
     ports:
       - "127.0.0.1:8001:8000"
     volumes:

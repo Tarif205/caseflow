@@ -8,14 +8,14 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 
-from support_copilot.agent_evaluation import dataset_hash, judge, load_scenarios
-from support_copilot.agent_graph import GraphModel, run_graph
-from support_copilot.agent_loop import Limits, run_agent
-from support_copilot.agent_tools import BoundTools
-from support_copilot.auth import authenticate
-from support_copilot.config import PROJECT_ROOT, Settings
-from support_copilot.database import connect
-from support_copilot.tool_chat import HttpToolModel
+from caseflow.agent_evaluation import dataset_hash, judge, load_scenarios
+from caseflow.agent_graph import GraphModel, run_graph
+from caseflow.agent_loop import Limits, run_agent
+from caseflow.agent_tools import BoundTools
+from caseflow.auth import authenticate
+from caseflow.config import PROJECT_ROOT, Settings
+from caseflow.database import connect
+from caseflow.tool_chat import HttpToolModel
 
 
 def main():

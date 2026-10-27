@@ -1,5 +1,30 @@
 # Handoff: project state as of 19 October 2026
 
+## CaseFlow rename on 27 October 2026
+
+User chose CaseFlow before Day 13. Source package/distribution/CLI now caseflow;
+imports, Docker entrypoints, API titles and current docs updated. PRD Markdown is
+CaseFlow_PRD.md. AGENTS.md and CLAUDE.md updated together without changing the
+learning contract. CASEFLOW_PROJECT_ROOT preferred, COPILOT_PROJECT_ROOT fallback.
+Historical notes/evidence below use the old names accurately; read current service
+READMEs for runnable commands. No cloud deployment performed for this rename.
+
+Current workspace remains G:\support-copilot. USER renamed the GitHub repository;
+agent updated origin to https://github.com/Tarif205/caseflow.git and verified
+ls-remote HEAD 8e0a543c4860261b3fc98e09c27d456f400c2aa0. No commit/push by agent.
+Editor closure/folder move/virtualenv recreation remain USER steps documented in
+docs/rename-caseflow.md. Do not claim the folder move completed. Preserve
+existing Compose project/volume/DB/SSM/IAM/proxy identifiers, key and EC2 checkout;
+mapping is in the rename guide. User commits and pushes. Day 13 remains next.
+
+Rename verification: 343 tests passed in 29.90s; lint/format clean. All three
+caseflow-*:rename Docker images built; packaged schema/root/CLI verified in
+network-disabled containers. New stdio/HTTP evidence caseflow-rename-*.json asserts
+caseflow-readonly metadata for both tenants. Old evidence unchanged. Local MCP
+listener is now caseflow.mcp_http:app port 8003, ignored .cache/caseflow-rename-mcp.*
+logs. Docker Desktop initially closed; started it and existing DB, reran suite
+successfully. No old data volumes or deployed service containers replaced.
+
 ## Latest update on 26 October 2026
 
 ### Day 12 MCP HTTP verified: next implementation is Day 13

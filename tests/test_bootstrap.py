@@ -4,9 +4,9 @@ from contextlib import contextmanager
 import pytest
 from dotenv import dotenv_values
 
-from support_copilot import bootstrap
-from support_copilot.auth import authenticate
-from support_copilot.config import PROJECT_ROOT, Settings
+from caseflow import bootstrap
+from caseflow.auth import authenticate
+from caseflow.config import PROJECT_ROOT, Settings
 
 
 @pytest.fixture

@@ -7,12 +7,12 @@ from pathlib import Path
 
 import psycopg
 
-from support_copilot.bootstrap import provision_env_token, seed_empty_corpus
-from support_copilot.config import PROJECT_ROOT, Settings
-from support_copilot.database import KnowledgeStore, connect, migrate
-from support_copilot.embeddings import FastEmbedAdapter
-from support_copilot.ingestion import ingest_articles, load_articles
-from support_copilot.mock_backend import seed_mock
+from caseflow.bootstrap import provision_env_token, seed_empty_corpus
+from caseflow.config import PROJECT_ROOT, Settings
+from caseflow.database import KnowledgeStore, connect, migrate
+from caseflow.embeddings import FastEmbedAdapter
+from caseflow.ingestion import ingest_articles, load_articles
+from caseflow.mock_backend import seed_mock
 
 DEMO_DOCUMENTS = [
     (
@@ -133,7 +133,7 @@ def main() -> None:
         if args.command == "init-db":
             result = bootstrap(settings)
         elif args.command == "init-agent":
-            from support_copilot.durable_agent import setup_postgres_checkpoints
+            from caseflow.durable_agent import setup_postgres_checkpoints
 
             bootstrap(settings)
             setup_postgres_checkpoints(settings)

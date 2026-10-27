@@ -1,5 +1,6 @@
 """Real concurrent SDK clients exercise local authenticated stateless HTTP MCP."""
 
+import argparse
 import hashlib
 import json
 from datetime import UTC, datetime
@@ -10,11 +11,11 @@ from dotenv import dotenv_values
 from mcp import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.mcp_server import CONTRACTS, ArticleResult
+from caseflow.config import PROJECT_ROOT
+from caseflow.mcp_server import CONTRACTS, ArticleResult
 
 
-async def main():
+async def main(output="evals/results/day-12-http.json"):
     values = dotenv_values(PROJECT_ROOT / ".env")
     url = "http://127.0.0.1:8003/mcp"
     report = {
@@ -35,6 +36,7 @@ async def main():
             async with streamable_http_client(url, http_client=client) as (read, write, session_id):
                 async with ClientSession(read, write) as session:
                     initialized = await session.initialize()
+                    assert initialized.serverInfo.name == "caseflow-readonly"
                     assert session_id() is None
                     assert {t.name for t in (await session.list_tools()).tools} == set(CONTRACTS)
                     calls = []
@@ -65,6 +67,7 @@ async def main():
                         {
                             "tenant_fixture": tenant,
                             "protocol": initialized.protocolVersion,
+                            "server_name": initialized.serverInfo.name,
                             "session_id_issued": False,
                             "tools": calls,
                             "resource_read": True,
@@ -86,15 +89,15 @@ async def main():
     report["sessions"].sort(key=lambda row: row["tenant_fixture"])
     report["missing_auth_rejected"] = True
     report["complete"] = True
-    (PROJECT_ROOT / "evals/results/day-12-http.json").write_text(
-        json.dumps(report, indent=2) + "\n", encoding="utf-8"
-    )
+    (PROJECT_ROOT / output).write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))
 
 
 if __name__ == "__main__":
     try:
-        anyio.run(main)
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument("--output", default="evals/results/day-12-http.json")
+        anyio.run(main, parser.parse_args().output)
     except BaseException as exc:
         raise SystemExit(
             f"HTTP verification failed ({type(exc).__name__}); raw details withheld"

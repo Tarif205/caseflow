@@ -15,14 +15,14 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 
-from support_copilot.agent_graph import GraphModel
-from support_copilot.agent_tools import BoundTools
-from support_copilot.approvals import ApprovalDenied, ApprovalStore
-from support_copilot.auth import TOKEN_FORMAT, authenticate
-from support_copilot.config import Settings
-from support_copilot.database import connect
-from support_copilot.durable_agent import DurableAgent
-from support_copilot.tracing import TraceRecorder
+from caseflow.agent_graph import GraphModel
+from caseflow.agent_tools import BoundTools
+from caseflow.approvals import ApprovalDenied, ApprovalStore
+from caseflow.auth import TOKEN_FORMAT, authenticate
+from caseflow.config import Settings
+from caseflow.database import connect
+from caseflow.durable_agent import DurableAgent
+from caseflow.tracing import TraceRecorder
 
 
 class StartRequest(BaseModel):
@@ -37,9 +37,9 @@ class DecisionRequest(BaseModel):
 
 def create_app(settings=None, *, agent_factory=None):
     cfg = settings or Settings.from_env()
-    app = FastAPI(title="Fictional support agent", root_path=os.getenv("AGENT_ROOT_PATH", ""))
+    app = FastAPI(title="CaseFlow Support Agent", root_path=os.getenv("AGENT_ROOT_PATH", ""))
     bearer = HTTPBearer(auto_error=False)
-    logger = logging.getLogger("support_copilot.agent.requests")
+    logger = logging.getLogger("caseflow.agent.requests")
     if not logger.handlers:
         logger.addHandler(logging.StreamHandler())
     logger.setLevel(logging.INFO)

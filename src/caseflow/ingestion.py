@@ -5,9 +5,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from support_copilot.chunking import Chunk, chunk_text
-from support_copilot.database import KnowledgeStore
-from support_copilot.embeddings import Embeddings, validate_vector
+from caseflow.chunking import Chunk, chunk_text
+from caseflow.database import KnowledgeStore
+from caseflow.embeddings import Embeddings, validate_vector
 
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 

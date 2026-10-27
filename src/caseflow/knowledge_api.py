@@ -14,15 +14,15 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 
-from support_copilot.answering import answer_question
-from support_copilot.auth import TOKEN_FORMAT, Principal, authenticate
-from support_copilot.chat import ChatModel, HttpChatModel, InvalidModelOutput, ModelUnavailable
-from support_copilot.config import Settings
-from support_copilot.database import EmbeddingModelMismatch, KnowledgeStore, connect
-from support_copilot.embeddings import Embeddings, FastEmbedAdapter, validate_vector
-from support_copilot.ingestion import Article, ingest_articles
+from caseflow.answering import answer_question
+from caseflow.auth import TOKEN_FORMAT, Principal, authenticate
+from caseflow.chat import ChatModel, HttpChatModel, InvalidModelOutput, ModelUnavailable
+from caseflow.config import Settings
+from caseflow.database import EmbeddingModelMismatch, KnowledgeStore, connect
+from caseflow.embeddings import Embeddings, FastEmbedAdapter, validate_vector
+from caseflow.ingestion import Article, ingest_articles
 
-log = logging.getLogger("support_copilot.requests")
+log = logging.getLogger("caseflow.requests")
 if not log.handlers:
     log.addHandler(logging.StreamHandler())
 log.setLevel(logging.INFO)
@@ -174,7 +174,7 @@ class BodyLimit:
 
 def create_app(runtime: Runtime | None = None) -> FastAPI:
     cfg = runtime.settings if runtime else Settings.from_env()
-    app = FastAPI(title="Support Copilot Knowledge API", version="0.1.0")
+    app = FastAPI(title="CaseFlow Knowledge API", version="0.1.0")
     app.state.runtime = runtime or Runtime(cfg, FastEmbedAdapter(cfg), HttpChatModel(cfg))
     app.add_middleware(BodyLimit)
 

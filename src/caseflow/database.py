@@ -10,8 +10,8 @@ import psycopg
 from pgvector.psycopg import register_vector
 from psycopg.rows import dict_row
 
-from support_copilot.config import Settings
-from support_copilot.embeddings import validate_vector
+from caseflow.config import Settings
+from caseflow.embeddings import validate_vector
 
 
 class EmbeddingModelMismatch(ValueError):
@@ -19,7 +19,7 @@ class EmbeddingModelMismatch(ValueError):
 
 
 def migrate(settings: Settings) -> None:
-    schema = files("support_copilot").joinpath("schema.sql").read_text(encoding="utf-8")
+    schema = files("caseflow").joinpath("schema.sql").read_text(encoding="utf-8")
     with psycopg.connect(settings.database_url, connect_timeout=5) as conn:
         conn.execute(schema)
 

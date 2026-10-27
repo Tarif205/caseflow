@@ -36,13 +36,13 @@ the connection string directly into a process variable, without displaying it:
 cd G:\support-copilot
 $env:DATABASE_URL = (& .venv\Scripts\python.exe -c "from dotenv import dotenv_values; from psycopg.conninfo import conninfo_to_dict; u=dotenv_values('.env').get('NEON_DATABASE_URL',''); c=conninfo_to_dict(u); assert c.get('host','').endswith('.neon.tech') and c.get('sslmode') in {'require','verify-ca','verify-full'}, 'Set the intended Neon TLS URL first'; print(u)")
 if ($LASTEXITCODE -ne 0) { throw 'Neon settings check failed; stop here.' }
-uv run --frozen copilot init-db
+uv run --frozen caseflow init-db
 if ($LASTEXITCODE -ne 0) { throw 'Schema initialization failed; stop here.' }
-uv run --frozen copilot seed-corpus
+uv run --frozen caseflow seed-corpus
 if ($LASTEXITCODE -ne 0) { throw 'Corpus initialization failed; stop here.' }
-uv run --frozen copilot provision-token --tenant northwind --scope kb:read --scope kb:write --env-name NORTHWIND_API_TOKEN
+uv run --frozen caseflow provision-token --tenant northwind --scope kb:read --scope kb:write --env-name NORTHWIND_API_TOKEN
 if ($LASTEXITCODE -ne 0) { throw 'Northwind token provisioning failed; stop here.' }
-uv run --frozen copilot provision-token --tenant contoso --scope kb:read --env-name CONTOSO_API_TOKEN
+uv run --frozen caseflow provision-token --tenant contoso --scope kb:read --env-name CONTOSO_API_TOKEN
 if ($LASTEXITCODE -ne 0) { throw 'Contoso token provisioning failed; stop here.' }
 Remove-Item Env:DATABASE_URL
 ```

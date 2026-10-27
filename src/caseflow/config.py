@@ -7,7 +7,11 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-PROJECT_ROOT = Path(os.getenv("COPILOT_PROJECT_ROOT", Path(__file__).resolve().parents[2]))
+PROJECT_ROOT = Path(
+    os.getenv("CASEFLOW_PROJECT_ROOT")
+    or os.getenv("COPILOT_PROJECT_ROOT")  # Compatibility with existing deployment environments.
+    or Path(__file__).resolve().parents[2]
+)
 LOCAL_DATABASE_URL = "postgresql://copilot:copilot-local-only@127.0.0.1:5432/copilot"
 
 

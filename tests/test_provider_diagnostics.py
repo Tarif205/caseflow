@@ -3,9 +3,9 @@ import json
 import httpx
 import pytest
 
-from support_copilot.agent_graph import GraphModel, Intake
-from support_copilot.chat import HttpChatModel, InvalidModelOutput, ModelUnavailable
-from support_copilot.config import Settings
+from caseflow.agent_graph import GraphModel, Intake
+from caseflow.chat import HttpChatModel, InvalidModelOutput, ModelUnavailable
+from caseflow.config import Settings
 
 
 def cfg():
@@ -20,7 +20,7 @@ def cfg():
 def test_strict_schema_low_reasoning_and_single_bounded_retry(monkeypatch):
     requests = []
     sleeps = []
-    monkeypatch.setattr("support_copilot.agent_graph.time.sleep", sleeps.append)
+    monkeypatch.setattr("caseflow.agent_graph.time.sleep", sleeps.append)
 
     def handler(request):
         body = json.loads(request.content)
@@ -89,7 +89,7 @@ def test_long_retry_after_is_not_slept_or_retried(monkeypatch):
     def forbidden(seconds):
         raise AssertionError("Unbounded wait")
 
-    monkeypatch.setattr("support_copilot.agent_graph.time.sleep", forbidden)
+    monkeypatch.setattr("caseflow.agent_graph.time.sleep", forbidden)
     model = GraphModel(
         cfg(),
         httpx.MockTransport(lambda request: httpx.Response(429, headers={"retry-after": "120"})),

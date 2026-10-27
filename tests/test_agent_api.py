@@ -4,10 +4,10 @@ import pytest
 from fastapi.testclient import TestClient
 from test_approvals import ledger as ledger
 
-from support_copilot import agent_api, durable_agent, mock_api
-from support_copilot.config import Settings
-from support_copilot.durable_agent import DurableAgent
-from support_copilot.mock_backend import MockStore
+from caseflow import agent_api, durable_agent, mock_api
+from caseflow.config import Settings
+from caseflow.durable_agent import DurableAgent
+from caseflow.mock_backend import MockStore
 
 
 class Model:

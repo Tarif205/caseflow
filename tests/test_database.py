@@ -6,7 +6,7 @@ import numpy as np
 import psycopg
 import pytest
 
-from support_copilot.database import EmbeddingModelMismatch, KnowledgeStore
+from caseflow.database import EmbeddingModelMismatch, KnowledgeStore
 
 pytestmark = pytest.mark.integration
 MODEL = "test-model"

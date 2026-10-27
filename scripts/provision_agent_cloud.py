@@ -8,12 +8,12 @@ from urllib.parse import urlparse
 
 from dotenv import dotenv_values
 
-from support_copilot.auth import authenticate, hash_token, provision_token
-from support_copilot.cli import bootstrap
-from support_copilot.config import PROJECT_ROOT, Settings
-from support_copilot.database import connect
-from support_copilot.durable_agent import setup_postgres_checkpoints
-from support_copilot.mock_backend import seed_mock
+from caseflow.auth import authenticate, hash_token, provision_token
+from caseflow.cli import bootstrap
+from caseflow.config import PROJECT_ROOT, Settings
+from caseflow.database import connect
+from caseflow.durable_agent import setup_postgres_checkpoints
+from caseflow.mock_backend import seed_mock
 
 
 def main():

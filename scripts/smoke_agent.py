@@ -16,10 +16,10 @@ import httpx
 from dotenv import dotenv_values
 from psycopg.conninfo import conninfo_to_dict
 
-from support_copilot.agent_tools import safe_base_url
-from support_copilot.auth import provision_token
-from support_copilot.config import LOCAL_DATABASE_URL, PROJECT_ROOT, Settings
-from support_copilot.database import connect
+from caseflow.agent_tools import safe_base_url
+from caseflow.auth import provision_token
+from caseflow.config import LOCAL_DATABASE_URL, PROJECT_ROOT, Settings
+from caseflow.database import connect
 
 
 def main():

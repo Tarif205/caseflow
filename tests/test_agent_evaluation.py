@@ -1,7 +1,7 @@
 import pytest
 
-from support_copilot.agent_evaluation import judge, load_scenarios
-from support_copilot.config import PROJECT_ROOT
+from caseflow.agent_evaluation import judge, load_scenarios
+from caseflow.config import PROJECT_ROOT
 
 
 def test_full_scenarios_have_five_reply_cases_for_both_model_baselines():

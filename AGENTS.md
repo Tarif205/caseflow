@@ -1,5 +1,14 @@
 # AGENTS.md: instructions for the coding agent
 
+## Current project identity (27 October 2026)
+
+The product is CaseFlow. Python package/distribution/CLI: caseflow; PRD:
+[CaseFlow_PRD.md](CaseFlow_PRD.md). Current workspace is still G:\support-copilot
+until the user closes the editor and moves it. See docs/rename-caseflow.md for
+pending GitHub/folder steps. Preserve existing DB, Compose project/volumes,
+SSM/IAM/proxy identifiers and historical evidence. The learning contract is unchanged.
+
+
 ## Current workflow override agreed on 22 October 2026
 
 The user explicitly chose to finish the working project first and study it afterward,
@@ -18,13 +27,13 @@ Read these before doing anything:
 
 1. This file: the rules and how to teach this learner.
 2. [docs/handoff.md](docs/handoff.md): the full project state, what is done, what was learned, and the exact next step.
-3. [Support_Copilot_PRD.md](Support_Copilot_PRD.md): the product requirements and the day-by-day plan. Section 11.4 is the daily plan; Section 10 has the sprint gates.
+3. [CaseFlow_PRD.md](CaseFlow_PRD.md): the product requirements and the day-by-day plan. Section 11.4 is the daily plan; Section 10 has the sprint gates.
 
 `CLAUDE.md` holds the same learning contract for a different assistant. If you change the contract here, tell the learner so they can keep both files the same.
 
 ## The project in one paragraph
 
-**Support Copilot Platform**: three Python services for a fictional company, Northwind Outfitters. (1) A Knowledge API that answers questions from help-center articles with citations (RAG: fastembed embeddings, Postgres with pgvector, FastAPI). (2) A Support Agent built with LangGraph that reads tickets, looks up orders, drafts replies and pauses for human approval before any refund. (3) An MCP server exposing read-only tools with token auth and tenant isolation. Zero budget: free tools only. Local model `qwen3:4b` via Ollama; hosted model via Groq's free tier for the agent.
+**CaseFlow Platform**: three Python services for a fictional company, Northwind Outfitters. (1) A Knowledge API that answers questions from help-center articles with citations (RAG: fastembed embeddings, Postgres with pgvector, FastAPI). (2) A Support Agent built with LangGraph that reads tickets, looks up orders, drafts replies and pauses for human approval before any refund. (3) An MCP server exposing read-only tools with token auth and tenant isolation. Zero budget: free tools only. Local model `qwen3:4b` via Ollama; hosted model via Groq's free tier for the agent.
 
 ## The learning contract (the learner wrote this; follow it)
 
@@ -86,4 +95,4 @@ End every reply with **one** concrete next step. The learner often asks "next wh
 - **Disk:** C: is nearly full (about 12 to 15 GB free). Put large things on G:. Docker's disk image, Ollama, its models and the fastembed cache are already on G:.
 - **Memory:** 7.8 GB RAM, often under 1 GB free. Run one heavy thing at a time; stop the model with `ollama stop qwen3:4b` when not testing.
 - **Secrets:** `.env` is git-ignored. Never print key values; check keys by name and format only.
-- **Git:** the learner commits and pushes themselves. Do not commit unless asked. Remote: `https://github.com/Tarif205/support-copilot` (public).
+- **Git:** the learner commits and pushes themselves. Do not commit unless asked. Remote: `https://github.com/Tarif205/caseflow` (public).

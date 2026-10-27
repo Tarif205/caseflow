@@ -8,8 +8,8 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.mcp_server import CONTRACTS
+from caseflow.config import PROJECT_ROOT
+from caseflow.mcp_server import CONTRACTS
 
 INSPECTOR = "@modelcontextprotocol/inspector@2.12.0"
 NODE = "node@24.22.1"
@@ -47,7 +47,7 @@ def main():
         "json",
         "--quiet",
     ]
-    target = [sys.executable, "-m", "support_copilot.mcp_server"]
+    target = [sys.executable, "-m", "caseflow.mcp_server"]
 
     def invoke(options):
         result = subprocess.run(

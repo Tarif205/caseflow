@@ -2,7 +2,7 @@ from contextlib import contextmanager
 
 import pytest
 
-from support_copilot.tracing import TraceRecorder
+from caseflow.tracing import TraceRecorder
 
 
 class Client:

@@ -14,11 +14,11 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, ValidationError
 from starlette.concurrency import run_in_threadpool
 
-from support_copilot.approvals import ApprovalDenied, ApprovalStore
-from support_copilot.auth import TOKEN_FORMAT, Principal, authenticate
-from support_copilot.config import Settings
-from support_copilot.database import connect
-from support_copilot.mock_backend import MockStore
+from caseflow.approvals import ApprovalDenied, ApprovalStore
+from caseflow.auth import TOKEN_FORMAT, Principal, authenticate
+from caseflow.config import Settings
+from caseflow.database import connect
+from caseflow.mock_backend import MockStore
 
 
 class RefundRequest(BaseModel):
@@ -28,7 +28,7 @@ class RefundRequest(BaseModel):
 
 def create_app(settings: Settings | None = None, *, enable_refunds=None) -> FastAPI:
     cfg = settings or Settings.from_env()
-    app = FastAPI(title="Fictional internal mock backend")
+    app = FastAPI(title="CaseFlow Mock Backend")
     refunds_enabled = (
         enable_refunds
         if enable_refunds is not None
@@ -64,7 +64,7 @@ def create_app(settings: Settings | None = None, *, enable_refunds=None) -> Fast
 
     Identity = Annotated[Principal, Depends(identity)]
 
-    logger = logging.getLogger("support_copilot.mock.requests")
+    logger = logging.getLogger("caseflow.mock.requests")
     if not logger.handlers:
         logger.addHandler(logging.StreamHandler())
     logger.setLevel(logging.INFO)

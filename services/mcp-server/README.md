@@ -94,7 +94,7 @@ To list tools directly through Inspector:
 
 ```powershell
 $env:npm_config_cache='G:\npm-cache'
-npm.cmd exec --offline --yes --package=node@24.22.1 --package=@modelcontextprotocol/inspector@2.12.0 -- mcp-inspector --cli --protocol-era legacy --format json --quiet --method tools/list G:\support-copilot\.venv\Scripts\python.exe -m support_copilot.mcp_server
+npm.cmd exec --offline --yes --package=node@24.22.1 --package=@modelcontextprotocol/inspector@2.12.0 -- mcp-inspector --cli --protocol-era legacy --format json --quiet --method tools/list G:\support-copilot\.venv\Scripts\python.exe -m caseflow.mcp_server
 ```
 
 To select Contoso in a local stdio session, set the **credential name**, not its
@@ -102,7 +102,7 @@ value, before launching the server/client:
 
 ```powershell
 $env:MCP_TOKEN_ENV='CONTOSO_MCP_API_TOKEN'
-.venv\Scripts\python.exe -m support_copilot.mcp_server
+.venv\Scripts\python.exe -m caseflow.mcp_server
 ```
 
 Running the server alone appears silent while waiting for JSON-RPC stdin. That
@@ -113,8 +113,8 @@ subprocesses, so do not also start a separate server for those checks.
 If recreating local read credentials after an empty database setup:
 
 ```powershell
-.venv\Scripts\python.exe -m support_copilot.cli provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --env-name NORTHWIND_MCP_API_TOKEN
-.venv\Scripts\python.exe -m support_copilot.cli provision-token --tenant contoso --scope kb:read --scope orders:read --scope tickets:read --env-name CONTOSO_MCP_API_TOKEN
+.venv\Scripts\python.exe -m caseflow.cli provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --env-name NORTHWIND_MCP_API_TOKEN
+.venv\Scripts\python.exe -m caseflow.cli provision-token --tenant contoso --scope kb:read --scope orders:read --scope tickets:read --env-name CONTOSO_MCP_API_TOKEN
 ```
 
 Keep DATABASE_URL on the local development database for Day 11. These are trusted
@@ -150,7 +150,7 @@ In **PowerShell at G:\support-copilot**, start the local server only if port 800
 is not already running:
 
 ```powershell
-.venv\Scripts\python.exe -m uvicorn support_copilot.mcp_http:app --host 127.0.0.1 --port 8003 --no-access-log
+.venv\Scripts\python.exe -m uvicorn caseflow.mcp_http:app --host 127.0.0.1 --port 8003 --no-access-log
 ```
 
 Expected: Uvicorn listening on 127.0.0.1:8003. It stays running in that terminal;

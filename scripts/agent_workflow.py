@@ -6,14 +6,14 @@ import os
 from dataclasses import replace
 from pathlib import Path
 
-from support_copilot.agent_graph import GraphModel
-from support_copilot.agent_tools import BoundTools
-from support_copilot.approvals import ApprovalStore
-from support_copilot.auth import authenticate
-from support_copilot.config import PROJECT_ROOT, Settings
-from support_copilot.database import connect
-from support_copilot.durable_agent import DurableAgent
-from support_copilot.tracing import TraceRecorder
+from caseflow.agent_graph import GraphModel
+from caseflow.agent_tools import BoundTools
+from caseflow.approvals import ApprovalStore
+from caseflow.auth import authenticate
+from caseflow.config import PROJECT_ROOT, Settings
+from caseflow.database import connect
+from caseflow.durable_agent import DurableAgent
+from caseflow.tracing import TraceRecorder
 
 
 def main():

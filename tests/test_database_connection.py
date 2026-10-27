@@ -5,8 +5,8 @@ import os
 import psycopg
 import pytest
 
-from support_copilot.config import Settings
-from support_copilot.database import connect
+from caseflow.config import Settings
+from caseflow.database import connect
 
 
 @pytest.mark.integration

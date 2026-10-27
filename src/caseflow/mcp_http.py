@@ -21,9 +21,9 @@ from starlette.applications import Starlette
 from starlette.responses import JSONResponse
 from starlette.routing import Route
 
-from support_copilot.auth import authenticate
-from support_copilot.database import connect
-from support_copilot.mcp_server import CONTRACTS, MCPReads, create_server, runtime_settings
+from caseflow.auth import authenticate
+from caseflow.database import connect
+from caseflow.mcp_server import CONTRACTS, MCPReads, create_server, runtime_settings
 
 READ_SCOPES = {"kb:read", "orders:read", "tickets:read"}
 AUTH_PATTERN = re.compile(r"Bearer ([A-Za-z0-9_-]{32,128})", re.IGNORECASE)
@@ -48,7 +48,7 @@ class HTTPGateway:
         try:
             await self.handle(scope, receive, record)
         finally:
-            logging.getLogger("support_copilot.mcp.requests").info(
+            logging.getLogger("caseflow.mcp.requests").info(
                 json.dumps(
                     {
                         "event": "mcp_request",
@@ -197,7 +197,7 @@ def create_app(settings=None, *, embeddings=None, allowed_hosts=None, allowed_or
         security_settings=security,
         max_request_body_size=16384,
     )
-    logger = logging.getLogger("support_copilot.mcp.requests")
+    logger = logging.getLogger("caseflow.mcp.requests")
     if not logger.handlers:
         logger.addHandler(logging.StreamHandler())
     logger.setLevel(logging.INFO)

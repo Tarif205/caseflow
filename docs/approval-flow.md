@@ -112,8 +112,8 @@ For a fresh local setup, initialize the schema/fixtures using the mock-backend
 README, then provision distinct roles (trusted local admin commands):
 
 ```powershell
-.venv\Scripts\python.exe -m support_copilot.cli provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --scope refunds:propose --scope refunds:execute --env-name NORTHWIND_WORKER_API_TOKEN
-.venv\Scripts\python.exe -m support_copilot.cli provision-token --tenant northwind --scope refund:approve --env-name NORTHWIND_APPROVER_API_TOKEN
+.venv\Scripts\python.exe -m caseflow.cli provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --scope refunds:propose --scope refunds:execute --env-name NORTHWIND_WORKER_API_TOKEN
+.venv\Scripts\python.exe -m caseflow.cli provision-token --tenant northwind --scope refund:approve --env-name NORTHWIND_APPROVER_API_TOKEN
 ```
 
 They write newly generated values only to .env and hashes to the selected database.

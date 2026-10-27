@@ -6,8 +6,8 @@ import sys
 import xml.etree.ElementTree as ET
 from datetime import UTC, datetime
 
-from support_copilot.agent_evaluation import dataset_hash
-from support_copilot.config import PROJECT_ROOT
+from caseflow.agent_evaluation import dataset_hash
+from caseflow.config import PROJECT_ROOT
 
 
 def main():

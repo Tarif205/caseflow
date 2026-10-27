@@ -1,5 +1,14 @@
 # Learning contract
 
+## Current project identity (27 October 2026)
+
+The product is CaseFlow. Python package/distribution/CLI: caseflow; PRD:
+[CaseFlow_PRD.md](CaseFlow_PRD.md). Current workspace is still G:\support-copilot
+until the user closes the editor and moves it. See docs/rename-caseflow.md for
+pending GitHub/folder steps. Preserve existing DB, Compose project/volumes,
+SSM/IAM/proxy identifiers and historical evidence. The learning contract is unchanged.
+
+
 ## Current workflow override agreed on 22 October 2026
 
 The user explicitly chose to finish the working project first and study it afterward,

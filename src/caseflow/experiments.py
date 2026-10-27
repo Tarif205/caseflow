@@ -11,16 +11,16 @@ from pathlib import Path
 import psycopg
 from psycopg.conninfo import conninfo_to_dict
 
-from support_copilot.config import PROJECT_ROOT, Settings
-from support_copilot.database import KnowledgeStore, connect
-from support_copilot.embeddings import Embeddings, FastEmbedAdapter
-from support_copilot.evaluation import (
+from caseflow.config import PROJECT_ROOT, Settings
+from caseflow.database import KnowledgeStore, connect
+from caseflow.embeddings import Embeddings, FastEmbedAdapter
+from caseflow.evaluation import (
     Question,
     calibrate_score_gate,
     load_questions,
     summarize_retrieval,
 )
-from support_copilot.ingestion import Article, ingest_articles, load_articles
+from caseflow.ingestion import Article, ingest_articles, load_articles
 
 
 @dataclass(frozen=True)

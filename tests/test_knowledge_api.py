@@ -5,10 +5,10 @@ import psycopg
 import pytest
 from fastapi.testclient import TestClient
 
-from support_copilot.auth import hash_token, provision_token
-from support_copilot.chat import InvalidModelOutput, ModelUnavailable
-from support_copilot.config import Settings
-from support_copilot.knowledge_api import Runtime, create_app, get_connection
+from caseflow.auth import hash_token, provision_token
+from caseflow.chat import InvalidModelOutput, ModelUnavailable
+from caseflow.config import Settings
+from caseflow.knowledge_api import Runtime, create_app, get_connection
 
 pytestmark = pytest.mark.integration
 VECTOR = [1.0] + [0.0] * 383

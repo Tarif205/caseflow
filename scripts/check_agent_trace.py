@@ -6,13 +6,13 @@ import time
 from dotenv import load_dotenv
 from langfuse import get_client
 
-from support_copilot.agent_graph import build_graph
-from support_copilot.agent_loop import Limits
-from support_copilot.auth import Principal
-from support_copilot.chat import ModelUnavailable
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.policy import PolicyContext
-from support_copilot.tracing import TraceRecorder
+from caseflow.agent_graph import build_graph
+from caseflow.agent_loop import Limits
+from caseflow.auth import Principal
+from caseflow.chat import ModelUnavailable
+from caseflow.config import PROJECT_ROOT
+from caseflow.policy import PolicyContext
+from caseflow.tracing import TraceRecorder
 
 
 class FailedModel:

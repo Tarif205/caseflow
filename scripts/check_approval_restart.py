@@ -16,12 +16,12 @@ from uuid import uuid4
 
 from psycopg.conninfo import conninfo_to_dict
 
-from support_copilot.approvals import ApprovalStore
-from support_copilot.auth import authenticate, provision_token
-from support_copilot.config import Settings
-from support_copilot.database import connect, migrate
-from support_copilot.durable_agent import DurableAgent, setup_postgres_checkpoints
-from support_copilot.mock_backend import MockStore
+from caseflow.approvals import ApprovalStore
+from caseflow.auth import authenticate, provision_token
+from caseflow.config import Settings
+from caseflow.database import connect, migrate
+from caseflow.durable_agent import DurableAgent, setup_postgres_checkpoints
+from caseflow.mock_backend import MockStore
 
 
 def settings():
@@ -140,7 +140,7 @@ def verify(checkpoint_backend="sqlite"):
                 actor = authenticate(conn, worker)
                 assert len(ledger.pending(approver)) == 1
                 # Confirm that merely knowing the run id cannot execute it.
-                from support_copilot.approvals import ApprovalDenied
+                from caseflow.approvals import ApprovalDenied
 
                 try:
                     ledger.execute(actor, run_id)

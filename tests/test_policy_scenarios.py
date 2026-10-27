@@ -3,9 +3,9 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from support_copilot.agent_evaluation import Scenario, dataset_hash, judge, load_scenarios
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.policy import ActionProposal, PolicyContext, PolicyOrder, policy_check
+from caseflow.agent_evaluation import Scenario, dataset_hash, judge, load_scenarios
+from caseflow.config import PROJECT_ROOT
+from caseflow.policy import ActionProposal, PolicyContext, PolicyOrder, policy_check
 
 DATASET = PROJECT_ROOT / "evals/agent/scenarios.jsonl"
 POLICY_CASES = [s for s in load_scenarios(DATASET) if s.proposed_amount_cents is not None]

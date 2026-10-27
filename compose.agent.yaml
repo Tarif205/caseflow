@@ -1,6 +1,6 @@
 services:
   mock-backend:
-    image: support-copilot-backend:${COPILOT_IMAGE_TAG:-local}
+    image: caseflow-backend:${COPILOT_IMAGE_TAG:-local}
     build:
       context: .
       dockerfile: services/mock-backend/Dockerfile
@@ -23,7 +23,7 @@ services:
       retries: 6
 
   support-agent:
-    image: support-copilot-agent:${COPILOT_IMAGE_TAG:-local}
+    image: caseflow-agent:${COPILOT_IMAGE_TAG:-local}
     build:
       context: .
       dockerfile: services/support-agent/Dockerfile

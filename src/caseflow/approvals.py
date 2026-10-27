@@ -4,9 +4,9 @@ import hashlib
 import json
 from uuid import UUID
 
-from support_copilot.auth import Principal
-from support_copilot.mock_backend import MockStore
-from support_copilot.policy import ActionProposal, PolicyContext, PolicyOrder, policy_check
+from caseflow.auth import Principal
+from caseflow.mock_backend import MockStore
+from caseflow.policy import ActionProposal, PolicyContext, PolicyOrder, policy_check
 
 
 class ApprovalDenied(RuntimeError):

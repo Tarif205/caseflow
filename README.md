@@ -1,4 +1,7 @@
-# Support Copilot Platform
+# CaseFlow Platform
+
+Formerly Support Copilot. See the [rename guide](docs/rename-caseflow.md) for the
+pending GitHub/folder steps and existing deployment identifiers we preserve.
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
@@ -45,8 +48,8 @@ Use Windows PowerShell in `G:\support-copilot`, with Docker Desktop running:
 cd G:\support-copilot
 uv sync --frozen --cache-dir G:\uv-cache
 docker compose up -d --wait db
-uv run --frozen copilot init-db
-uv run --frozen copilot check-search --output evals/results/day-01-search.json
+uv run --frozen caseflow init-db
+uv run --frozen caseflow check-search --output evals/results/day-01-search.json
 ```
 
 `init-db` creates the vector extension and initial tables without dropping existing data.
@@ -67,8 +70,8 @@ defaults to `G:\fastembed-cache` on Windows and `.cache/fastembed` on Linux. Set
 ### Import the help center
 
 ```powershell
-uv run --frozen copilot ingest --tenant northwind --directory data/northwind
-uv run --frozen copilot ingest --tenant contoso --directory data/contoso
+uv run --frozen caseflow ingest --tenant northwind --directory data/northwind
+uv run --frozen caseflow ingest --tenant contoso --directory data/contoso
 ```
 
 The default 800-character chunks with 120-character overlap produce 30 chunks for
@@ -107,7 +110,7 @@ uv run --frozen ruff format --check src tests scripts evals/retrieval
 For integration tests, create a separate local database once:
 
 ```powershell
-docker compose exec -T db createdb -U copilot copilot_test
+docker compose exec -T db createdb -U caseflow copilot_test
 $env:TEST_DATABASE_URL = 'postgresql://copilot:copilot-local-only@127.0.0.1:5432/copilot_test'
 uv run --frozen pytest -q
 ```

@@ -4,10 +4,10 @@ import pytest
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command
 
-from support_copilot.agent_graph import build_graph
-from support_copilot.agent_loop import Limits
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.policy import PolicyContext
+from caseflow.agent_graph import build_graph
+from caseflow.agent_loop import Limits
+from caseflow.config import PROJECT_ROOT
+from caseflow.policy import PolicyContext
 
 CASES = [
     json.loads(line)

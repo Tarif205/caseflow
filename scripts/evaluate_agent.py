@@ -8,12 +8,12 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 
-from support_copilot.agent_evaluation import dataset_hash, judge, load_scenarios
-from support_copilot.agent_graph import GraphModel, run_graph
-from support_copilot.agent_tools import BoundTools, OrderArgs, RecordNotFound
-from support_copilot.auth import Principal
-from support_copilot.config import PROJECT_ROOT, Settings
-from support_copilot.mock_backend import Fixtures
+from caseflow.agent_evaluation import dataset_hash, judge, load_scenarios
+from caseflow.agent_graph import GraphModel, run_graph
+from caseflow.agent_tools import BoundTools, OrderArgs, RecordNotFound
+from caseflow.auth import Principal
+from caseflow.config import PROJECT_ROOT, Settings
+from caseflow.mock_backend import Fixtures
 
 
 class EvaluationReads:

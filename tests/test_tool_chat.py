@@ -4,11 +4,11 @@ from dataclasses import replace
 import httpx
 import pytest
 
-from support_copilot.agent_tools import BoundTools
-from support_copilot.auth import Principal
-from support_copilot.chat import InvalidModelOutput, ModelUnavailable
-from support_copilot.config import Settings
-from support_copilot.tool_chat import HttpToolModel, ModelTurn, ToolCall, parse_turn
+from caseflow.agent_tools import BoundTools
+from caseflow.auth import Principal
+from caseflow.chat import InvalidModelOutput, ModelUnavailable
+from caseflow.config import Settings
+from caseflow.tool_chat import HttpToolModel, ModelTurn, ToolCall, parse_turn
 
 
 @pytest.mark.parametrize("arguments", [{"order_id": "NW-1042"}, '{"order_id":"NW-1042"}'])

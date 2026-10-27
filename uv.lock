@@ -1491,7 +1491,7 @@ wheels = [
 ]
 
 [[package]]
-name = "support-copilot"
+name = "caseflow"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

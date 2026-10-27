@@ -3,14 +3,14 @@ import json
 import httpx
 import pytest
 
-from support_copilot.answering import answer_question
-from support_copilot.chat import (
+from caseflow.answering import answer_question
+from caseflow.chat import (
     HttpChatModel,
     InvalidModelOutput,
     ModelUnavailable,
     parse_json_reply,
 )
-from support_copilot.config import Settings
+from caseflow.config import Settings
 
 QUOTE = "Unused items can be returned within 30 days."
 HIT = {

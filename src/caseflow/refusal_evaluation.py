@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 import httpx
 
-from support_copilot.evaluation import load_questions
+from caseflow.evaluation import load_questions
 
 REFUSAL_REASONS = {"no_evidence", "record_lookup_required", "model_declined", "invalid_evidence"}
 

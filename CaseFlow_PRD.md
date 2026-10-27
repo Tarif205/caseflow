@@ -1,4 +1,4 @@
-# Support Copilot Platform: Product Requirements Document and Learning Manual
+# CaseFlow Platform: Product Requirements Document and Learning Manual
 
 *A zero-budget, 15-day plan to learn and build RAG, LangGraph agents, MCP, Docker and AWS*
 
@@ -60,7 +60,7 @@ This PRD defines one connected project that teaches all of those skills together
 
 ## 1.2 The project in one paragraph
 
-**Support Copilot Platform** is a small but production-style system with three services:
+**CaseFlow Platform** is a small but production-style system with three services:
 
 1. **Knowledge API** (RAG service): ingests help-center documents, stores them as searchable vectors, and answers questions with citations.
 2. **Support Agent** (LangGraph): reads a customer ticket, searches the knowledge base, looks up an order, drafts a reply, and pauses for human approval before any risky action such as a refund.

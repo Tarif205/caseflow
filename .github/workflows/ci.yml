@@ -35,6 +35,6 @@ jobs:
       - run: uv run --frozen ruff check src tests scripts evals/retrieval
       - run: uv run --frozen ruff format --check src tests scripts evals/retrieval
       - run: uv run --frozen pytest -q
-      - run: docker build -f services/knowledge-api/Dockerfile -t support-copilot-knowledge:ci .
-      - run: docker build -f services/mock-backend/Dockerfile -t support-copilot-backend:ci .
-      - run: docker build -f services/support-agent/Dockerfile -t support-copilot-agent:ci .
+      - run: docker build -f services/knowledge-api/Dockerfile -t caseflow-knowledge:ci .
+      - run: docker build -f services/mock-backend/Dockerfile -t caseflow-backend:ci .
+      - run: docker build -f services/support-agent/Dockerfile -t caseflow-agent:ci .

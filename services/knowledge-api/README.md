@@ -1,6 +1,6 @@
 # Knowledge API
 
-Implementation lives in `src/support_copilot`. This service retrieves tenant-specific
+Implementation lives in `src/caseflow`. This service retrieves tenant-specific
 help articles and lets a model select supporting quotations. The response contains
 only validated source quotes, with citations.
 
@@ -12,9 +12,9 @@ In VS Code's PowerShell terminal, with Docker Desktop running:
 cd G:\support-copilot
 uv sync --frozen --cache-dir G:\uv-cache
 docker compose up -d --wait db
-uv run --frozen copilot init-db
-uv run --frozen copilot provision-token --tenant northwind --scope kb:read --scope kb:write --env-name NORTHWIND_API_TOKEN
-uv run --frozen copilot provision-token --tenant contoso --scope kb:read --env-name CONTOSO_API_TOKEN
+uv run --frozen caseflow init-db
+uv run --frozen caseflow provision-token --tenant northwind --scope kb:read --scope kb:write --env-name NORTHWIND_API_TOKEN
+uv run --frozen caseflow provision-token --tenant contoso --scope kb:read --env-name CONTOSO_API_TOKEN
 ```
 
 Provisioning appends generated credentials to the ignored `.env` without displaying

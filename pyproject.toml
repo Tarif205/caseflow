@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "support-copilot"
+name = "caseflow"
 version = "0.1.0"
 description = "Tenant-isolated RAG and support agent for fictional Northwind Outfitters"
 requires-python = ">=3.12,<3.14"
@@ -28,10 +28,10 @@ dependencies = [
 dev = ["pytest>=8,<10", "ruff>=0.12,<1"]
 
 [project.scripts]
-copilot = "support_copilot.cli:main"
+caseflow = "caseflow.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/support_copilot"]
+packages = ["src/caseflow"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "services"]

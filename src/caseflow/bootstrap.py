@@ -6,11 +6,11 @@ from pathlib import Path
 
 from dotenv import dotenv_values
 
-from support_copilot.auth import authenticate, hash_token, provision_token
-from support_copilot.config import Settings
-from support_copilot.database import KnowledgeStore, connect
-from support_copilot.embeddings import FastEmbedAdapter
-from support_copilot.ingestion import ingest_articles, load_articles
+from caseflow.auth import authenticate, hash_token, provision_token
+from caseflow.config import Settings
+from caseflow.database import KnowledgeStore, connect
+from caseflow.embeddings import FastEmbedAdapter
+from caseflow.ingestion import ingest_articles, load_articles
 
 
 def provision_env_token(

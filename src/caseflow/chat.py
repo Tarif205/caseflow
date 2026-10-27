@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 import httpx
 
-from support_copilot.config import Settings
+from caseflow.config import Settings
 
 
 class ModelUnavailable(RuntimeError):

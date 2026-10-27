@@ -13,11 +13,11 @@ from pathlib import Path
 import psycopg
 from psycopg.conninfo import conninfo_to_dict
 
-from support_copilot.cli import bootstrap
-from support_copilot.config import PROJECT_ROOT, Settings
-from support_copilot.database import KnowledgeStore, connect
-from support_copilot.embeddings import FastEmbedAdapter
-from support_copilot.ingestion import ingest_articles, load_articles
+from caseflow.cli import bootstrap
+from caseflow.config import PROJECT_ROOT, Settings
+from caseflow.database import KnowledgeStore, connect
+from caseflow.embeddings import FastEmbedAdapter
+from caseflow.ingestion import ingest_articles, load_articles
 
 
 def snapshot(settings: Settings, tenant: str) -> dict:

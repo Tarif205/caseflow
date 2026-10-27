@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from support_copilot.config import Settings
-from support_copilot.embeddings import FastEmbedAdapter, validate_vector
+from caseflow.config import Settings
+from caseflow.embeddings import FastEmbedAdapter, validate_vector
 
 
 class FakeModel:

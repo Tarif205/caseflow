@@ -6,7 +6,7 @@ from typing import Protocol
 
 import numpy as np
 
-from support_copilot.config import Settings
+from caseflow.config import Settings
 
 
 class Embeddings(Protocol):

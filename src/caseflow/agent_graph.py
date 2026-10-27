@@ -14,11 +14,11 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import interrupt
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, ValidationError
 
-from support_copilot.agent_loop import Limits
-from support_copilot.agent_tools import OrderArgs, RecordNotFound, SearchArgs, ToolFailure
-from support_copilot.approvals import ApprovalDenied
-from support_copilot.chat import HttpChatModel, InvalidModelOutput, ModelUnavailable
-from support_copilot.policy import ActionProposal, PolicyContext, PolicyOrder, policy_check
+from caseflow.agent_loop import Limits
+from caseflow.agent_tools import OrderArgs, RecordNotFound, SearchArgs, ToolFailure
+from caseflow.approvals import ApprovalDenied
+from caseflow.chat import HttpChatModel, InvalidModelOutput, ModelUnavailable
+from caseflow.policy import ActionProposal, PolicyContext, PolicyOrder, policy_check
 
 
 class Intake(BaseModel):

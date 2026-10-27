@@ -14,7 +14,7 @@ RUN useradd --create-home --uid 10001 app && mkdir -p /cache/fastembed && chown 
 WORKDIR /app
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 COPY --chown=app:app data ./data
-ENV PATH="/app/.venv/bin:$PATH" COPILOT_PROJECT_ROOT=/app FASTEMBED_CACHE_PATH=/cache/fastembed PYTHONUNBUFFERED=1
+ENV PATH="/app/.venv/bin:$PATH" CASEFLOW_PROJECT_ROOT=/app FASTEMBED_CACHE_PATH=/cache/fastembed PYTHONUNBUFFERED=1
 USER app
 EXPOSE 8000
-CMD ["uvicorn", "support_copilot.agent_api:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]
+CMD ["uvicorn", "caseflow.agent_api:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]

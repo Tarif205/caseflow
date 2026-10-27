@@ -3,10 +3,10 @@ from contextlib import contextmanager
 import pytest
 from fastapi.testclient import TestClient
 
-from support_copilot import mock_api
-from support_copilot.auth import provision_token
-from support_copilot.config import Settings
-from support_copilot.mock_backend import MockStore
+from caseflow import mock_api
+from caseflow.auth import provision_token
+from caseflow.config import Settings
+from caseflow.mock_backend import MockStore
 
 
 @pytest.fixture
@@ -100,7 +100,7 @@ def test_store_filters_even_sql_like_tenant_input(db):
 def test_expired_and_revoked_credentials_cannot_read_records(db, mock_client):
     from datetime import UTC, datetime, timedelta
 
-    from support_copilot.auth import hash_token
+    from caseflow.auth import hash_token
 
     store, (tenant, _) = db
     provision_token(
@@ -121,8 +121,8 @@ def test_expired_and_revoked_credentials_cannot_read_records(db, mock_client):
 
 @pytest.mark.integration
 def test_mock_seed_is_idempotent_and_preserves_changed_orders(db, monkeypatch):
-    from support_copilot import mock_backend
-    from support_copilot.config import PROJECT_ROOT
+    from caseflow import mock_backend
+    from caseflow.config import PROJECT_ROOT
 
     store, _ = db
     for tenant in ["northwind", "contoso"]:

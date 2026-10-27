@@ -1,7 +1,7 @@
 name: support-copilot-agent
 services:
   mock-backend:
-    image: support-copilot-backend:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
+    image: caseflow-backend:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
     environment:
       DATABASE_URL: ${DATABASE_URL:?Load from Parameter Store}
       MOCK_REFUNDS_ENABLED: "true"
@@ -12,7 +12,7 @@ services:
         max-size: "5m"
         max-file: "2"
   support-agent:
-    image: support-copilot-agent:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
+    image: caseflow-agent:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
     environment:
       DATABASE_URL: ${DATABASE_URL:?Load from Parameter Store}
       LLM_API_KEY: ${LLM_API_KEY:?Load from Parameter Store}

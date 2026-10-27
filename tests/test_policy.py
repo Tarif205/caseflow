@@ -3,7 +3,7 @@ from itertools import product
 import pytest
 from pydantic import ValidationError
 
-from support_copilot.policy import (
+from caseflow.policy import (
     ActionProposal,
     PolicyContext,
     PolicyDecision,

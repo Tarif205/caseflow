@@ -10,8 +10,8 @@ from urllib.parse import urlparse
 import httpx
 from dotenv import load_dotenv
 
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.ingestion import load_articles
+from caseflow.config import PROJECT_ROOT
+from caseflow.ingestion import load_articles
 
 
 def check(base_url: str, skip_model: bool = False) -> dict:

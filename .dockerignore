@@ -1,5 +1,6 @@
 .git
 .venv
+.venv-before-caseflow
 .env
 .env.*
 .cache

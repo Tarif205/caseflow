@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 import httpx
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 
-from support_copilot.auth import Principal
+from caseflow.auth import Principal
 
 
 class SearchArgs(BaseModel):

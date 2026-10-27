@@ -7,8 +7,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 
-from support_copilot.config import Settings
-from support_copilot.database import connect
+from caseflow.config import Settings
+from caseflow.database import connect
 
 
 class FixtureModel(BaseModel):

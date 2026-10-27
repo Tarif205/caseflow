@@ -2,7 +2,7 @@
 
 ## Current verified milestone — 26 October 2026
 
-The Knowledge API runs on EC2 from image `support-copilot-knowledge:531d7c4`
+The Knowledge API runs on EC2 from image `caseflow-knowledge:531d7c4`
 (id df9d03e1bb95). Neon has the corpus and API token hashes. The instance role
 can read/decrypt the two standard Parameter Store values; no static AWS access
 keys were installed. The API binds only to EC2 loopback port 8001.
@@ -117,7 +117,7 @@ over SSH restricted to My IP. All 3 instance checks passed. User-provided output
 confirms Docker hello-world success and Compose 2.40.3. HTTP/HTTPS inbound remain
 closed. No AWS CLI, local profile or credentials are configured on the laptop.
 GitHub CI passed for user-pushed commit `3d0bd84`; that revision was cloned and its
-API image built on EC2 (`support-copilot-knowledge:3d0bd84`, id `04d288243eea`).
+API image built on EC2 (`caseflow-knowledge:3d0bd84`, id `04d288243eea`).
 The API container has not started there. Neon inspection and schema/tenant setup
 are now verified, but corpus/token hashes, secure runtime setup, the public API
 endpoint and Gate G1 remain pending. A subsequently fixed Neon-pool compatibility

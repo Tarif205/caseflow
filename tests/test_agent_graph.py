@@ -2,11 +2,11 @@ import json
 
 import pytest
 
-from support_copilot.agent_graph import execute_disabled, run_graph
-from support_copilot.agent_loop import Limits
-from support_copilot.agent_tools import RecordNotFound
-from support_copilot.auth import Principal
-from support_copilot.chat import ModelUnavailable
+from caseflow.agent_graph import execute_disabled, run_graph
+from caseflow.agent_loop import Limits
+from caseflow.agent_tools import RecordNotFound
+from caseflow.auth import Principal
+from caseflow.chat import ModelUnavailable
 
 HIT = {
     "id": "c1",
@@ -224,8 +224,8 @@ def test_failed_read_counts_as_an_attempt():
 def test_graph_model_uses_json_wire_schema_and_bounded_timeout():
     import httpx
 
-    from support_copilot.agent_graph import GraphModel, Intake
-    from support_copilot.config import Settings
+    from caseflow.agent_graph import GraphModel, Intake
+    from caseflow.config import Settings
 
     def respond(request):
         body = json.loads(request.content)

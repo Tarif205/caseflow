@@ -2,13 +2,13 @@
 # No database, disk, paid instance or secret value is declared here.
 services:
   - type: web
-    name: support-copilot-knowledge
+    name: caseflow-knowledge
     runtime: docker
     plan: free
     region: ohio
     dockerfilePath: ./services/knowledge-api/Dockerfile
     dockerContext: .
-    dockerCommand: uvicorn support_copilot.knowledge_api:app --host 0.0.0.0 --port 10000 --workers 1 --no-access-log
+    dockerCommand: uvicorn caseflow.knowledge_api:app --host 0.0.0.0 --port 10000 --workers 1 --no-access-log
     healthCheckPath: /health
     autoDeployTrigger: "off"
     envVars:

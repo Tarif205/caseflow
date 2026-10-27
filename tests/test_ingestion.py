@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from support_copilot.config import Settings
-from support_copilot.database import KnowledgeStore
-from support_copilot.ingestion import Article, ingest_articles, load_articles
+from caseflow.config import Settings
+from caseflow.database import KnowledgeStore
+from caseflow.ingestion import Article, ingest_articles, load_articles
 
 ROOT = Path(__file__).resolve().parents[1]
 VECTOR = [1.0] + [0.0] * 383
@@ -183,7 +183,7 @@ class TestDatabaseIngestion:
             ingest_articles(wrong_store, FakeEmbeddings(), tenant, [article()])
 
     def test_day1_experiment_cannot_replace_the_real_help_center(self, db, monkeypatch):
-        from support_copilot import cli
+        from caseflow import cli
 
         store, _ = db
         store.conn.execute(

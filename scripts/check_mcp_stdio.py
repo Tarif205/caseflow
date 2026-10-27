@@ -1,5 +1,6 @@
 """Real SDK stdio initialization/list/calls for both local read credentials."""
 
+import argparse
 import json
 import os
 import sys
@@ -9,11 +10,11 @@ import anyio
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.mcp_server import CONTRACTS
+from caseflow.config import PROJECT_ROOT
+from caseflow.mcp_server import CONTRACTS
 
 
-async def check():
+async def check(output="evals/results/day-11-stdio.json"):
     report = {
         "checked_at": datetime.now(UTC).isoformat(),
         "transport": "stdio",
@@ -29,7 +30,7 @@ async def check():
     ]:
         params = StdioServerParameters(
             command=sys.executable,
-            args=["-m", "support_copilot.mcp_server"],
+            args=["-m", "caseflow.mcp_server"],
             cwd=str(PROJECT_ROOT),
             env={"MCP_TOKEN_ENV": tenant.upper() + "_MCP_API_TOKEN"},
         )
@@ -38,6 +39,7 @@ async def check():
                 async with stdio_client(params, errlog=errors) as (read, write):
                     async with ClientSession(read, write) as session:
                         init = await session.initialize()
+                        assert init.serverInfo.name == "caseflow-readonly"
                         tools = (await session.list_tools()).tools
                         assert {t.name for t in tools} == set(CONTRACTS)
                         cases = [
@@ -76,6 +78,7 @@ async def check():
                             {
                                 "tenant_fixture": tenant,
                                 "negotiated_protocol": init.protocolVersion,
+                                "server_name": init.serverInfo.name,
                                 "tools": checks,
                                 "foreign_read_blocked": True,
                                 "injected_tenant_rejected": True,
@@ -83,14 +86,16 @@ async def check():
                             }
                         )
     report["complete"] = True
-    path = PROJECT_ROOT / "evals/results/day-11-stdio.json"
+    path = PROJECT_ROOT / output
     path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))
 
 
 if __name__ == "__main__":
     try:
-        anyio.run(check)
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument("--output", default="evals/results/day-11-stdio.json")
+        anyio.run(check, parser.parse_args().output)
     except BaseException as exc:
         raise SystemExit(
             f"Stdio verification failed ({type(exc).__name__}); raw details withheld"

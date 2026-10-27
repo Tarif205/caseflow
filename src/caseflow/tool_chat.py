@@ -8,8 +8,8 @@ from uuid import uuid4
 
 import httpx
 
-from support_copilot.chat import InvalidModelOutput, ModelUnavailable
-from support_copilot.config import Settings
+from caseflow.chat import InvalidModelOutput, ModelUnavailable
+from caseflow.config import Settings
 
 
 @dataclass(frozen=True)

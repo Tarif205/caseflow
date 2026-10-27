@@ -7,8 +7,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from support_copilot.config import PROJECT_ROOT
-from support_copilot.refusal_evaluation import evaluate_refusals
+from caseflow.config import PROJECT_ROOT
+from caseflow.refusal_evaluation import evaluate_refusals
 
 
 def main():

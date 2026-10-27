@@ -9,7 +9,7 @@ This internal FastAPI service supplies synthetic customer/order/ticket facts for
 the agent. It is not a commerce integration. Data lives in the local Postgres
 database, separately from the hosted Knowledge API's policy corpus.
 
-Implementation: `src/support_copilot/mock_backend.py`, `mock_api.py` and the
+Implementation: `src/caseflow/mock_backend.py`, `mock_api.py` and the
 composite tenant keys in `schema.sql`. Fixtures: `data/mock/entities.json`.
 The current session's backend is already listening on loopback port 8004.
 
@@ -22,9 +22,9 @@ local development database for these Day 6 commands (empty selects the default).
 ```powershell
 cd G:\support-copilot
 docker compose up -d --wait db
-uv run --frozen copilot seed-mock
-uv run --frozen copilot provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --env-name NORTHWIND_AGENT_API_TOKEN
-uv run --frozen copilot provision-token --tenant contoso --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --env-name CONTOSO_AGENT_API_TOKEN
+uv run --frozen caseflow seed-mock
+uv run --frozen caseflow provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --env-name NORTHWIND_AGENT_API_TOKEN
+uv run --frozen caseflow provision-token --tenant contoso --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --env-name CONTOSO_AGENT_API_TOKEN
 ```
 
 The trusted seed command initializes the schema and inserts missing fixture rows
@@ -42,7 +42,7 @@ separate credentials for reading policy articles and reading the internal backen
 In a local PowerShell terminal at the project root:
 
 ```powershell
-uv run --frozen uvicorn support_copilot.mock_api:app --host 127.0.0.1 --port 8004 --no-access-log
+uv run --frozen uvicorn caseflow.mock_api:app --host 127.0.0.1 --port 8004 --no-access-log
 ```
 
 Success: Uvicorn reports port 8004. Keep that terminal running; Ctrl+C stops this

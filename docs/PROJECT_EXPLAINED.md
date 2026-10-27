@@ -1,4 +1,4 @@
-# Support Copilot: what we built, why it exists, and how it works
+# CaseFlow: what we built, why it exists, and how it works
 
 Updated: **23 October 2026**. Read with the [learning roadmap](LEARNING_ROADMAP.md).
 
@@ -213,7 +213,7 @@ def health():
 
 `@app.get` registers a handler for HTTP GET at `/health`. The return value becomes
 a JSON response. Starting Uvicorn is a separate action from defining the function.
-The actual API now lives in `src/support_copilot/knowledge_api.py`; `hello/health_app`
+The actual API now lives in `src/caseflow/knowledge_api.py`; `hello/health_app`
 was the earlier experiment. The [FastAPI tutorial](https://fastapi.tiangolo.com/tutorial/)
 is the reference for framework usage.
 
@@ -272,7 +272,7 @@ it is not generally the same as a character or word.
 Example using smaller numbers for readability:
 
 ```python
-from support_copilot.chunking import chunk_text
+from caseflow.chunking import chunk_text
 
 chunks = chunk_text("abcdefghijkl", chunk_size=6, overlap=2)
 print([chunk.text for chunk in chunks])
@@ -655,7 +655,7 @@ Dockerfile + source + dependency lock
 | Dockerfile | Build instructions for an image |
 | Build context | Files the builder is allowed to use, reduced by `.dockerignore` |
 | Image | Packaged runtime filesystem layers and configuration |
-| Tag | A mutable name for an image, such as `support-copilot-knowledge:3d0bd84` |
+| Tag | A mutable name for an image, such as `caseflow-knowledge:3d0bd84` |
 | Container | A created/running instance of an image with its own lifecycle |
 | Registry | A service for storing/distributing images, such as Docker Hub |
 | Volume | Storage managed separately from a container's writable filesystem |
@@ -691,7 +691,7 @@ retain intermediate layers/caches outside the final image.
 Historical command, run in Ubuntu at `~/support-copilot`:
 
 ```bash
-sudo docker build -f services/knowledge-api/Dockerfile -t support-copilot-knowledge:3d0bd84 .
+sudo docker build -f services/knowledge-api/Dockerfile -t caseflow-knowledge:3d0bd84 .
 ```
 
 | Part | Meaning |
@@ -710,7 +710,7 @@ was unusable.
 ### 11.4 Local Compose does more than the default image
 
 Our local `compose.yaml` defines the API plus Postgres. Its API command runs
-`copilot seed-corpus` before Uvicorn; this initializes schema/tenants and seeds
+`caseflow seed-corpus` before Uvicorn; this initializes schema/tenants and seeds
 only empty tenant corpora. The Dockerfile's default `CMD` starts Uvicorn alone.
 Do not assume a bare cloud container has performed local Compose's initialization.
 
@@ -906,16 +906,16 @@ Follow the data flow rather than opening every file at once.
 | Read | What to look for |
 |---|---|
 | `data/northwind/warranty.md` | The original fact used in the real answer |
-| `src/support_copilot/chunking.py` | How text windows preserve original content |
-| `src/support_copilot/embeddings.py` | The model interface, lazy loading and validation |
-| `src/support_copilot/schema.sql` | Where text, tenant ids and vectors live |
-| `src/support_copilot/ingestion.py` | How articles become transactionally stored chunks |
-| `src/support_copilot/database.py` | Tenant filters, joins and vector ordering |
-| `src/support_copilot/auth.py` | How a token resolves to a principal and scopes |
-| `src/support_copilot/answering.py` | Refusal logic and source-quote validation |
-| `src/support_copilot/chat.py` | Bounded HTTP calls to local/hosted model endpoints |
-| `src/support_copilot/knowledge_api.py` | Routes, dependencies, validation and errors |
-| `src/support_copilot/bootstrap.py`, `cli.py` | Trusted operator initialization and ingestion commands |
+| `src/caseflow/chunking.py` | How text windows preserve original content |
+| `src/caseflow/embeddings.py` | The model interface, lazy loading and validation |
+| `src/caseflow/schema.sql` | Where text, tenant ids and vectors live |
+| `src/caseflow/ingestion.py` | How articles become transactionally stored chunks |
+| `src/caseflow/database.py` | Tenant filters, joins and vector ordering |
+| `src/caseflow/auth.py` | How a token resolves to a principal and scopes |
+| `src/caseflow/answering.py` | Refusal logic and source-quote validation |
+| `src/caseflow/chat.py` | Bounded HTTP calls to local/hosted model endpoints |
+| `src/caseflow/knowledge_api.py` | Routes, dependencies, validation and errors |
+| `src/caseflow/bootstrap.py`, `cli.py` | Trusted operator initialization and ingestion commands |
 | `tests/` | The expected behavior, including failure paths |
 | `.github/workflows/ci.yml` | How another machine verifies the repository |
 | `services/knowledge-api/Dockerfile` | How the runtime is packaged |

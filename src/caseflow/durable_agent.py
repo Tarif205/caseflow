@@ -9,12 +9,12 @@ from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command
 from psycopg.conninfo import make_conninfo
 
-from support_copilot.agent_graph import build_graph
-from support_copilot.agent_loop import Limits
-from support_copilot.approvals import ApprovalDenied, ApprovalStore
-from support_copilot.database import connect
-from support_copilot.policy import PolicyContext
-from support_copilot.tracing import TraceRecorder
+from caseflow.agent_graph import build_graph
+from caseflow.agent_loop import Limits
+from caseflow.approvals import ApprovalDenied, ApprovalStore
+from caseflow.database import connect
+from caseflow.policy import PolicyContext
+from caseflow.tracing import TraceRecorder
 
 
 class Workflow:

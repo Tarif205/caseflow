@@ -1,4 +1,4 @@
-# Support Copilot learning roadmap
+# CaseFlow learning roadmap
 
 Updated: **23 October 2026**. Companion: [project walkthrough](PROJECT_EXPLAINED.md).
 
@@ -36,7 +36,7 @@ For a study session, aim for a manageable block such as:
 1. 15–25 minutes of one focused lesson or documentation section.
 2. 25–45 minutes building a small variation yourself.
 3. 10 minutes inspecting an error and recording what caused it.
-4. A short note linking the concept to one file in Support Copilot.
+4. A short note linking the concept to one file in CaseFlow.
 
 These times are suggestions, not deadlines. Repeat a phase or spread it over more
 sessions. You do not need to finish a 19-hour course before writing a health route.
@@ -618,7 +618,7 @@ Read-only MCP tools
 ```
 
 This is smaller than reproducing the entire support platform at once. You can
-revisit Support Copilot's equivalent files after implementing each lab feature.
+revisit CaseFlow's equivalent files after implementing each lab feature.
 Do not add unrelated frameworks simply because a tutorial uses them.
 
 ## 23. Video and resource selection guide

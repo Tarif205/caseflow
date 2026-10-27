@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from support_copilot.chunking import chunk_text
+from caseflow.chunking import chunk_text
 
 
 @pytest.mark.parametrize("text", ["", " ", "\n\t" * 100])

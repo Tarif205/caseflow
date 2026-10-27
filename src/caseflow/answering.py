@@ -5,7 +5,7 @@ import re
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, ValidationError
 
-from support_copilot.chat import ChatModel
+from caseflow.chat import ChatModel
 
 NOT_FOUND = "I couldn't find an answer in the available help articles."
 ORDER_REFERENCE = re.compile(r"\b(?:NW|CT)-\d+\b|\border\s+#?\d{3,}\b", re.IGNORECASE)

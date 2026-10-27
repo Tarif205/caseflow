@@ -17,13 +17,13 @@ LLM_API_KEY="$(aws ssm get-parameter --region ap-southeast-2 --name /support-cop
 export DATABASE_URL LLM_API_KEY
 trap 'unset DATABASE_URL LLM_API_KEY' EXIT
 [[ -n "$DATABASE_URL" && -n "$LLM_API_KEY" ]]
-sudo docker build -f services/mock-backend/Dockerfile -t "support-copilot-backend:$COPILOT_IMAGE_TAG" .
-sudo docker build -f services/support-agent/Dockerfile -t "support-copilot-agent:$COPILOT_IMAGE_TAG" .
+sudo docker build -f services/mock-backend/Dockerfile -t "caseflow-backend:$COPILOT_IMAGE_TAG" .
+sudo docker build -f services/support-agent/Dockerfile -t "caseflow-agent:$COPILOT_IMAGE_TAG" .
 # Never print docker compose config: its expanded output contains credentials.
 compose=(sudo --preserve-env=DATABASE_URL,LLM_API_KEY,COPILOT_IMAGE_TAG,KNOWLEDGE_API_URL docker compose -f compose.agent-aws.yaml)
 "${compose[@]}" config --quiet
-"${compose[@]}" run --rm --no-deps support-agent copilot init-agent
-"${compose[@]}" run --rm --no-deps support-agent copilot seed-mock
+"${compose[@]}" run --rm --no-deps support-agent caseflow init-agent
+"${compose[@]}" run --rm --no-deps support-agent caseflow seed-mock
 "${compose[@]}" up -d
 curl --retry 12 --retry-all-errors --retry-delay 2 --max-time 15 -fsS http://127.0.0.1:8002/ready
 mkdir -p .cache

@@ -2,15 +2,15 @@ import json
 
 import pytest
 
-from support_copilot.evaluation import (
+from caseflow.evaluation import (
     Question,
     calibrate_score_gate,
     load_questions,
     score_gate,
     summarize_retrieval,
 )
-from support_copilot.experiments import Experiment, evaluate_experiment
-from support_copilot.ingestion import Article
+from caseflow.experiments import Experiment, evaluate_experiment
+from caseflow.ingestion import Article
 
 
 def row(answerable, expected, scores_and_ids):

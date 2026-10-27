@@ -4,10 +4,10 @@ from contextlib import contextmanager
 import psycopg
 import pytest
 
-from support_copilot import mcp_server
-from support_copilot.auth import provision_token
-from support_copilot.config import Settings
-from support_copilot.database import connect
+from caseflow import mcp_server
+from caseflow.auth import provision_token
+from caseflow.config import Settings
+from caseflow.database import connect
 
 
 def test_exact_three_read_only_schemas_have_no_authority_arguments():

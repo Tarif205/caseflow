@@ -9,7 +9,7 @@ information, account credentials or real order data belongs in this directory.
 Day 6 also adds `mock/entities.json`: 3 fictional customers, 5 orders and 4
 tickets across Northwind and Contoso. Monetary amounts are integer USD cents;
 dates/statuses are frozen fixtures, not current business facts. Seed them into
-the local database with `copilot seed-mock`; repeated seeds insert missing rows
+the local database with `caseflow seed-mock`; repeated seeds insert missing rows
 without replacing operator edits. They are not part of the help-center embedding
 corpus, and no refund execution or actual customer information is present.
 
@@ -27,11 +27,11 @@ trusted-admin argument, not input accepted from a customer or model.
 
 ## Import
 
-After `copilot init-db`, run from the repository root:
+After `caseflow init-db`, run from the repository root:
 
 ```powershell
-uv run --frozen copilot ingest --tenant northwind --directory data/northwind
-uv run --frozen copilot ingest --tenant contoso --directory data/contoso
+uv run --frozen caseflow ingest --tenant northwind --directory data/northwind
+uv run --frozen caseflow ingest --tenant contoso --directory data/contoso
 ```
 
 The baseline is 800-character windows with 120-character overlap. Original text is
@@ -47,7 +47,7 @@ Files removed from the directory are not deleted from the database automatically
 The importer never deletes documents outside the batch or changes another tenant.
 
 The Day 1 three-article experiment uses its own `northwind-day1-demo` tenant, so
-running `copilot check-search` cannot replace the full help-center articles.
+running `caseflow check-search` cannot replace the full help-center articles.
 
 ## Evaluation provenance
 

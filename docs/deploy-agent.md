@@ -39,7 +39,7 @@ PowerShell at G:\support-copilot, Docker Desktop running:
 
 ```powershell
 $env:COPILOT_IMAGE_TAG='day10'
-docker compose -f compose.yaml -f compose.agent.yaml run --rm --no-deps support-agent copilot init-agent
+docker compose -f compose.yaml -f compose.agent.yaml run --rm --no-deps support-agent caseflow init-agent
 docker compose -f compose.yaml -f compose.agent.yaml up -d mock-backend support-agent
 .venv\Scripts\python.exe scripts/smoke_agent.py --base-url http://127.0.0.1:8002 --database local --output evals/results/day-10-local-container-smoke.json
 ```

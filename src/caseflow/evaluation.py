@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from itertools import pairwise
 from pathlib import Path
 
-from support_copilot.ingestion import SLUG
+from caseflow.ingestion import SLUG
 
 
 @dataclass(frozen=True)

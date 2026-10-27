@@ -5,7 +5,7 @@ import sys
 
 import pytest
 
-from support_copilot.config import PROJECT_ROOT
+from caseflow.config import PROJECT_ROOT
 
 
 @pytest.mark.integration

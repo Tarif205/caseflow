@@ -2,11 +2,11 @@ import json
 
 import pytest
 
-from support_copilot.agent_loop import Limits, run_agent
-from support_copilot.agent_tools import ToolFailure
-from support_copilot.auth import Principal
-from support_copilot.chat import ModelUnavailable
-from support_copilot.tool_chat import ModelTurn, ToolCall
+from caseflow.agent_loop import Limits, run_agent
+from caseflow.agent_tools import ToolFailure
+from caseflow.auth import Principal
+from caseflow.chat import ModelUnavailable
+from caseflow.tool_chat import ModelTurn, ToolCall
 
 HIT = {
     "id": "chunk-1",

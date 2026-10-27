@@ -5,10 +5,10 @@ import pytest
 from starlette.testclient import TestClient
 from test_mcp_server import reads as reads
 
-from support_copilot import mcp_http, mcp_server
-from support_copilot.auth import provision_token
-from support_copilot.config import Settings
-from support_copilot.database import KnowledgeStore
+from caseflow import mcp_http, mcp_server
+from caseflow.auth import provision_token
+from caseflow.config import Settings
+from caseflow.database import KnowledgeStore
 
 
 def headers(char="x", **extra):
