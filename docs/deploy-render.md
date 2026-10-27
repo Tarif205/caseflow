@@ -29,11 +29,11 @@ fictional demo. Check the Free plan and connection target. The existing ignored
 database before proceeding. Do not overwrite unrelated existing data. No remote
 schema or data has been changed by the assistant during deployment preparation.
 
-In VS Code's PowerShell terminal at `G:\support-copilot`, the following captures
+In VS Code's PowerShell terminal at `G:\caseflow`, the following captures
 the connection string directly into a process variable, without displaying it:
 
 ```powershell
-cd G:\support-copilot
+cd G:\caseflow
 $env:DATABASE_URL = (& .venv\Scripts\python.exe -c "from dotenv import dotenv_values; from psycopg.conninfo import conninfo_to_dict; u=dotenv_values('.env').get('NEON_DATABASE_URL',''); c=conninfo_to_dict(u); assert c.get('host','').endswith('.neon.tech') and c.get('sslmode') in {'require','verify-ca','verify-full'}, 'Set the intended Neon TLS URL first'; print(u)")
 if ($LASTEXITCODE -ne 0) { throw 'Neon settings check failed; stop here.' }
 uv run --frozen caseflow init-db

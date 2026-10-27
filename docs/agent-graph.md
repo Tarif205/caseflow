@@ -78,7 +78,7 @@ Langfuse tracing, public agent API or agent deployment is claimed.
 
 ## Run locally
 
-Use PowerShell in G:\support-copilot, with the local mock backend on 8004 and
+Use PowerShell in G:\caseflow, with the local mock backend on 8004 and
 existing credentials configured as described in the service README:
 
 ```powershell

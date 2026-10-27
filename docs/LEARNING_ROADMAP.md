@@ -26,7 +26,7 @@ Read the actual [workflow](../.github/workflows/ci.yml) beside the explanation i
 
 ## 2. How to use this roadmap without studying everything at once
 
-Use a separate local learning folder/repository, such as `G:\support-copilot-labs`.
+Use a separate local learning folder/repository, such as `G:\caseflow-labs`.
 Exercises that deliberately break things belong there, not in the deployed service
 or hosted database. Cloud exercises are optional until prerequisites are comfortable;
 local practice is enough for most phases.

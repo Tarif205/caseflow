@@ -1,7 +1,7 @@
 # CaseFlow Platform
 
 Formerly Support Copilot. See the [rename guide](docs/rename-caseflow.md) for the
-pending GitHub/folder steps and existing deployment identifiers we preserve.
+completed GitHub/folder steps and existing deployment identifiers we preserve.
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
@@ -42,10 +42,10 @@ For the complete HTTP service, follow the [Knowledge API setup](services/knowled
 Its interactive API documentation is at http://localhost:8001/docs while running.
 The commands below exercise the database and retrieval components directly.
 
-Use Windows PowerShell in `G:\support-copilot`, with Docker Desktop running:
+Use Windows PowerShell in `G:\caseflow`, with Docker Desktop running:
 
 ```powershell
-cd G:\support-copilot
+cd G:\caseflow
 uv sync --frozen --cache-dir G:\uv-cache
 docker compose up -d --wait db
 uv run --frozen caseflow init-db

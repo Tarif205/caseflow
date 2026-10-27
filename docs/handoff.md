@@ -1,5 +1,15 @@
 # Handoff: project state as of 19 October 2026
 
+## Folder move verified on 27 October 2026
+
+Current workspace is G:\caseflow; G:\support-copilot no longer exists. Recreated
+.venv, Python executable, import package and PROJECT_ROOT resolve to the new
+workspace; CLI help runs. Git remote is Tarif205/caseflow.git. Rename commit
+35ce4929cedc656c47f0da703f68ba6fc9de7a97 was independently verified on GitHub main
+before moving. Current docs now use the new Windows path. No cloud deployment
+or database/volume rename. Older pending-move notes below are superseded.
+
+
 ## CaseFlow rename on 27 October 2026
 
 User chose CaseFlow before Day 13. Source package/distribution/CLI now caseflow;

@@ -15,12 +15,12 @@ The current session's backend is already listening on loopback port 8004.
 
 ## Initialize locally
 
-Use VS Code PowerShell in `G:\support-copilot`, with Docker Desktop running.
+Use VS Code PowerShell in `G:\caseflow`, with Docker Desktop running.
 Keep the existing `.env`; do not overwrite it. DATABASE_URL must point at the
 local development database for these Day 6 commands (empty selects the default).
 
 ```powershell
-cd G:\support-copilot
+cd G:\caseflow
 docker compose up -d --wait db
 uv run --frozen caseflow seed-mock
 uv run --frozen caseflow provision-token --tenant northwind --scope kb:read --scope orders:read --scope tickets:read --scope agent:run --env-name NORTHWIND_AGENT_API_TOKEN

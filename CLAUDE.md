@@ -3,9 +3,8 @@
 ## Current project identity (27 October 2026)
 
 The product is CaseFlow. Python package/distribution/CLI: caseflow; PRD:
-[CaseFlow_PRD.md](CaseFlow_PRD.md). Current workspace is still G:\support-copilot
-until the user closes the editor and moves it. See docs/rename-caseflow.md for
-pending GitHub/folder steps. Preserve existing DB, Compose project/volumes,
+[CaseFlow_PRD.md](CaseFlow_PRD.md). Current workspace is G:\caseflow. The repository and folder rename are complete.
+See docs/rename-caseflow.md for the compatibility map. Preserve existing DB, Compose project/volumes,
 SSM/IAM/proxy identifiers and historical evidence. The learning contract is unchanged.
 
 

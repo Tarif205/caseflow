@@ -117,7 +117,7 @@ anything on EC2 in our present workflow.
 ### Recognize your prompt
 
 ```text
-(support-copilot) PS G:\support-copilot>
+(support-copilot) PS G:\caseflow>
 ```
 
 This is Windows PowerShell on your laptop. The prefix indicates a Python virtual

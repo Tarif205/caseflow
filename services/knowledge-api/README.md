@@ -9,7 +9,7 @@ only validated source quotes, with citations.
 In VS Code's PowerShell terminal, with Docker Desktop running:
 
 ```powershell
-cd G:\support-copilot
+cd G:\caseflow
 uv sync --frozen --cache-dir G:\uv-cache
 docker compose up -d --wait db
 uv run --frozen caseflow init-db

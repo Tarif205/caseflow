@@ -25,7 +25,7 @@ in the ignored `.env`. These are already configured in the current session.
 The hosted demo Knowledge API must be running at its current IP-encoded hostname;
 verify/update that URL after any EC2 stop/start address change.
 
-In another local PowerShell terminal at `G:\support-copilot`:
+In another local PowerShell terminal at `G:\caseflow`:
 
 ```powershell
 .venv\Scripts\python.exe scripts/run_agent.py --provider hosted --knowledge-url https://16-178-30-70.sslip.io --ticket "What is the status of order NW-1042?" --output evals/results/day-06-demo.json
@@ -91,7 +91,7 @@ read-only loop is unchanged and does not yet integrate this policy. Day 8 connec
 it to the graph; Day 9 implements durable human approval. No approval workflow
 or full-dataset model success rate is claimed.
 
-To check policy behavior without a model, in PowerShell at G:\support-copilot:
+To check policy behavior without a model, in PowerShell at G:\caseflow:
 
 ```powershell
 .venv\Scripts\pytest.exe -q tests/test_policy.py tests/test_policy_scenarios.py

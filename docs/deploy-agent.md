@@ -35,7 +35,7 @@ Run ids are namespaced by tenant and checked against stored ownership before rea
 
 ## Local containers already verified
 
-PowerShell at G:\support-copilot, Docker Desktop running:
+PowerShell at G:\caseflow, Docker Desktop running:
 
 ```powershell
 $env:COPILOT_IMAGE_TAG='day10'

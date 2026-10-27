@@ -66,7 +66,7 @@ to copilot_test and did not authorize this demo.
 
 ## Exact operator commands
 
-Use Windows PowerShell in **G:\support-copilot**. Docker's local Postgres and the
+Use Windows PowerShell in **G:\caseflow**. Docker's local Postgres and the
 mock backend on 8004 must be running. Local schema and the two new role tokens
 are already provisioned in this workspace; their values remain in ignored .env.
 

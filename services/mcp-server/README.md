@@ -52,7 +52,7 @@ tenant argument would hide a bad caller contract.
 
 ## Run and verify in this workspace
 
-Use **Windows PowerShell at G:\support-copilot**, with local Docker Postgres
+Use **Windows PowerShell at G:\caseflow**, with local Docker Postgres
 running and the already seeded corpus/mock data. New local read-only credentials
 NORTHWIND_MCP_API_TOKEN and CONTOSO_MCP_API_TOKEN were generated into ignored .env;
 their hashes are stored only in local Postgres. No values are printed or copied
@@ -94,7 +94,7 @@ To list tools directly through Inspector:
 
 ```powershell
 $env:npm_config_cache='G:\npm-cache'
-npm.cmd exec --offline --yes --package=node@24.22.1 --package=@modelcontextprotocol/inspector@2.12.0 -- mcp-inspector --cli --protocol-era legacy --format json --quiet --method tools/list G:\support-copilot\.venv\Scripts\python.exe -m caseflow.mcp_server
+npm.cmd exec --offline --yes --package=node@24.22.1 --package=@modelcontextprotocol/inspector@2.12.0 -- mcp-inspector --cli --protocol-era legacy --format json --quiet --method tools/list G:\caseflow\.venv\Scripts\python.exe -m caseflow.mcp_server
 ```
 
 To select Contoso in a local stdio session, set the **credential name**, not its
@@ -146,7 +146,7 @@ Mcp-Session-Id is rejected. Authority cannot be transferred through a session ID
 GET and DELETE return 405 after authentication; there is no resumable SSE channel.
 LangGraph's durable approval checkpoints remain separate from this transport.
 
-In **PowerShell at G:\support-copilot**, start the local server only if port 8003
+In **PowerShell at G:\caseflow**, start the local server only if port 8003
 is not already running:
 
 ```powershell

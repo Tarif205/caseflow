@@ -3,9 +3,8 @@
 ## Current project identity (27 October 2026)
 
 The product is CaseFlow. Python package/distribution/CLI: caseflow; PRD:
-[CaseFlow_PRD.md](CaseFlow_PRD.md). Current workspace is still G:\support-copilot
-until the user closes the editor and moves it. See docs/rename-caseflow.md for
-pending GitHub/folder steps. Preserve existing DB, Compose project/volumes,
+[CaseFlow_PRD.md](CaseFlow_PRD.md). Current workspace is G:\caseflow. The repository and folder rename are complete.
+See docs/rename-caseflow.md for the compatibility map. Preserve existing DB, Compose project/volumes,
 SSM/IAM/proxy identifiers and historical evidence. The learning contract is unchanged.
 
 
@@ -90,7 +89,7 @@ End every reply with **one** concrete next step. The learner often asks "next wh
   - `&&` does not work in PowerShell 5.1; use `;` or separate lines.
   - `curl` is an alias for `Invoke-WebRequest` and triggers a security prompt. Use `curl.exe` or `Invoke-RestMethod`.
   - After installing a tool or changing an environment variable, a terminal that was already open does not see it. Open a new terminal (or restart VS Code).
-- **Project:** `G:\support-copilot`. Python environment: `.venv` (Python 3.12.15, created with `uv`). VS Code auto-activates it; the prompt shows `(support-copilot)`.
+- **Project:** `G:\caseflow`. Python environment: `.venv` (Python 3.12.15, created with `uv`). VS Code auto-activates it; the prompt shows `(support-copilot)`.
 - **Packages:** `pyproject.toml` and `uv.lock` now exist. Use `uv add` for dependency changes and `uv sync --frozen --cache-dir G:\uv-cache` to reproduce the locked environment.
 - **Disk:** C: is nearly full (about 12 to 15 GB free). Put large things on G:. Docker's disk image, Ollama, its models and the fastembed cache are already on G:.
 - **Memory:** 7.8 GB RAM, often under 1 GB free. Run one heavy thing at a time; stop the model with `ollama stop qwen3:4b` when not testing.

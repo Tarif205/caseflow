@@ -36,32 +36,14 @@ The user still makes the commit and push for the reviewed source rename.
 GitHub documents the rename and remote-update procedure in its
 [official repository rename guide](https://docs.github.com/en/repositories/creating-and-managing-repositories/renaming-a-repository).
 
-## Local folder: do after closing this workspace
+## Local folder: completed and verified
 
-This chat's authorized workspace is G:\support-copilot. The live workspace has
-not been moved out from under the editor. Current commands still use that path.
-Once the repository rename and source verification are complete:
-
-1. Stop local Uvicorn/Inspector processes using this workspace and close VS Code.
-   Keep Docker volumes; do not run docker compose down -v.
-2. Open a new standalone PowerShell. Rename only the exact project directory:
-
-```powershell
-Set-Location G:\
-if (Test-Path -LiteralPath G:\caseflow) { throw 'G:\caseflow already exists; stop here.' }
-Rename-Item -LiteralPath G:\support-copilot -NewName caseflow
-Set-Location G:\caseflow
-Rename-Item -LiteralPath .venv -NewName .venv-before-caseflow
-uv sync --frozen --cache-dir G:\uv-cache
-code .
-```
-
-Virtual environments contain absolute paths, so recreate .venv rather than
-assuming the moved environment is portable. The old environment is retained in
-the ignored .venv-before-caseflow folder. If a backup with that name already
-exists, stop and inspect instead of overwriting it. The new Python prompt should
-show (caseflow). Reopen this chat with G:\caseflow as its workspace; then update
-the current Markdown/assistant-contract Windows paths together.
+The user moved the workspace to G:\caseflow and recreated .venv there. The old
+G:\support-copilot directory no longer exists. Verified Python executable,
+caseflow package and PROJECT_ROOT all resolve under G:\caseflow; the CLI help
+works and the virtual environment prompt is caseflow. The previous environment
+is retained in ignored .venv-before-caseflow. Current runnable documentation now
+uses the new path. Historical evidence retains the paths used at its creation.
 
 ## Existing identifiers intentionally retained
 
