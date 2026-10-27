@@ -35,6 +35,9 @@ jobs:
       - run: uv run --frozen ruff check src tests scripts evals/retrieval
       - run: uv run --frozen ruff format --check src tests scripts evals/retrieval
       - run: uv run --frozen pytest -q
+      - run: uv run --frozen python scripts/check_mcp_deploy_safety.py
       - run: docker build -f services/knowledge-api/Dockerfile -t caseflow-knowledge:ci .
       - run: docker build -f services/mock-backend/Dockerfile -t caseflow-backend:ci .
       - run: docker build -f services/support-agent/Dockerfile -t caseflow-agent:ci .
+      - run: docker build -f services/mcp-server/Dockerfile -t caseflow-mcp:ci .
+      - run: uv run --frozen python scripts/check_mcp_deploy_config.py

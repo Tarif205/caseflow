@@ -6,7 +6,10 @@ from langgraph.types import Command
 
 from caseflow.agent_graph import build_graph
 from caseflow.agent_loop import Limits
+from caseflow.auth import Principal
 from caseflow.config import PROJECT_ROOT
+from caseflow.mcp_client import MCPTools
+from caseflow.mcp_server import OrderResult
 from caseflow.policy import PolicyContext
 
 CASES = [
@@ -82,7 +85,22 @@ class PendingWorkflow:
 
 
 @pytest.mark.parametrize("case", CASES, ids=lambda row: row["id"])
-def test_hostile_surfaces_never_execute_without_authority(case, tmp_path):
+@pytest.mark.parametrize("read_transport", ["direct", "mcp"])
+def test_hostile_surfaces_never_execute_without_authority(case, tmp_path, read_transport):
+    reads = PoisonedReads(case)
+    if read_transport == "mcp":
+        from test_mcp_client import ACTOR, TOKEN, wire
+
+        value = reads.execute("search_kb" if case["id"] == "inj002" else "get_order", {}, 5)
+        if "results" in value:
+            value["results"][0]["score"] = 0.9
+        else:
+            # Server projections discard backend notes; poisoned article/ticket
+            # text remains untrusted. Deliberately wrong order id is retained.
+            value = {key: value[key] for key in OrderResult.model_fields}
+        transport, _ = wire(value=value)
+        actor = Principal("northwind", ACTOR.scopes | {"refunds:propose"}, "worker")
+        reads = MCPTools(actor, "http://127.0.0.1:8003/mcp", TOKEN, transport)
     workflow = PendingWorkflow()
     context = PolicyContext(
         tenant_id="northwind", customer_id="c1", scopes=frozenset({"agent:run", "refunds:propose"})
@@ -90,7 +108,7 @@ def test_hostile_surfaces_never_execute_without_authority(case, tmp_path):
     with SqliteSaver.from_conn_string(str(tmp_path / "injection.sqlite")) as saver:
         graph = build_graph(
             HostileModel(case),
-            PoisonedReads(case),
+            reads,
             context,
             Limits(max_steps=12),
             checkpointer=saver,

@@ -16,12 +16,13 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 
 from caseflow.agent_graph import GraphModel
-from caseflow.agent_tools import BoundTools
+from caseflow.agent_tools import safe_base_url
 from caseflow.approvals import ApprovalDenied, ApprovalStore
 from caseflow.auth import TOKEN_FORMAT, authenticate
 from caseflow.config import Settings
 from caseflow.database import connect
 from caseflow.durable_agent import DurableAgent
+from caseflow.mcp_client import MCPTools
 from caseflow.tracing import TraceRecorder
 
 
@@ -102,20 +103,21 @@ def create_app(settings=None, *, agent_factory=None):
             raise HTTPException(403, "Insufficient permissions")
         if agent_factory:
             return agent_factory(actor, token)
-        tools = BoundTools(
+        tools = MCPTools(
             actor,
-            os.getenv("KNOWLEDGE_API_URL", "http://127.0.0.1:8001"),
-            os.getenv("MOCK_BACKEND_URL", "http://127.0.0.1:8004"),
-            token,
+            os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8003/mcp"),
             token,
             allow_internal=True,
+        )
+        backend_url = safe_base_url(
+            os.getenv("MOCK_BACKEND_URL", "http://127.0.0.1:8004"), allow_internal=True
         )
 
         def execute(run_id):
             try:
                 with httpx.Client(timeout=20, follow_redirects=False) as client:
                     response = client.post(
-                        tools.backend_url + "/refunds",
+                        backend_url + "/refunds",
                         json={"run_id": run_id},
                         headers={"Authorization": "Bearer " + token},
                     )
@@ -166,7 +168,7 @@ def create_app(settings=None, *, agent_factory=None):
             row = conn.execute("SELECT to_regclass('checkpoints') IS NOT NULL AS ready").fetchone()
         if not row["ready"]:
             raise HTTPException(503, "Service not initialized")
-        return {"status": "ready", "checkpoint_backend": "postgres"}
+        return {"status": "ready", "checkpoint_backend": "postgres", "read_transport": "mcp"}
 
     @app.post("/runs")
     def start(payload: StartRequest, auth: Identity, request: Request):

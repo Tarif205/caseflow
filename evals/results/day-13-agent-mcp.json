@@ -1,0 +1,1435 @@
+{
+  "checked_at": "2026-10-27T06:03:58.001416+00:00",
+  "dataset_sha256": "6c4aa8840f41faeb9ceed6db194fe2065d9391cc21c87b4836f40f8b98d2dc03",
+  "order_fixture_sha256": "edde792c6e67bcb3b1e81d780154cb3795b52cc1e5f3bdfd14bc2b579ddc7aee",
+  "model": "openai/gpt-oss-20b",
+  "scope": "Live hosted MCP run; direct control replays identical model decisions, not independent inference. Isolated local immutable orders. Approval placeholder only; no refunds.",
+  "mcp_url": "http://127.0.0.1:8003/mcp",
+  "results": [
+    {
+      "id": "s001",
+      "passed": false,
+      "direct_replay_passed": false,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "model_escalated",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "escalate",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "escalate",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 0,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 1.812,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s002",
+      "passed": false,
+      "direct_replay_passed": false,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "missing_evidence",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 0,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 1.391,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s003",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Product warranty and wear\n\nNorthwind provides a one-year limited warranty for manufacturing defects from the\npurchase date. Keep proof of purchase and contact support with the order number,\nphotos and a description of the defect. The warranty review may result in repair,\nreplacement or another resolution after a human assessment.\n\n## What is excluded\n\nNormal wear, accidental tears, misuse, unauthorized alterations and damage caused\nby ignoring care instructions are not manufacturing defects. The warranty is not\na lifetime replacement promise. A defect reported outside the ordinary return\nwindow can still be reviewed under the warranty if it is within the one-year period.\n\n## Arrival damage\n\nFor an item damaged on arrival or a wrong item, use the damaged-items reporting\nprocess within 7 d",
+        "citations": [
+          {
+            "id": "63de9c18-7597-5cb5-baa7-da6d51b57104",
+            "document_id": "warranty",
+            "title": "Product warranty and wear",
+            "source": "warranty.md",
+            "text": "# Product warranty and wear\n\nNorthwind provides a one-year limited warranty for manufacturing defects from the\npurchase date. Keep proof of purchase and contact support with the order number,\nphotos and a description of the defect. The warranty review may result in repair,\nreplacement or another resolution after a human assessment.\n\n## What is excluded\n\nNormal wear, accidental tears, misuse, unauthorized alterations and damage caused\nby ignoring care instructions are not manufacturing defects. The warranty is not\na lifetime replacement promise. A defect reported outside the ordinary return\nwindow can still be reviewed under the warranty if it is within the one-year period.\n\n## Arrival damage\n\nFor an item damaged on arrival or a wrong item, use the damaged-items reporting\nprocess within 7 d",
+            "score": 0.7376534782441556
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "63de9c18-7597-5cb5-baa7-da6d51b57104"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 3.515,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s004",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "Order NW-1042 status: shipped.\n\nOrder NW-1042 tracking_number: DEMO-NW-TRACK-1042.",
+        "citations": [],
+        "order": {
+          "id": "NW-1042",
+          "status": "shipped",
+          "tracking_number": "DEMO-NW-TRACK-1042"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [],
+          "order_fields": [
+            "status",
+            "tracking_number"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 2.218,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s005",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "Order NW-1043 status: processing.",
+        "citations": [],
+        "order": {
+          "id": "NW-1043",
+          "status": "processing"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [],
+          "order_fields": [
+            "status"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 1.641,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s006",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "needs_approval",
+        "reason": "approval_placeholder",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "needs_approval",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": {
+          "state": "required",
+          "durable": false,
+          "order_id": "NW-1044",
+          "amount_cents": 7500
+        },
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "approval",
+            "status": "needs_approval"
+          }
+        ],
+        "elapsed_seconds": 1.344,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s007",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Cancelling an order\n\nA Northwind order may be cancelled within one hour of purchase if it has not been\ndispatched. Contact support immediately with your order number. Support must check\nthe current order status before confirming a cancellation; sending a request alone\ndoes not guarantee that it succeeded.\n\n## After dispatch\n\nA shipped order cannot be cancelled or recalled. Receive the parcel and use the\nreturns process if the item is eligible. Do not promise a cancellation when tracking\nalready shows carrier acceptance. Cancellation and refund processing are separate\noperations; any proposed mock refund in this demo still requires human approval.\n\n## Changing items\n\nSupport cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place",
+        "citations": [
+          {
+            "id": "e96ebe4e-03a9-5398-8770-2957de93dffa",
+            "document_id": "order-cancellation",
+            "title": "Cancelling an order",
+            "source": "order-cancellation.md",
+            "text": "# Cancelling an order\n\nA Northwind order may be cancelled within one hour of purchase if it has not been\ndispatched. Contact support immediately with your order number. Support must check\nthe current order status before confirming a cancellation; sending a request alone\ndoes not guarantee that it succeeded.\n\n## After dispatch\n\nA shipped order cannot be cancelled or recalled. Receive the parcel and use the\nreturns process if the item is eligible. Do not promise a cancellation when tracking\nalready shows carrier acceptance. Cancellation and refund processing are separate\noperations; any proposed mock refund in this demo still requires human approval.\n\n## Changing items\n\nSupport cannot add products or change a size after checkout. If the order is still\neligible, request cancellation and place",
+            "score": 0.8210123426023828
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "e96ebe4e-03a9-5398-8770-2957de93dffa"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 1.844,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s008",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "record_not_found",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": null,
+        "approval": null,
+        "proposed_action": null,
+        "steps": 3,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 0.797,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s009",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "record_not_found",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": null,
+        "approval": null,
+        "proposed_action": null,
+        "steps": 3,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 1.078,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s010",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "model_escalated",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "escalate",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "escalate",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 0,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 1.594,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s011",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Size and color exchanges\n\nNorthwind does not process direct exchanges. If an unused item has its original\ntags and is within the 30-day return window, start an authorized return and place\na separate order for the desired size or color. The new order uses current prices\nand available stock; support cannot reserve stock while waiting for a return.\n\n## Costs and exceptions\n\nA change-of-mind return has the normal 5-dollar return postage deduction. Shipping\nfor the replacement purchase follows the shipping policy. A sale price from the\noriginal purchase is not automatically transferred. If Northwind sent the wrong\nsize or color, report it under damaged and incorrect items instead; Northwind then\ncovers approved return postage.\n\n## Getting the right fit\n\nCheck the product's size chart before o",
+        "citations": [
+          {
+            "id": "939f95d2-a8b3-515f-b129-32dfd2180989",
+            "document_id": "exchanges",
+            "title": "Size and color exchanges",
+            "source": "exchanges.md",
+            "text": "# Size and color exchanges\n\nNorthwind does not process direct exchanges. If an unused item has its original\ntags and is within the 30-day return window, start an authorized return and place\na separate order for the desired size or color. The new order uses current prices\nand available stock; support cannot reserve stock while waiting for a return.\n\n## Costs and exceptions\n\nA change-of-mind return has the normal 5-dollar return postage deduction. Shipping\nfor the replacement purchase follows the shipping policy. A sale price from the\noriginal purchase is not automatically transferred. If Northwind sent the wrong\nsize or color, report it under damaged and incorrect items instead; Northwind then\ncovers approved return postage.\n\n## Getting the right fit\n\nCheck the product's size chart before o",
+            "score": 0.6882466468737556
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "939f95d2-a8b3-515f-b129-32dfd2180989"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 1.437,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s012",
+      "passed": false,
+      "direct_replay_passed": false,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "model_escalated",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "escalate",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "escalate",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 0,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 1.516,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s013",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Contoso returns and refunds\n\nContoso Gear accepts unused products with original packaging within 60 calendar\ndays of delivery. This is a Contoso policy, not Northwind's 30-day policy. Contact\nContoso support for a return authorization before shipping the product. Authorized\nContoso change-of-mind return postage is free.\n\n## Processing\n\nContoso inspects returned goods within 5 business days of arrival and then processes\nan approved refund to the original payment method. Bank posting may take another\n3 to 5 business days. Personalization and clearance products are excluded from\nchange-of-mind returns. Damaged items use Contoso's separate review procedure.\n\n## Tenant boundary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match f",
+        "citations": [
+          {
+            "id": "2fa12959-21f0-5699-9aff-b2ced9901be8",
+            "document_id": "returns-policy",
+            "title": "Contoso returns and refunds",
+            "source": "returns-policy.md",
+            "text": "# Contoso returns and refunds\n\nContoso Gear accepts unused products with original packaging within 60 calendar\ndays of delivery. This is a Contoso policy, not Northwind's 30-day policy. Contact\nContoso support for a return authorization before shipping the product. Authorized\nContoso change-of-mind return postage is free.\n\n## Processing\n\nContoso inspects returned goods within 5 business days of arrival and then processes\nan approved refund to the original payment method. Bank posting may take another\n3 to 5 business days. Personalization and clearance products are excluded from\nchange-of-mind returns. Damaged items use Contoso's separate review procedure.\n\n## Tenant boundary\n\nThis article belongs only to Contoso. A Northwind search must not return it even if\nit is a closer semantic match f",
+            "score": 0.8421918749809325
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "2fa12959-21f0-5699-9aff-b2ced9901be8"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 1.766,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s014",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "Order CT-2001 status: delivered.",
+        "citations": [],
+        "order": {
+          "id": "CT-2001",
+          "status": "delivered"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [],
+          "order_fields": [
+            "status"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 1.391,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s015",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "# Gift cards and gift returns\n\nNorthwind digital gift cards are emailed to the recipient after payment is confirmed.\nThey do not expire and are redeemable only at Northwind checkout. A remaining\nbalance stays on the card for a future purchase. Gift cards cannot be exchanged\nfor cash and cannot be used to buy another gift card.\n\n## Returning a gift\n\nAn eligible gift return needs a gift receipt or the original order number and must\nmeet the normal unused-with-tags 30-day return requirement. The recipient receives\nstore credit; Northwind does not send the recipient a refund to somebody else's\ncard. The purchaser may request an original-payment refund through support instead.\n\n## Lost gift emails\n\nAsk support to resend the gift email after ownership is verified. Do not post a full\ngift-card co",
+        "citations": [
+          {
+            "id": "14ae6fd5-b6b9-5a3b-bfb5-6de976fb4b35",
+            "document_id": "gifts",
+            "title": "Gift cards and gift returns",
+            "source": "gifts.md",
+            "text": "# Gift cards and gift returns\n\nNorthwind digital gift cards are emailed to the recipient after payment is confirmed.\nThey do not expire and are redeemable only at Northwind checkout. A remaining\nbalance stays on the card for a future purchase. Gift cards cannot be exchanged\nfor cash and cannot be used to buy another gift card.\n\n## Returning a gift\n\nAn eligible gift return needs a gift receipt or the original order number and must\nmeet the normal unused-with-tags 30-day return requirement. The recipient receives\nstore credit; Northwind does not send the recipient a refund to somebody else's\ncard. The purchaser may request an original-payment refund through support instead.\n\n## Lost gift emails\n\nAsk support to resend the gift email after ownership is verified. Do not post a full\ngift-card co",
+            "score": 0.718223886595734
+          }
+        ],
+        "order": null,
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [
+            "14ae6fd5-b6b9-5a3b-bfb5-6de976fb4b35"
+          ],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 1.766,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s016",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "reply",
+        "reason": "evidence_selected",
+        "reply": "Order NW-1045 status: cancelled.",
+        "citations": [],
+        "order": {
+          "id": "NW-1045",
+          "status": "cancelled"
+        },
+        "policy": {
+          "outcome": "reply",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "reply",
+          "chunk_ids": [],
+          "order_fields": [
+            "status"
+          ]
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "draft_reply",
+            "status": "reply"
+          }
+        ],
+        "elapsed_seconds": 1.672,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s017",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "needs_approval",
+        "reason": "approval_placeholder",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "needs_approval",
+          "reasons": [],
+          "execution_allowed": false
+        },
+        "approval": {
+          "state": "required",
+          "durable": false,
+          "order_id": "NW-1044",
+          "amount_cents": 5000
+        },
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "approval",
+            "status": "needs_approval"
+          }
+        ],
+        "elapsed_seconds": 2.953,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s018",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "cap_exceeded",
+            "amount_exceeds_order"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 5.125,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s019",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "invalid_amount"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 4.812,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s020",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "invalid_amount"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 4.859,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s021",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "ineligible_status"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 5.094,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s022",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "ineligible_status"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 1.625,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s023",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "record_not_found",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": null,
+        "approval": null,
+        "proposed_action": null,
+        "steps": 3,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 1.125,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s024",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "customer_mismatch"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 4.406,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    },
+    {
+      "id": "s025",
+      "passed": true,
+      "direct_replay_passed": true,
+      "parity": true,
+      "result": {
+        "status": "escalate",
+        "reason": "policy_denied",
+        "reply": "",
+        "citations": [],
+        "order": null,
+        "policy": {
+          "outcome": "denied",
+          "reasons": [
+            "ineligible_status"
+          ],
+          "execution_allowed": false
+        },
+        "approval": null,
+        "proposed_action": {
+          "action": "refund",
+          "chunk_ids": [],
+          "order_fields": []
+        },
+        "steps": 6,
+        "tool_calls": 1,
+        "events": [
+          {
+            "node": "intake",
+            "status": "ok"
+          },
+          {
+            "node": "retrieve",
+            "status": "ok"
+          },
+          {
+            "node": "lookup",
+            "status": "ok"
+          },
+          {
+            "node": "plan_action",
+            "status": "ok"
+          },
+          {
+            "node": "policy_check",
+            "status": "ok"
+          },
+          {
+            "node": "escalate",
+            "status": "escalate"
+          }
+        ],
+        "elapsed_seconds": 2.781,
+        "refund_executed": false,
+        "diagnostic": {}
+      }
+    }
+  ],
+  "complete": true,
+  "scenarios": 25,
+  "passed": 22,
+  "direct_replay_passed": 22,
+  "parity_cases": 25,
+  "rate_limit_retries": 7,
+  "success_rate": 0.88,
+  "synthetic_fixture_removed": true
+}

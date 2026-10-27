@@ -11,19 +11,22 @@ from dotenv import dotenv_values
 from mcp import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
+from caseflow.agent_tools import safe_base_url
 from caseflow.config import PROJECT_ROOT
 from caseflow.mcp_server import CONTRACTS, ArticleResult
 
 
-async def main(output="evals/results/day-12-http.json"):
+async def main(output="evals/results/day-12-http.json", endpoint="http://127.0.0.1:8003/mcp"):
     values = dotenv_values(PROJECT_ROOT / ".env")
-    url = "http://127.0.0.1:8003/mcp"
+    url = safe_base_url(endpoint)
+    if not url.endswith("/mcp"):
+        raise ValueError("MCP endpoint required")
     report = {
         "checked_at": datetime.now(UTC).isoformat(),
         "url": url,
         "transport": "streamable-http",
         "stateless": True,
-        "scope": "local real read-only SDK clients; no model, action or deployment",
+        "scope": "real read-only SDK clients; no model, action or deployment by this checker",
         "sessions": [],
         "complete": False,
     }
@@ -63,6 +66,11 @@ async def main(output="evals/results/day-12-http.json"):
                         },
                     )
                     assert "untrusted_ticket" in prompt.messages[0].content.text
+                    foreign = "CT-2001" if tenant == "northwind" else "NW-1042"
+                    rejected = await session.call_tool("get_order_status", {"order_id": foreign})
+                    missing = await session.call_tool("get_order_status", {"order_id": "NW-9999"})
+                    assert rejected.isError and missing.isError
+                    assert rejected.model_dump() == missing.model_dump()
                     report["sessions"].append(
                         {
                             "tenant_fixture": tenant,
@@ -75,6 +83,7 @@ async def main(output="evals/results/day-12-http.json"):
                                 article.model_dump_json().encode()
                             ).hexdigest(),
                             "prompt_prepared": True,
+                            "foreign_order_matches_missing_error": True,
                         }
                     )
 
@@ -97,7 +106,9 @@ if __name__ == "__main__":
     try:
         parser = argparse.ArgumentParser(description=__doc__)
         parser.add_argument("--output", default="evals/results/day-12-http.json")
-        anyio.run(main, parser.parse_args().output)
+        parser.add_argument("--url", default="http://127.0.0.1:8003/mcp")
+        args = parser.parse_args()
+        anyio.run(main, args.output, args.url)
     except BaseException as exc:
         raise SystemExit(
             f"HTTP verification failed ({type(exc).__name__}); raw details withheld"

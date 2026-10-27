@@ -1,4 +1,25 @@
-Day 10 update: authenticated HTTP workflow and opt-in guarded backend execution
+# CaseFlow support agent: Day 13 local MCP integration
+
+The current HTTP workflow and scripts/agent_workflow.py use MCPTools for all graph
+reads. It maps search_kb/get_order to the MCP read server using the authenticated
+worker bearer, with strict discovery/schema checks and no direct-read fallback.
+Human approval and mock refund execution remain outside MCP. The operator's
+approval credential is never passed to the read tools or model.
+
+Local Docker agent: http://127.0.0.1:8002; MCP: http://127.0.0.1:8003/mcp.
+Inside Docker the agent uses http://mcp-server:8000/mcp. To use the durable CLI,
+keep the MCP server running; --mcp-url selects a trusted endpoint. Previous
+--knowledge-url/--backend-url flags are removed from that CLI. Historical
+scripts/run_agent.py remains the direct-tool baseline, not the current HTTP path.
+
+370 tests passed; live MCP 22/25 (88%); local Docker approval/idempotency smoke
+passed. See [local commands and deployment proposal](../../docs/deploy-mcp.md)
+and [G3 evidence](../../docs/gates/G3-verification.md). Public MCP deployment is
+pending; the deployed agent is still the verified Day 10 version.
+
+---
+
+Day 10 history: authenticated HTTP workflow and opt-in guarded backend execution
 are deployed on EC2 in release 47906e1; public HTTPS smoke passed.
 See [current service/deployment guide](../../docs/deploy-agent.md). Earlier sections below are
 historical modes; default backend execution remains disabled unless explicitly enabled.

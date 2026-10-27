@@ -1,5 +1,17 @@
 # MCP threat table and verified boundaries
 
+Day 13 adds the agent-side MCP adapter. The complete suite now passes 370 tests.
+Client registry/schema changes fail before a call; model-supplied identity/write
+fields and missing scopes fail before IO. Outputs are strictly validated, response
+bodies and whole read sequences are bounded, and remote plaintext URLs are
+rejected. See tests/test_mcp_client.py. Eight hostile surfaces also run through
+both direct and MCP adapters: 16/16 enforcement checks. No live-model injection
+immunity is claimed. The Day 12 table and its original counts remain below.
+
+Approved cloud provisioning has five additional tests for atomic/idempotent hash
+creation and refusal to broaden or revive existing credentials. No plaintext
+token is stored in Neon, deployment files or reports.
+
 Day 12, 26 October 2026. Local stdio and stateless Streamable HTTP use the same
 read layer. This is an application bearer-token scheme for pre-provisioned project
 clients, not a complete MCP OAuth authorization-server implementation.

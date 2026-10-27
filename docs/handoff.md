@@ -1,5 +1,102 @@
 # Handoff: project state as of 19 October 2026
 
+## Explicit deployment approval and release preparation: 27 October 2026
+
+User explicitly approved exposing authenticated MCP on existing EC2 and adding
+the two existing read-only MCP token hashes to Neon. This supersedes older
+approval-blocked notes below. Do NOT ask the same permission again. No actual
+deployment or production provisioning has run yet; USER release commit/push and
+successful fresh CI remain the prerequisite. Do not commit/push for the user.
+
+- Approved cloud Compose prepared: support-copilot-agent project retained;
+  caseflow-mcp image, loopback8003,512MiB cap, non-root image, dropped capabilities,
+  no-new-privileges, explicit internal/public hosts, existing embeddings volume.
+  Agent fixed MCP_SERVER_URL internal; existing Knowledge URL retained for rollback.
+- New deploy_mcp_ec2.sh requires full40char exact clean HEAD and successful latest
+  main/push CI before secrets/updates, plus existing proxy/volume and >=600MiB
+  available memory. Reads only existing DATABASE_URL/LLM_API_KEY SSM paths in
+  memory. Builds three images; validates Caddy candidate; waits for services;
+  adds /mcp and /mcp/* while preserving /agent/* and Knowledge routes.
+- Saves prior image refs/proxy contents in .cache/day13-rollback-RELEASE_PREFIX.
+  Automatic rollback on update failure; explicit --rollback supported. Keeps
+  proxy bind inode/certs/data; old deploy_agent_ec2.sh delegates to new helper.
+- New provision_mcp_cloud.py adds only existing NORTHWIND/CONTOSO_MCP_API_TOKEN
+  hashes to configured Neon with kb:read/orders:read/tickets:read. Atomic,
+  idempotent, rejects mismatched/revoked/expired rows. Raw values never printed
+  or copied to cloud files. Run only AFTER exact release CI passes.
+- check_mcp_http.py accepts --url and compares foreign/missing order errors for
+  both tenants. Local final check passed, evidence day-13-local-mcp-smoke.json.
+- 370 tests passed in29.22s. Five new credential tests in LOCAL test DB. Linux
+  deployment harness passed with mocked commands/no network, including automatic
+  rollback before/after proxy edits, explicit rollback and failed-CI refusal.
+  Real Compose/Caddy config checks passed with dummy values; no real startup.
+  CI now runs harness+config checks as well as tests and four image builds.
+- Initial harness run needed exec-enabled isolated /tmp for executable test stubs;
+  fixed only test-container setup. Approval-review usage-limit failure did not
+  execute; user said carry on, retry completed. No security review bypass.
+- NEXT: user commits/pushes full Day13 release; read exactSHA and CI. Then run
+  provision_mcp_cloud.py; SSH verifiedcurrentIP, update existing ~/support-copilot,
+  deploy exactSHA using deploy_mcp_ec2.sh. Run public MCP SDK+Inspector, synthetic
+  agent --require-mcp --database neon, existing KB smoke, and capture EC2 stats.
+  docs/deploy-mcp.md has sequence/rollback. G3 still pending public evidence.
+
+## Public deployment approval follow-up on 27 October 2026
+
+User replied "do what is necessary" to the deployment proposal. Read-only SSH to
+16.178.30.70 verified current checkout47906e1, original Day10 agent/backend images,
+Knowledge531d7c4, Caddy2.11.7,999MiB available RAM and existing embeddings volume.
+The attempted concrete patch was rejected AGAIN by automatic approval review:
+it requires explicit authorization for public MCP topology AND provisioning two
+existing read-only MCP token hashes in production Neon. No cloud patch or token
+mutation performed; compose.agent-aws.yaml unchanged and provision_mcp_cloud.py
+not created. Do not bypass or keep retrying without explicit approval/evidence.
+docs/deploy-mcp.md now lists the two exact actions to approve. Local Day13 remains
+verified as below; no new commit/push by agent. Await that approval, then prepare
+the patch, user release commit/push, CI and deployment/public checks.
+
+## Day 13 local verified on 27 October 2026; public approval pending
+
+- Current agent API and durable CLI use MCPTools, no direct-read fallback. Fixed
+  search_kb/get_order mapping, exact registry/schema checks, read annotations,
+  bound worker token/URL, 128,000-byte response limit and max 20s whole read budget.
+  SDK 1.30.0 reused; no dependencies changed. Historical direct-loop script retained.
+  Refunds remain on the guarded internal backend and distinct human approval ledger.
+- Live hosted MCP evaluation 22/25 (88%); saved direct 21/25 (84%). Same immutable
+  order/corpus fixtures, exact random local namespaces copied then cleaned. Direct
+  control replayed identical model choices and verified model input digests;
+  25/25 final results matched except elapsed time/diagnostics. Replay is NOT
+  independent inference. Seven recovered rate-limit retries. Fails s001/s002/s012.
+  Quality eval uses a non-durable approval marker and executes no refunds.
+- 365 tests passed in 29.80s, including all Postgres integration. Eight injection
+  surfaces through direct+MCP adapters pass 16/16; not a live-model immunity claim.
+  Dedicated G: temp path resolved Windows default pytest-temp ACL failures.
+- Added non-root services/mcp-server/Dockerfile and CI build. Built local images
+  caseflow-mcp/agent/backend:day13. Local Compose project support-copilot preserved;
+  MCP loopback8003 -> container8000, agent8002, internal backend, existing KB/db.
+  Host Uvicorn PID8360 stopped before Docker took port8003; no host MCP listener.
+- Local Docker smoke passed actual MCP order lookup, durable pause, scoped/foreign/
+  forged resume rejection, synthetic operator decision, resume and exactly one
+  mock receipt after retry. Temporary smoke tenant/checkpoints removed. Existing
+  demo refund history preserved. No real or existing customer approval performed.
+- Official Inspector2.12.0 with isolated Node24.22.1 legacy mode listed/called all
+  three tools over HTTP. New JS wrapper uses installed runCli with auth header in
+  memory, never OS argv/config files. No UI screenshot claim. Both checker and
+  smoke accept explicit public options for later authorized release verification.
+- Evidence day-13-agent-mcp.json, day-13-injections.json,
+  day-13-local-agent-smoke.json, day-13-local-inspector.json. Architecture.md,
+  decision007, journal day13 and docs/gates/G3-verification.md updated.
+- IMPORTANT: automatic approval review rejected the AWS Compose/proxy patch to
+  add public MCP exposure. Patch was NOT applied. No workaround or cloud change.
+  compose.agent-aws.yaml is unchanged. deploy_agent_ec2.sh has a fail-safe preflight
+  refusing that old topology. Concrete target/routing/limits/rollback proposal in
+  docs/deploy-mcp.md: existing Sydney i-073581e82c41622ea, current documented host
+  16-178-30-70.sslip.io; public HTTPS /mcp, private loopback8003, existing IAM/SSM
+  and volumes. Verify current IP before deployment. No new paid resource planned.
+- NEXT: request explicit user approval for that public target/scope. After it,
+  prepare/review cloud patch, USER commits/pushes, verify fresh CI, deploy exact
+  reviewed commit, then public Inspector/MCP/agent/existing KB smoke. Do NOT claim
+  Day13 or G3 complete yet. Learner explanation remains deferred, never passed.
+
 ## Folder move verified on 27 October 2026
 
 Current workspace is G:\caseflow; G:\support-copilot no longer exists. Recreated

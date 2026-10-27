@@ -7,12 +7,12 @@ from dataclasses import replace
 from pathlib import Path
 
 from caseflow.agent_graph import GraphModel
-from caseflow.agent_tools import BoundTools
 from caseflow.approvals import ApprovalStore
 from caseflow.auth import authenticate
 from caseflow.config import PROJECT_ROOT, Settings
 from caseflow.database import connect
 from caseflow.durable_agent import DurableAgent
+from caseflow.mcp_client import MCPTools
 from caseflow.tracing import TraceRecorder
 
 
@@ -26,13 +26,10 @@ def main():
     parser.add_argument(
         "--checkpoint", type=Path, default=PROJECT_ROOT / ".cache/agent-checkpoints.sqlite"
     )
-    parser.add_argument(
-        "--knowledge-url", default=os.getenv("KNOWLEDGE_API_URL", "http://127.0.0.1:8001")
-    )
-    parser.add_argument(
-        "--backend-url", default=os.getenv("MOCK_BACKEND_URL", "http://127.0.0.1:8004")
-    )
     parser.add_argument("--trace", action="store_true")
+    parser.add_argument(
+        "--mcp-url", default=os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8003/mcp")
+    )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.action == "start" and not args.ticket_id:
@@ -60,13 +57,7 @@ def main():
                 from langfuse import get_client
 
                 tracer = TraceRecorder(get_client())
-            tools = BoundTools(
-                actor,
-                args.knowledge_url,
-                args.backend_url,
-                os.getenv(args.tenant.upper() + "_API_TOKEN", ""),
-                token,
-            )
+            tools = MCPTools(actor, args.mcp_url, token)
             model_cfg = replace(
                 cfg,
                 llm_provider="openai_compatible",

@@ -1,10 +1,39 @@
 name: support-copilot-agent
 services:
+  mcp-server:
+    image: caseflow-mcp:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Load from Parameter Store}
+      MCP_ALLOWED_HOSTS: "mcp-server,localhost,127.0.0.1,${MCP_PUBLIC_HOST:?Use the existing HTTPS hostname}"
+    ports:
+      - "127.0.0.1:8003:8000"
+    volumes:
+      - mcp-embeddings:/cache/fastembed
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "2"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/ready', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
   mock-backend:
     image: caseflow-backend:${COPILOT_IMAGE_TAG:?Use the reviewed commit id}
     environment:
       DATABASE_URL: ${DATABASE_URL:?Load from Parameter Store}
       MOCK_REFUNDS_ENABLED: "true"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
     mem_limit: 256m
     restart: unless-stopped
     logging:
@@ -21,15 +50,28 @@ services:
       LLM_MODEL: openai/gpt-oss-20b
       LLM_TIMEOUT_SECONDS: "60"
       KNOWLEDGE_API_URL: ${KNOWLEDGE_API_URL:?Use existing HTTPS Knowledge API URL}
+      MCP_SERVER_URL: http://mcp-server:8000/mcp
       MOCK_BACKEND_URL: http://mock-backend:8000
       AGENT_ROOT_PATH: /agent
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/ready', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
     ports:
       - "127.0.0.1:8002:8000"
     depends_on:
-      - mock-backend
+      mcp-server:
+        condition: service_healthy
+      mock-backend:
+        condition: service_healthy
     mem_limit: 384m
     restart: unless-stopped
     logging:
       options:
         max-size: "5m"
         max-file: "2"
+volumes:
+  mcp-embeddings:
+    external: true
+    name: support-copilot-embeddings

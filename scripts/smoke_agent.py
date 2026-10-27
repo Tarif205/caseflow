@@ -27,6 +27,7 @@ def main():
     parser.add_argument("--base-url", required=True)
     parser.add_argument("--database", choices=["local", "neon"], default="local")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--require-mcp", action="store_true")
     args = parser.parse_args()
     base = safe_base_url(args.base_url)
     if args.database == "local":
@@ -87,7 +88,11 @@ def main():
                 return client.request(method, base + path, headers=headers, **kwargs)
 
             assert request("GET", "/health").status_code == 200
-            assert request("GET", "/ready").status_code == 200
+            ready = request("GET", "/ready")
+            assert ready.status_code == 200
+            if args.require_mcp:
+                assert ready.json().get("read_transport") == "mcp"
+                report["checks"].append("agent_configured_for_mcp")
             assert request("GET", "/approvals").status_code == 401
             report["checks"].append("health_ready_missing_auth")
             stage = "start"

@@ -5,7 +5,7 @@ completed GitHub/folder steps and existing deployment identifiers we preserve.
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Day 12 local MCP stdio and authenticated stateless HTTP verified, including the article resource and draft-reply prompt. **343 local tests passed**; concurrent real HTTP clients stayed tenant-isolated. Day 10 agent/backend release `47906e1` and Knowledge API remain deployed and verified; G2 technical checks passed. MCP agent integration and deployment are Day 13. Learning checks remain deferred. See [MCP tools and setup](services/mcp-server/README.md), [MCP threat table](docs/mcp-threats.md) and [G2 evidence](docs/gates/G2-verification.md).
+**Status:** Day 13 agent reads now use MCP locally. **370 tests passed**, live MCP evaluation scored **22/25 (88%)**, and the Docker approval/refund workflow and official HTTP Inspector checks passed. Public MCP deployment is approved and prepared, awaiting a user-pushed release and CI; EC2 still runs its verified Day 10 agent/backend release `47906e1` and existing Knowledge API. Learning checks remain deferred. See [architecture](docs/architecture.md), [G3 evidence](docs/gates/G3-verification.md) and [deployment guide](docs/deploy-mcp.md).
 
 Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
 is running at that IP). Article endpoints require private scoped tokens; none are
@@ -21,8 +21,8 @@ For official topic names, exercises and video resources, use the
 |---------|--------------|--------|
 | `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
 | `services/mock-backend` | Fictional orders/tickets and approval-guarded mock refunds | [Local backend ready](services/mock-backend/README.md) |
-| `services/support-agent` | LangGraph workflow with durable human approval | [HTTP workflow deployed](services/support-agent/README.md); public smoke passed |
-| `services/mcp-server` | Read-only MCP tools, article resource and draft prompt with token auth and tenant isolation | [Local stdio, Inspector and HTTP verified](services/mcp-server/README.md); deployment pending |
+| `services/support-agent` | LangGraph workflow with durable human approval | [MCP-backed workflow verified locally](services/support-agent/README.md); Day 10 version remains deployed |
+| `services/mcp-server` | Read-only MCP tools, article resource and draft prompt with token auth and tenant isolation | [Docker HTTP and agent integration verified locally](services/mcp-server/README.md); approved public release awaiting commit/CI |
 
 ## Repository layout
 

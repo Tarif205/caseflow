@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-10-27T13:26:15.088041+00:00",
+  "scope": "local release preparation only; no EC2 deployment or Neon credential mutation performed",
+  "approval": "explicit user approval for public authenticated MCP and two existing read-only MCP token hashes",
+  "tests": {
+    "passed": 370,
+    "pytest_seconds": 29.22
+  },
+  "deployment_harness": {
+    "passed": true,
+    "mode": "mock commands in network-disabled Linux container",
+    "checks": [
+      "bash syntax",
+      "CI refusal before secrets or updates",
+      "success with old routes retained",
+      "automatic rollback before and after proxy change",
+      "explicit rollback",
+      "credential values absent from output"
+    ]
+  },
+  "deployment_config": {
+    "passed": true,
+    "mode": "actual Compose parsing with dummy values and Caddy validate/adapt in disposable local container",
+    "checks": [
+      "private loopback port8003",
+      "fixed internal agent MCP URL",
+      "explicit host allowlist",
+      "existing cache volume",
+      "MCP/agent/Knowledge routes"
+    ]
+  },
+  "release_state": "awaiting user commit/push and successful CI"
+}

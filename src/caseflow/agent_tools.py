@@ -64,7 +64,7 @@ def safe_base_url(url: str, *, allow_internal=False) -> str:
         raise ValueError("Invalid tool service URL")
     allowed = {"localhost", "127.0.0.1", "::1"}
     if allow_internal:
-        allowed |= {"mock-backend", "knowledge-api"}
+        allowed |= {"mock-backend", "knowledge-api", "mcp-server"}
     if p.scheme != "https" and p.hostname not in allowed:
         raise ValueError("Remote tool credentials require HTTPS")
     return url.rstrip("/")

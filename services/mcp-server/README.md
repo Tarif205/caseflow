@@ -1,5 +1,13 @@
 # Read-only MCP server: local stdio and Streamable HTTP
 
+**Day 13 update:** current agent graph reads now use the MCP SDK client adapter.
+Local Docker MCP listens on 127.0.0.1:8003; do not also start host Uvicorn on that
+port. Non-root image caseflow-mcp:day13, 512 MiB cap, existing embedding cache.
+370 tests and the local Docker workflow passed. Official Inspector 2.12.0 called
+all three tools over HTTP. Public deployment is approved, awaiting release commit/CI;
+see [deployment proposal](../../docs/deploy-mcp.md) and
+[G3 evidence](../../docs/gates/G3-verification.md).
+
 MCP lets a client discover tool schemas and call them through a standard protocol.
 This server wraps the existing retrieval/order/ticket reads. It does not call a
 chat model, draft replies, approve actions or execute refunds.
@@ -204,8 +212,19 @@ scope checks, bounded inputs and hostile headers. See the
 [threat table](../../docs/mcp-threats.md). No dependencies, cloud services, schema,
 tokens or model calls were added for Day 12. Learning checks remain deferred.
 
-Day 13 connects the agent as an MCP client and deploys the server. Existing EC2
-services remain on their verified Day 10 releases; MCP is verified locally only.
+Day 13 local agent integration is verified. Existing EC2 services remain on their
+verified Day 10 releases; MCP public deployment is pending approval and CI.
+
+For official Inspector over local HTTP, with credentials kept out of OS arguments
+and files:
+
+```powershell
+.venv\Scripts\python.exe scripts/check_mcp_http_inspector.py
+```
+
+Expected: complete=true and all three calls status=ok. It uses the same pinned
+cached Inspector/Node as the stdio check. Evidence:
+[HTTP Inspector](../../evals/results/day-13-local-inspector.json).
 
 References: [current specification](https://modelcontextprotocol.io/specification),
 [official Python SDK](https://github.com/modelcontextprotocol/python-sdk),
