@@ -1,5 +1,23 @@
 # Handoff: project state as of 19 October 2026
 
+## Release CI import fix on 27 October 2026
+
+User pushed642869a9cb3d337e7c4626b028f153b4353bbb87. Workflow40512907454/job122219012837
+failed at pytest collection: from scripts import provision_mcp_cloud was not
+importable with the pytest console entrypoint. Local checks had used python -m
+pytest, hiding the root-path assumption. Reproduced the console failure locally.
+
+Fixed by moving SCOPES/provision to installed caseflow.mcp_credentials. The admin
+CLI keeps its existing main/env handling and imports the packaged helper. Tests
+patch/import the package directly. No credential/scope/transaction changes.
+All370 tests passed with pytest.exe (same entrypoint as CI) in28.78s; lint/format
+passed. Evidence day-13-ci-import-fix.json. USER corrective commit/push required,
+then verify fresh successful CI for the NEW fullSHA. Do not deploy642869a.
+
+Explicit approval for public MCP and existing read-only hashes persists; do not
+request it again. AWS/Neon unchanged; no deployment/provisioning was attempted.
+After new CI passes continue the previously approved deployment/public checks.
+
 ## Explicit deployment approval and release preparation: 27 October 2026
 
 User explicitly approved exposing authenticated MCP on existing EC2 and adding

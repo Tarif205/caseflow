@@ -3,9 +3,9 @@ from contextlib import contextmanager
 
 import pytest
 
+from caseflow import mcp_credentials as cloud
 from caseflow.auth import authenticate, hash_token
 from caseflow.config import Settings
-from scripts import provision_mcp_cloud as cloud
 
 
 @pytest.fixture

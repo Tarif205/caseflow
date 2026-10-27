@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-10-27T13:39:35.756028+00:00",
+  "failed_commit": "642869a9cb3d337e7c4626b028f153b4353bbb87",
+  "failed_run": "https://github.com/Tarif205/caseflow/actions/runs/40512907454",
+  "failed_job_id": 122219012837,
+  "failure": "pytest collection could not import scripts.provision_mcp_cloud",
+  "root_cause": "local python -m pytest and CI pytest console entrypoint have different current-directory import behavior",
+  "fix": "shared provisioning function moved to installed caseflow.mcp_credentials; script remains CLI wrapper",
+  "verification": {
+    "console_entrypoint_tests_passed": 370,
+    "pytest_seconds": 28.78,
+    "lint_passed": true,
+    "format_passed": true
+  },
+  "release_state": "awaiting corrective user commit/push and fresh CI",
+  "cloud_mutations_performed": false
+}

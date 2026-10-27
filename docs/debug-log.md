@@ -2,6 +2,21 @@
 
 One entry per non-trivial bug. Target: at least 15 by Day 14.
 
+## 2026-10-27: provisioning test could not import scripts in CI
+
+Symptom: release642869a failed collection of test_mcp_cloud_credentials.py with
+ModuleNotFoundError for scripts. Workflow40512907454/job122219012837 failed before
+tests ran; all Docker builds/deployment checks were skipped. No release deployed.
+Cause: local verification used python -m pytest, which adds the current directory
+to sys.path. CI uses the pytest console entrypoint, which does not guarantee the
+repository root is importable. The test imported a helper from scripts.
+Fix: moved shared SCOPES/provision into installed caseflow.mcp_credentials; the
+admin script imports that function, and tests import/patch the packaged module.
+No scope, transaction, expiry/revocation or CLI behavior changed.
+Verification: reproduced console-entrypoint collection failure locally, then all
+370 tests passed with pytest.exe in28.78s; lint/format passed. New push/CI pending.
+Habit: reproduce the exact failing command before changing CI or import paths.
+
 ## 1 Docker build selected the wrong directory
 
 Observed during setup sessions through 22 October 2026.
