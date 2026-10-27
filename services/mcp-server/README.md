@@ -4,7 +4,7 @@
 Local Docker MCP listens on 127.0.0.1:8003; do not also start host Uvicorn on that
 port. Non-root image caseflow-mcp:day13, 512 MiB cap, existing embedding cache.
 370 tests and the local Docker workflow passed. Official Inspector 2.12.0 called
-all three tools over HTTP. Public deployment is approved, awaiting release commit/CI;
+all three public tools over HTTPS. Release bb7491d is deployed and verified;
 see [deployment proposal](../../docs/deploy-mcp.md) and
 [G3 evidence](../../docs/gates/G3-verification.md).
 
@@ -185,7 +185,7 @@ http://127.0.0.1:6274. Non-browser clients can omit Origin. For other hosts, set
 MCP_ALLOWED_HOSTS (comma-separated bare hostnames) and MCP_ALLOWED_ORIGINS
 (comma-separated exact origins) in the **process environment** before starting
 Uvicorn. Wildcards are rejected. These two settings are not loaded from .env.
-Public exposure/deployment remains Day 13 work.
+Public exposure was subsequently verified on Day13; see the update above.
 
 ### Article resource and prompt
 
@@ -212,8 +212,8 @@ scope checks, bounded inputs and hostile headers. See the
 [threat table](../../docs/mcp-threats.md). No dependencies, cloud services, schema,
 tokens or model calls were added for Day 12. Learning checks remain deferred.
 
-Day 13 local agent integration is verified. Existing EC2 services remain on their
-verified Day 10 releases; MCP public deployment is pending approval and CI.
+Day 13 agent integration and public deployment are verified in release bb7491d.
+The original Knowledge API remains on531d7c4; see the current G3 evidence above.
 
 For official Inspector over local HTTP, with credentials kept out of OS arguments
 and files:

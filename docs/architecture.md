@@ -1,4 +1,4 @@
-# CaseFlow architecture: Day 13 local integration
+# CaseFlow architecture: Day 13 deployed integration
 
 ```mermaid
 flowchart LR
@@ -44,6 +44,7 @@ LangGraph checkpoint durability does not confer permission.
 | Postgres | 127.0.0.1:5432 | Existing local data volume |
 
 The Compose project remains support-copilot to preserve ownership of its network
-and volumes. Day 13 local containers use CaseFlow images. The EC2 deployment
-remains the verified Day 10 release; the diagram is not proof of a public MCP
-deployment. See [public deployment proposal](deploy-mcp.md).
+and volumes. EC2 MCP/agent/backend use CaseFlow release bb7491d. Caddy routes
+HTTPS /mcp to loopback8003, /agent/* to8002 and other requests to the original
+Knowledge API531d7c4 on8001. The backend is Docker-internal; cloud SQL uses Neon.
+See [deployment guide](deploy-mcp.md) and [public verification](gates/G3-verification.md).

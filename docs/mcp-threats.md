@@ -41,7 +41,9 @@ articles at the same URI, preparing prompts and receiving no session IDs.
 
 ## Limits of these checks
 
-The transport is local at 127.0.0.1:8003. It has not been deployed or load tested.
+The public HTTPS transport and both tenant clients were verified on Day13,
+release bb7491d, with loopback-only upstream8003. No load test was performed.
+See [G3 evidence](gates/G3-verification.md).
 There is no OAuth discovery, issuance, audience binding or third-party client
 consent flow. Do not describe this as complete OAuth/spec authorization compliance.
 GET/DELETE are rejected, so resumable SSE and stateful sessions are not supported.

@@ -1,4 +1,4 @@
-# CaseFlow support agent: Day 13 local MCP integration
+# CaseFlow support agent: Day 13 deployed MCP integration
 
 The current HTTP workflow and scripts/agent_workflow.py use MCPTools for all graph
 reads. It maps search_kb/get_order to the MCP read server using the authenticated
@@ -14,8 +14,8 @@ scripts/run_agent.py remains the direct-tool baseline, not the current HTTP path
 
 370 tests passed; live MCP 22/25 (88%); local Docker approval/idempotency smoke
 passed. See [local commands and deployment proposal](../../docs/deploy-mcp.md)
-and [G3 evidence](../../docs/gates/G3-verification.md). Public MCP deployment is
-pending; the deployed agent is still the verified Day 10 version.
+and [G3 evidence](../../docs/gates/G3-verification.md). Release bb7491d is deployed;
+public MCP-backed approval/resume/idempotency smoke passed with fixture cleanup.
 
 ---
 

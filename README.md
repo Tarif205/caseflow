@@ -3,13 +3,13 @@
 Formerly Support Copilot. See the [rename guide](docs/rename-caseflow.md) for the
 completed GitHub/folder steps and existing deployment identifiers we preserve.
 
-**Deployment retry:** the first CI-green MCP rollout hit cloud latency limits.
-The original public services are restored and verified. Corrected timing and
-rollback settings await a new release commit and CI; public MCP remains pending.
+**Deployment:** release `bb7491d` is live on the existing EC2 server. Public MCP,
+MCP-backed approval workflow and original Knowledge API checks passed.
+See [G3 verification](docs/gates/G3-verification.md).
 
 A small support system for fictional Northwind Outfitters, using RAG, LangGraph, MCP, Docker and Postgres with pgvector. Local development uses free tools. All examples are fictional.
 
-**Status:** Day 13 agent reads now use MCP locally. **370 tests passed**, live MCP evaluation scored **22/25 (88%)**, and the Docker approval/refund workflow and official HTTP Inspector checks passed. Public MCP deployment is approved and prepared, awaiting a user-pushed release and CI; EC2 still runs its verified Day 10 agent/backend release `47906e1` and existing Knowledge API. Learning checks remain deferred. See [architecture](docs/architecture.md), [G3 evidence](docs/gates/G3-verification.md) and [deployment guide](docs/deploy-mcp.md).
+**Status:** Day 13 technical checks passed. **370 tests passed**, live MCP evaluation scored **22/25 (88%)**, and public SDK, official Inspector and approval/refund checks passed. Learning checks remain deferred. See [architecture](docs/architecture.md), [G3 evidence](docs/gates/G3-verification.md) and [deployment guide](docs/deploy-mcp.md).
 
 Current demo: https://16-178-30-70.sslip.io/health (available only while the instance
 is running at that IP). Article endpoints require private scoped tokens; none are
@@ -25,8 +25,8 @@ For official topic names, exercises and video resources, use the
 |---------|--------------|--------|
 | `services/knowledge-api` | Ingests help-center articles and answers questions with citations (RAG) | Local and public HTTPS smoke passed; [setup and endpoints](services/knowledge-api/README.md) |
 | `services/mock-backend` | Fictional orders/tickets and approval-guarded mock refunds | [Local backend ready](services/mock-backend/README.md) |
-| `services/support-agent` | LangGraph workflow with durable human approval | [MCP-backed workflow verified locally](services/support-agent/README.md); Day 10 version remains deployed |
-| `services/mcp-server` | Read-only MCP tools, article resource and draft prompt with token auth and tenant isolation | [Docker HTTP and agent integration verified locally](services/mcp-server/README.md); approved public release awaiting commit/CI |
+| `services/support-agent` | LangGraph workflow with durable human approval | [MCP-backed workflow publicly verified](services/support-agent/README.md); release `bb7491d` deployed |
+| `services/mcp-server` | Read-only MCP tools, article resource and draft prompt with token auth and tenant isolation | [Public HTTP and agent integration verified](services/mcp-server/README.md); release `bb7491d` deployed |
 
 ## Repository layout
 

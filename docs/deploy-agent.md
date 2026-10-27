@@ -1,13 +1,12 @@
-# Day 10 agent release and deployment
+# Agent release and deployment
 
-**Day 13 note:** current source now requires the MCP read service. Local Docker
-integration is verified, and the public topology change is approved. The
-deployment helper delegates to the CI-gated MCP release/rollback helper.
-The Day 10 instructions below document the previous release; use the
-[Day 13 proposal](deploy-mcp.md) for the pending update. No cloud change has been
-performed for Day 13.
+**Current Day13 release:** bb7491d is deployed with MCP-backed reads. Public
+synthetic approval/resume/idempotency checks and the existing Knowledge API passed.
+Use the [Day13 deployment guide](deploy-mcp.md) and [G3 evidence](gates/G3-verification.md).
+The old helper delegates to the CI-gated MCP deployment/rollback helper.
+The Day10 procedure below is historical.
 
-Current state: **deployed and verified**, release 47906e1b13eaf4f7318ad38e9777082b04ab5030.
+Historical Day10 state: **deployed and verified**, release 47906e1b13eaf4f7318ad38e9777082b04ab5030.
 Public base: https://16-178-30-70.sslip.io/agent. Release CI passed; public agent
 smoke and the original Knowledge API smoke passed. Original Knowledge API remains
 on 531d7c4. See [deployment evidence](../evals/results/day-10-ec2-deployment.json).

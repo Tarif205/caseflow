@@ -1,0 +1,40 @@
+{
+  "technical_status": "passed",
+  "learner_explanation": "deferred; unassessed",
+  "release": "bb7491db816592e71f55b951ee77321429bb9155",
+  "ci_run": 40562465195,
+  "public_mcp_url": "https://16-178-30-70.sslip.io/mcp",
+  "verified_through": "2026-10-27T18:55:21.590685+00:00",
+  "tests": 370,
+  "historical_quality": {
+    "live_mcp_passed": 22,
+    "total": 25,
+    "historical_direct_passed": 21,
+    "same_decision_replay_matches": 25,
+    "limits": "Development scenarios; replay is not independent inference. No quality-evaluation refund."
+  },
+  "public_checks": {
+    "sdk_both_tenants": true,
+    "inspector_three_tools": true,
+    "mcp_agent_approval_idempotency": true,
+    "synthetic_fixture_removed": true,
+    "existing_knowledge_real_cited_answer": true
+  },
+  "limitations": [
+    "Learning explanation deferred",
+    "No load or peak-memory measurement",
+    "No cloud trace-export claim",
+    "Project bearer authentication; not complete OAuth",
+    "Deterministic injection checks are not live-model immunity"
+  ],
+  "evidence": [
+    "day-13-corrected-release-ci.json",
+    "day-13-ec2-deployment.json",
+    "day-13-public-mcp.json",
+    "day-13-public-inspector.json",
+    "day-13-public-agent-smoke.json",
+    "day-13-existing-knowledge-smoke.json",
+    "day-13-agent-mcp.json",
+    "day-13-injections.json"
+  ]
+}

@@ -1,11 +1,11 @@
 # Gate G3: Day 13 evidence
 
-Date: 27 October 2026. **Local checks passed; public technical gate remains open.**
-
-28 October update: CI40514197783 passed for5bb883f, but live rollout failed its
-3s readiness deadline. Previous public services were fully recovered and both
-original-service smokes passed. MCP remains stopped/unpublished. Corrected probe
-and client time budgets plus prior-topology rollback await a new commit and CI.
+Date: 28 October 2026 (Dhaka). **G3 technical checks passed.** Learner explanation
+remains deferred/unassessed. Release `bb7491db816592e71f55b951ee77321429bb9155`
+passed CI40562465195 and deployed on the existing EC2 host. Both public MCP tenant
+clients, official Inspector CLI, MCP-backed synthetic approval workflow and the
+original Knowledge API passed. The earlier5bb883f rollout incident was recovered;
+its evidence remains below as history.
 
 | Requirement | Evidence | State |
 |---|---|---|
@@ -13,12 +13,20 @@ and client time budgets plus prior-topology rollback await a new commit and CI.
 | MCP scenario rate no more than five points below direct result | Live MCP 22/25 (88%) vs archived direct 21/25 (84%); same dataset/immutable orders | Local verified, sampled development set |
 | Transport comparison without model variability | 25/25 matches with direct-read replay of identical model decisions/input digests | Verified; replay control, not independent inference |
 | Injection enforcement still passes | 8 surfaces x 2 adapters: 16/16 pass | Deterministic enforcement, not live-model immunity |
-| Durable approval/refund through the MCP-backed agent | Local Docker smoke: pause, auth failures, simulated operator, resume, one mock receipt, fixture cleanup | Local verified |
-| Official Inspector against public deployment | Local HTTP Inspector verified; first rollout recovered, corrective commit/CI pending | Pending |
-| Public end-to-end smoke and existing-service regression | Original services pass after recovery; public MCP-backed rollout still pending | Pending |
+| Durable approval/refund through the MCP-backed agent | Public MCP-backed smoke: pause, auth failures, simulated operator, resume, one mock receipt, fixture cleanup | Public verified |
+| Official Inspector against public deployment | Official Inspector2.12.0 CLI called all three public tools | Public verified |
+| Public end-to-end smoke and existing-service regression | Two MCP tenant clients, agent workflow and original Knowledge API all passed | Public verified |
 | Learner explanation without notes | No assessment performed | Deferred, never passed |
 
 Evidence:
+
+- [Technical gate summary](../../evals/results/day-13-g3-summary.json)
+- [Corrected release CI](../../evals/results/day-13-corrected-release-ci.json)
+- [Actual deployment and memory snapshot](../../evals/results/day-13-ec2-deployment.json)
+- [Public SDK: tools, resource, prompt and isolation](../../evals/results/day-13-public-mcp.json)
+- [Public official Inspector CLI](../../evals/results/day-13-public-inspector.json)
+- [Public MCP-backed approval workflow](../../evals/results/day-13-public-agent-smoke.json)
+- [Original Knowledge API regression](../../evals/results/day-13-existing-knowledge-smoke.json)
 
 - [MCP live model run and replay comparison](../../evals/results/day-13-agent-mcp.json)
 - [Injection report](../../evals/results/day-13-injections.json)
@@ -40,5 +48,8 @@ Only the separate synthetic smoke exercised a guarded mock refund.
 370 tests passed in 30.10 seconds after the cloud timing correction, including the Postgres integration suite and
 five new provisioning safety cases. Deployment rollback harness and real Compose/
 Caddy configuration validation passed locally and are included in CI.
-See [deployment proposal and approval boundary](../deploy-mcp.md). Do not mark G3
-complete or start Day 14 release claims before public verification.
+See [deployment guide and approval boundary](../deploy-mcp.md). Public technical
+verification is complete; Day14 portfolio polish can follow the evidence commit.
+The learner assessment remains deferred, never passed. The two-tenant SDK checker
+needed180s overall rather than90s; this changes no production read/graph budget.
+Memory is a single snapshot, not load evidence. No cloud trace export is claimed.

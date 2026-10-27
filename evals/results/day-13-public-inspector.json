@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-10-27T18:51:33.559962+00:00",
+  "url": "https://16-178-30-70.sslip.io/mcp",
+  "transport": "streamable-http",
+  "inspector_version": "2.12.0",
+  "node_version": "24.22.1",
+  "protocol_era": "legacy",
+  "calls": [
+    {
+      "tool": "search_knowledge_base",
+      "status": "ok"
+    },
+    {
+      "tool": "get_order_status",
+      "status": "ok"
+    },
+    {
+      "tool": "list_open_tickets",
+      "status": "ok"
+    }
+  ],
+  "complete": true,
+  "scope": "official CLI HTTP check; no UI screenshot or action calls"
+}

@@ -1,0 +1,102 @@
+{
+  "commit": "bb7491db816592e71f55b951ee77321429bb9155",
+  "containers": [
+    {
+      "name": "support-copilot-agent-mcp-server-1",
+      "image": "caseflow-mcp:bb7491db8165",
+      "status": "healthy",
+      "user": "app",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8003"
+          }
+        ]
+      }
+    },
+    {
+      "name": "support-copilot-agent-support-agent-1",
+      "image": "caseflow-agent:bb7491db8165",
+      "status": "healthy",
+      "user": "app",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8002"
+          }
+        ]
+      }
+    },
+    {
+      "name": "support-copilot-agent-mock-backend-1",
+      "image": "caseflow-backend:bb7491db8165",
+      "status": "healthy",
+      "user": "app",
+      "ports": {
+        "8000/tcp": null
+      }
+    },
+    {
+      "name": "support-copilot-knowledge",
+      "image": "support-copilot-knowledge:531d7c4",
+      "status": "running",
+      "user": "app",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8001"
+          }
+        ]
+      }
+    },
+    {
+      "name": "support-copilot-proxy",
+      "image": "caddy:2.11.7",
+      "status": "running",
+      "user": "",
+      "ports": {}
+    }
+  ],
+  "rollback_previous_topology_saved": true,
+  "mcp_port_is_loopback_only": true,
+  "backend_not_published": true,
+  "scope": "selected runtime metadata only; no environment or secret values read",
+  "checked_at": "2026-10-27T18:51:15.949931+00:00",
+  "resource_snapshot": {
+    "memory_mib": {
+      "MemTotal": 1906.0,
+      "MemAvailable": 673.2
+    },
+    "containers": [
+      {
+        "Name": "support-copilot-agent-support-agent-1",
+        "MemUsage": "121.3MiB / 384MiB",
+        "CPUPerc": "0.66%"
+      },
+      {
+        "Name": "support-copilot-agent-mock-backend-1",
+        "MemUsage": "58.11MiB / 256MiB",
+        "CPUPerc": "27.61%"
+      },
+      {
+        "Name": "support-copilot-agent-mcp-server-1",
+        "MemUsage": "272.7MiB / 512MiB",
+        "CPUPerc": "0.82%"
+      },
+      {
+        "Name": "support-copilot-proxy",
+        "MemUsage": "19.92MiB / 256MiB",
+        "CPUPerc": "0.00%"
+      },
+      {
+        "Name": "support-copilot-knowledge",
+        "MemUsage": "250.1MiB / 768MiB",
+        "CPUPerc": "0.16%"
+      }
+    ],
+    "scope": "snapshot during public smoke checks, not peak/load measurement"
+  }
+}

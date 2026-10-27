@@ -1,21 +1,22 @@
-# Day 13 MCP deployment and local verification
+# Day 13 MCP deployment and verification
 
-Status on 28 October 2026: **first rollout recovered; timing/rollback fix awaits a new commit and CI**.
-Read-only MCP hashes are provisioned in Neon. EC2 runtime is restored to Day 10
-images; MCP is stopped and its public route was never enabled. Approval persists.
+Status on 28 October 2026: **deployed and publicly verified**. Release
+`bb7491db816592e71f55b951ee77321429bb9155`, CI run40562465195 succeeded.
+Authenticated MCP is at https://16-178-30-70.sslip.io/mcp; agent at /agent.
+SDK checks for both tenants, official Inspector CLI, synthetic approval/resume/
+exactly-once mock refund and the original Knowledge API smoke all passed.
+See [G3 evidence](gates/G3-verification.md).
 
-Release 5bb883f passed CI but its 3s cloud readiness probe timed out. A readiness
-request took 4.18s and a private MCP discovery/read took 24.73s. Source now allows
-15s readiness, a 20s Docker deadline, 30s startup grace and 45s MCP reads within
-remaining graph time. Use a new corrected SHA; do not retry the failed release.
-The restored original agent and Knowledge API passed full public smoke tests.
+Historical incident: release5bb883f passed CI but its3s readiness probe timed out.
+Original services were recovered before retry. Corrected15s readiness/20s Docker
+probe/30s startup grace and45s MCP read budget within graph120s deployed successfully.
+Rollback now retains the previous Compose topology as well as image references.
 
 The user explicitly approved: "I approve exposing authenticated MCP on my existing
 EC2 server and adding the two existing read-only MCP token hashes to Neon."
-The approved source changes are now prepared and validated. This supersedes the
-earlier approval-review rejections and general-instruction ambiguity. Do not ask
-for the same approval again. The remaining prerequisite is the corrective user-pushed
-release and successful CI, followed by a new rollout and public checks.
+The approved changes are deployed and verified. This supersedes earlier approval
+review rejections and pending-rollout notes. Do not ask for the same approval again.
+The procedure below documents this completed rollout and future releases.
 
 - Expose authenticated HTTPS /mcp on existing EC2 i-073581e82c41622ea at the current
   documented hostname 16-178-30-70.sslip.io, with loopback-only upstream port8003.
@@ -116,7 +117,7 @@ bash scripts/deploy_mcp_ec2.sh FULL_REVIEWED_SHA CURRENT_IP_ENCODED_HOSTNAME
 4. Run the public checks from local PowerShell, using the verified current host:
 
 ```powershell
-.venv\Scripts\python.exe scripts/check_mcp_http.py --url https://16-178-30-70.sslip.io/mcp --output evals/results/day-13-public-mcp.json
+.venv\Scripts\python.exe scripts/check_mcp_http.py --timeout-seconds 180 --url https://16-178-30-70.sslip.io/mcp --output evals/results/day-13-public-mcp.json
 .venv\Scripts\python.exe scripts/check_mcp_http_inspector.py --url https://16-178-30-70.sslip.io/mcp --output evals/results/day-13-public-inspector.json
 .venv\Scripts\python.exe scripts/smoke_agent.py --base-url https://16-178-30-70.sslip.io/agent --database neon --require-mcp --output evals/results/day-13-public-agent-smoke.json
 .venv\Scripts\python.exe scripts/smoke_knowledge.py --base-url https://16-178-30-70.sslip.io --output evals/results/day-13-existing-knowledge-smoke.json
@@ -174,3 +175,12 @@ Both checks are now in CI. No real secret is needed for either configuration che
 Local Docker snapshot: MCP 264 MiB / 512 MiB; agent 113.1 / 384; backend 68.92 /
 256; Knowledge API 78.2 / 768; Postgres 62.79 / 384. These are local observations,
 not EC2 peak/load measurements. Recheck actual available memory after deployment.
+
+## Observed public verification limits
+
+The first SDK verification run exceeded its90s overall two-tenant batch budget.
+The checker now accepts --timeout-seconds5..300 (default90); the180s rerun passed.
+This does not change the production45s read or120s graph limits. A host snapshot
+showed673.2MiB available; MCP272.7MiB, agent121.3MiB, backend58.11MiB,
+proxy19.92MiB and Knowledge250.1MiB. These are snapshots, not peak/load measurements.
+Deployment metadata and all public reports are linked from the G3 evidence page.

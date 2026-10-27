@@ -1,7 +1,7 @@
 # 008: cloud readiness budgets and rollback topology
 
 Recorded: 28 October 2026. Incident and verification: 27 October 2026.
-Status: source corrected; new release commit and CI pending.
+Status: accepted; deployed and publicly verified in release bb7491d.
 
 ## Evidence
 
@@ -34,6 +34,8 @@ A stopped MCP container left by a failed attempt is not a running prior release.
 370 tests passed with the CI pytest entrypoint. The Linux command-stub harness
 checks previous-topology selection, stopped-orphan handling, automatic/manual
 rollback and CI refusal. Real Compose/Caddy checks validate the probe margins.
-The restored live services passed their full public smokes. The revised helper
-still needs a new user-pushed commit, CI and successful real rollout. No revised
-MCP public deployment or live failover test is claimed yet.
+The corrected release bb7491d passed CI40562465195 and deployed successfully.
+Public SDK/Inspector, MCP-backed agent and original Knowledge smokes all passed.
+See ../gates/G3-verification.md. Rollback regressions have harness coverage and
+the first incident was recovered; no deliberate failover of this final release
+was performed.

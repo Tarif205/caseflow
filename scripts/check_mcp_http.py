@@ -16,7 +16,13 @@ from caseflow.config import PROJECT_ROOT
 from caseflow.mcp_server import CONTRACTS, ArticleResult
 
 
-async def main(output="evals/results/day-12-http.json", endpoint="http://127.0.0.1:8003/mcp"):
+async def main(
+    output="evals/results/day-12-http.json",
+    endpoint="http://127.0.0.1:8003/mcp",
+    timeout_seconds=90,
+):
+    if not 5 <= timeout_seconds <= 300:
+        raise ValueError("Verification batch timeout must be 5 through 300 seconds")
     values = dotenv_values(PROJECT_ROOT / ".env")
     url = safe_base_url(endpoint)
     if not url.endswith("/mcp"):
@@ -26,6 +32,7 @@ async def main(output="evals/results/day-12-http.json", endpoint="http://127.0.0
         "url": url,
         "transport": "streamable-http",
         "stateless": True,
+        "batch_timeout_seconds": timeout_seconds,
         "scope": "real read-only SDK clients; no model, action or deployment by this checker",
         "sessions": [],
         "complete": False,
@@ -87,7 +94,7 @@ async def main(output="evals/results/day-12-http.json", endpoint="http://127.0.0
                         }
                     )
 
-    with anyio.fail_after(90):
+    with anyio.fail_after(timeout_seconds):
         async with anyio.create_task_group() as group:
             group.start_soon(check, "northwind", "NW-1042")
             group.start_soon(check, "contoso", "CT-2001")
@@ -107,8 +114,9 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(description=__doc__)
         parser.add_argument("--output", default="evals/results/day-12-http.json")
         parser.add_argument("--url", default="http://127.0.0.1:8003/mcp")
+        parser.add_argument("--timeout-seconds", type=int, default=90)
         args = parser.parse_args()
-        anyio.run(main, args.output, args.url)
+        anyio.run(main, args.output, args.url, args.timeout_seconds)
     except BaseException as exc:
         raise SystemExit(
             f"HTTP verification failed ({type(exc).__name__}); raw details withheld"

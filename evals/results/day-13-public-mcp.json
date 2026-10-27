@@ -1,0 +1,60 @@
+{
+  "checked_at": "2026-10-27T18:55:21.590685+00:00",
+  "url": "https://16-178-30-70.sslip.io/mcp",
+  "transport": "streamable-http",
+  "stateless": true,
+  "batch_timeout_seconds": 180,
+  "scope": "real read-only SDK clients; no model, action or deployment by this checker",
+  "sessions": [
+    {
+      "tenant_fixture": "contoso",
+      "protocol": "2025-11-25",
+      "server_name": "caseflow-readonly",
+      "session_id_issued": false,
+      "tools": [
+        {
+          "tool": "search_knowledge_base",
+          "status": "ok"
+        },
+        {
+          "tool": "get_order_status",
+          "status": "ok"
+        },
+        {
+          "tool": "list_open_tickets",
+          "status": "ok"
+        }
+      ],
+      "resource_read": true,
+      "article_sha256": "dd8362e32fa45ca42e29116f75792f90454c31c0c5b67ff465d09e6b87c64448",
+      "prompt_prepared": true,
+      "foreign_order_matches_missing_error": true
+    },
+    {
+      "tenant_fixture": "northwind",
+      "protocol": "2025-11-25",
+      "server_name": "caseflow-readonly",
+      "session_id_issued": false,
+      "tools": [
+        {
+          "tool": "search_knowledge_base",
+          "status": "ok"
+        },
+        {
+          "tool": "get_order_status",
+          "status": "ok"
+        },
+        {
+          "tool": "list_open_tickets",
+          "status": "ok"
+        }
+      ],
+      "resource_read": true,
+      "article_sha256": "0e85aef71c69037597db0eb324af0671e898a56bcf67c3c268faa6756943c993",
+      "prompt_prepared": true,
+      "foreign_order_matches_missing_error": true
+    }
+  ],
+  "complete": true,
+  "missing_auth_rejected": true
+}

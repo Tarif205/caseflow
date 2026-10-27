@@ -1,5 +1,39 @@
 # Handoff: project state as of 19 October 2026
 
+## Day 13 public deployment verified on 28 October 2026
+
+This supersedes the pending retry and recovered-only state below. Release
+`bb7491db816592e71f55b951ee77321429bb9155` passed CI run 40562465195 and
+was deployed successfully on the existing EC2 host. No assistant commit/push.
+
+- Public authenticated MCP: https://16-178-30-70.sslip.io/mcp; agent at /agent.
+  MCP/agent/backend images use bb7491db8165 and are healthy/non-root. MCP8003
+  and agent8002 bind only loopback; backend has no published port. Original
+  Knowledge531d7c4, proxy, certificates, data and checkpoints were preserved.
+- Both real public SDK tenant clients passed three tools, article resource,
+  prompt, missing auth and foreign/missing error parity; no session IDs issued.
+  Official Inspector2.12.0 CLI called all three public tools successfully.
+- Public MCP-backed agent synthetic smoke passed durable pause, tenant/scope/
+  forged-resume rejection, simulated operator approval, resume and exactly one
+  fictional receipt after retry. Temporary identities/checkpoints removed.
+  Existing Knowledge smoke passed both tenants and a real cited model answer.
+- The verifier's overall 90s two-tenant batch budget expired on its first run.
+  Added bounded --timeout-seconds (5..300, default90), reran180s successfully.
+  This verification-only change does not alter production45s read/120s graph limits.
+- Snapshot: host673.2MiB available; MCP272.7MiB, agent121.3MiB, backend58.11MiB,
+  proxy19.92MiB, Knowledge250.1MiB. This is not peak/load or SLA evidence.
+- Evidence: day-13-corrected-release-ci.json, day-13-ec2-deployment.json,
+  day-13-public-mcp.json, day-13-public-inspector.json,
+  day-13-public-agent-smoke.json, day-13-existing-knowledge-smoke.json and
+  day-13-g3-summary.json under evals/results. Earlier failure evidence retained.
+- G3 TECHNICAL requirements verified; learner explanation deferred/unassessed.
+  Historical live quality22/25 and replay parity25/25 retain their limitations.
+  No cloud trace export, OAuth completeness or live-model injection immunity claim.
+- NEXT: USER commits/pushes verification helper, docs and evidence. This evidence
+  commit needs no runtime redeploy; application images remain bb7491db8165.
+  Then Day14 portfolio polish/documentation/demo/CV. Approval persists; no new
+  instance, paid plan, IAM resource or SSM parameter was created.
+
 ## Cloud rollout recovered; corrected source ready on 28 October 2026
 
 Incident/verification occurred 27 October; this entry supersedes pending-deploy
